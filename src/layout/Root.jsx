@@ -8,7 +8,9 @@ const Root = () => {
   return (
     <main>
       {!isRoomRoute && <Navbar />}
-      <div className="max-w-screen-xl mx-auto">
+      {/* <div className="max-w-screen-xl mx-auto"> */}
+      {/* note: here a fixed sized screen for all outlets is creating problem. so I commented this out here */}
+      <div>
         <Outlet />
       </div>
       {/* Here is footer */}
