@@ -2,12 +2,12 @@ import { Helmet } from "react-helmet-async";
 
 const Home = () => {
     return (
-        <div>
+        <div className="relative h-full w-full">
             <Helmet>
-                <title>Home - Tech Thunders</title>
+                <title>Home - MeetUp</title>
             </Helmet>
             <div>
-                <h2>This is Home Page</h2>
+
             </div>
         </div>
     );
