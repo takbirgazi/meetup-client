@@ -8,21 +8,23 @@ import { IoMdPerson } from "react-icons/io";
 
 const Navbar = () => {
   return (
-    <div className="bg-[#1E3799] w-full ">
-      <div className="navbar bg-[#1E3799] max-w-screen-xl  border-none shadow-none mx-auto rounded-sm">
+    <div className="bg-[#1E3799] w-full h-[65px]">
+      <div className="navbar h-full bg-[#1E3799] max-w-screen-xl  border-none shadow-none mx-auto rounded-sm">
         <div className="navbar-start">
           <Link to="/" className="navbar-item font-bold text-white text-xl">
-            <img src={logo1} className="h-[42px] w-[100px]"/>
+            <img src={logo1} className="h-full w-[80px] md:w-[100px]"/>
           </Link>
         </div>
         <div className="navbar-end">
           {/* Current Time */}
-        <div className="text-white font-semibold text-[18px]">
+        <div className="text-white font-semibold hidden md:block text-[18px]">
           {moment().format('h:mm A - ')}
           {moment().format('ll')}
         </div>
 
-        <IoSettingsOutline className="mx-4 text-white text-2xl" />
+        <IoSettingsOutline className="mx-2 md:mx-4 text-white text-2xl" />
+
+        {/* <button className="text-black bg-white rounded-xl px-4 py-2 font-bold">Login</button> */}
 
           <div className="avatar avatar-ring avatar-md">
             <div className="dropdown-container">
@@ -36,6 +38,7 @@ const Navbar = () => {
                     alt="avatar" 
                   />
                 </label>
+                
                 <div className="dropdown-menu dropdown-menu-bottom-left">
                   <p className="dropdown-item text-sm flex-row items-center gap-2">Hafsa <IoMdPerson /></p>
                   
@@ -44,6 +47,7 @@ const Navbar = () => {
                   </NavLink>
 
                 </div>
+               
               </div>
             </div>
           </div>
