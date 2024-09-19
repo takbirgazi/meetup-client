@@ -5,9 +5,10 @@ const Home = () => {
     <div className="relative h-full w-full">
       <Helmet>
         <title>Home - MeetUp</title>
-        <p>Today we will work in this page</p>
       </Helmet>
-      <div></div>
+      <div>
+        <p>Today we will work in this page</p>
+      </div>
     </div>
   );
 };
