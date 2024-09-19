@@ -8,8 +8,8 @@ import { IoMdPerson } from "react-icons/io";
 
 const Navbar = () => {
   return (
-    <div className="bg-[#1E3799] w-full h-[65px]">
-      <div className="navbar h-full bg-[#1E3799] max-w-screen-xl  border-none shadow-none mx-auto rounded-sm">
+    
+      <div className="navbar bg-[#1E3799] h-[65px]  border-none shadow-none mx-auto rounded-sm">
         <div className="navbar-start">
           <Link to="/" className="navbar-item font-bold text-white text-xl">
             <img src={logo1} className="h-full w-[80px] md:w-[100px]"/>
@@ -53,8 +53,10 @@ const Navbar = () => {
           </div>
         </div>
       </div>
-    </div>
+   
   );
 };
 
 export default Navbar;
+
+
