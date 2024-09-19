@@ -9,6 +9,6 @@
 **NPM has been used**
 * react-helmet-async
 * prop-types
-
-abcd
-
+* react-icons
+* rippleui
+* moment --save 
