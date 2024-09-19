@@ -8,7 +8,8 @@ export default {
     extend: {},
   },
   plugins: [
-    require("rippleui")
+    require("rippleui"),
+    require("daisyui")
   ],
 }
 
