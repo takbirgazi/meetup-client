@@ -111,7 +111,7 @@ const Room = () => {
   const navigate = useNavigate();
   const exitMeeting = () => {
     Swal.fire({
-      title: "Meeting Ended!",
+      title: "Meeting Ended",
       text: "You have successfully left the meeting.",
       icon: "error",
       showConfirmButton: false,
