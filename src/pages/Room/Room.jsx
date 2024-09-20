@@ -30,13 +30,13 @@ const Room = () => {
             <Helmet>
                 <title>Meting - MeetUp</title>
             </Helmet>
-            <div className="flex items-start justify-center min-h-screen w-full mx-auto">
+            <div className="flex items-start justify-center min-h-screen w-full md:flex-1 mx-auto">
                 <div className="autoFit w-full">
                     {
                         joinUser.map(user => <UserCard key={user.name} cardData={user} />)
                     }
                 </div>
-                <div className="p-5 flex flex-col gap-5 text-gray-100 w-1/4">
+                <div className="hidden p-5 md:flex flex-col gap-5 text-gray-100 md:w-1/4">
                     <div className="bg-[#2c3a47] rounded-md p-3 min-h-36">
                         <p>Polling</p>
                     </div>
