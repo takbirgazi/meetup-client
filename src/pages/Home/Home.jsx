@@ -2,6 +2,8 @@ import { Helmet } from "react-helmet-async";
 import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import useAuth from "../../hooks/useAuth";
+import { TiPlusOutline } from "react-icons/ti";
+import { FaRegCalendarCheck } from "react-icons/fa6";
 
 const Home = () => {
   const { user } = useAuth();
@@ -43,11 +45,13 @@ const Home = () => {
               <div className="dropdown-menu dropdown-menu-bottom-right">
                 <button
                   onClick={handleInstantMeet}
-                  className="dropdown-item text-sm"
+                  className="dropdown-item text-sm flex-row items-center gap-2"
                 >
+                  <TiPlusOutline />
                   Instant meeting
                 </button>
-                <button tabIndex="-1" className="dropdown-item text-sm">
+                <button tabIndex="-1" className="dropdown-item text-sm flex-row items-center gap-2">
+                <FaRegCalendarCheck />
                   Schedule for later
                 </button>
               </div>
