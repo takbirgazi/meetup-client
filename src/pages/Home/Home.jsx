@@ -1,6 +1,23 @@
 import { Helmet } from "react-helmet-async";
+import { useNavigate } from "react-router-dom";
+import { v4 as uuidv4 } from "uuid";
+import useAuth from "../../hooks/useAuth";
 
 const Home = () => {
+  const { user } = useAuth();
+  const navigate = useNavigate();
+
+  const handleInstantMeet = () => {
+    if (!user) {
+      navigate("/login");
+      return;
+    }
+    const uuid = uuidv4(); // Generate a meeting id
+    const meetingId = uuid.slice(0, 4) + "-" + uuid.slice(4, 8);
+    console.log("Instant Meet", meetingId);
+    navigate(`/room/${meetingId}`); // Redirect to the new meeting room
+  };
+
   return (
     <div className="min-h-[calc(100vh-4.1rem)]  min-w-screen bg-[#202124] flex items-center justify-center">
       <div className="relative h-full  flex flex-col items-center justify-center w-full max-w-screen-xl mx-auto">
@@ -24,10 +41,15 @@ const Home = () => {
                 New Meeting
               </button>
               <div className="dropdown-menu dropdown-menu-bottom-right">
-                <a className="dropdown-item text-sm">Instant meeting</a>
-                <a tabIndex="-1" className="dropdown-item text-sm">
+                <button
+                  onClick={handleInstantMeet}
+                  className="dropdown-item text-sm"
+                >
+                  Instant meeting
+                </button>
+                <button tabIndex="-1" className="dropdown-item text-sm">
                   Schedule for later
-                </a>
+                </button>
               </div>
             </div>
 
