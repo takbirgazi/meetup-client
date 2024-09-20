@@ -39,6 +39,7 @@ const AuthProvider = ({children}) => {
     }
 
     const logOut = () => {
+        setLoading(true);
         return signOut(auth);
     }
 
@@ -46,9 +47,10 @@ const AuthProvider = ({children}) => {
         const unSubscribe = onAuthStateChanged(auth, currentUser => {
             setUser(currentUser);
             setLoading(false);
+            console.log('current user is : ', currentUser);
         })
 
-        return ()=>{
+        return () => {
             unSubscribe();
         }
     },[]);
@@ -61,7 +63,8 @@ const AuthProvider = ({children}) => {
         profileUpdate,
         logIn,
         googleSignIn,
-        githubSignIn
+        githubSignIn,
+        logOut
     }
     return (
         <AuthContext.Provider value={authInfo}>
