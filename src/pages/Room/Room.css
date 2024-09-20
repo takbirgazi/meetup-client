@@ -1,6 +1,6 @@
 .autoFit {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
     grid-gap: 20px; /* space between the grid items */
     padding: 20px;
   }
