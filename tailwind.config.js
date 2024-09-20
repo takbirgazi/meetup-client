@@ -9,7 +9,6 @@ export default {
   },
   plugins: [
     require("rippleui"),
-    require("daisyui")
   ],
 }
 

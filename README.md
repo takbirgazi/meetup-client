@@ -12,3 +12,4 @@
 * react-icons
 * rippleui
 * moment --save 
+* sweetalert2
