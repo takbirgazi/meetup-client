@@ -36,6 +36,7 @@ const Navbar = () => {
   };
 
   return (
+
     <div className="navbar bg-[#1E3799] h-[65px]  border-none shadow-none mx-auto rounded-sm">
       <div className="navbar-start">
         <Link to="/" className="navbar-item font-bold text-white text-xl">
@@ -93,3 +94,5 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
+
