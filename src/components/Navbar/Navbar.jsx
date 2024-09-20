@@ -73,7 +73,7 @@ const Navbar = () => {
                     tabIndex="-1"
                     className="dropdown-item text-sm flex-row items-center gap-2"
                   >
-                    Logout <MdLogout />
+                    <MdLogout /> Logout
                   </div>
                 </div>
               </div>
