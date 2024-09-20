@@ -3,6 +3,7 @@ import { Link, ScrollRestoration, useNavigate } from 'react-router-dom';
 import useAuth from '../../hooks/useAuth';
 import { FaEyeSlash, FaRegEye } from 'react-icons/fa';
 import Swal from 'sweetalert2';
+import TitleBanner from '../../shared/TitleBanner';
 
 const SignUp = () => {
     const { createAccount, profileUpdate } = useAuth();
@@ -106,6 +107,7 @@ const SignUp = () => {
     return (
         <div className=''>
             <ScrollRestoration />
+            <TitleBanner title={"Create Account"} route={"Home / SignUp"} />
             <div className='w-full flex items-center justify-center  my-20'>
                 <div className="bg-base-100 w-full max-w-lg shrink-0 shadow-xl rounded" >
                     <form onSubmit={handleSignUp} className="card-body">

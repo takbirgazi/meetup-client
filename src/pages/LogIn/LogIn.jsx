@@ -5,6 +5,7 @@ import { FaEyeSlash, FaFacebookSquare, FaGithub, FaRegEye } from 'react-icons/fa
 import { BsTwitterX } from 'react-icons/bs';
 import Swal from 'sweetalert2';
 import useAuth from '../../hooks/useAuth';
+import TitleBanner from '../../shared/TitleBanner';
 
 const Login = () => {
     const { logIn, googleSignIn, githubSignIn } = useAuth();
@@ -91,7 +92,7 @@ const Login = () => {
     return (
         <div>
             <ScrollRestoration />
-            {/* <TitleBanner title={'LogIn'} route={'Home / SignIn'} /> */}
+            <TitleBanner title={"User Sign In"} route={"Home / Login"} />
             <div className='w-full flex items-center justify-center  my-12'>
                 <div className="bg-base-100 w-full max-w-lg shrink-0 shadow-xl rounded" >
                     <form onSubmit={handleSignIn} className="card-body">
