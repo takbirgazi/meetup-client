@@ -15,3 +15,6 @@
 * moment --save 
 * sweetalert2
 * uuid
+* react-hook-form
+* axios 
+
