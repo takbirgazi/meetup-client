@@ -44,6 +44,7 @@ const Home = () => {
             <h1 className="text-3xl text-white">
               Video Calls and Meetings for Everyone
             </h1>
+            
             <h4 className="text-lg text-gray-300">
               Connect, collaborate, and celebrate from anywhere with{" "}
             </h4>
@@ -95,6 +96,7 @@ const Home = () => {
                         readOnly
                       />
                     </div>
+                    
                     <div>
                       <label htmlFor="email" className="text-black">Email:</label>
                       <input
