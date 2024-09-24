@@ -1,3 +1,4 @@
+
 import moment from "moment";
 import { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
@@ -35,8 +36,22 @@ const Home = () => {
 
   const onSubmit = (data) => {
     const formattedDate = moment(data.date).format("DD MMM YYYY, hh:mm A");
-    console.log("Scheduled Meeting Data:", { ...data, date: formattedDate });
-    // Handle the submission logic here
+    const uuid = uuidv4(); 
+    const meetingId = uuid.slice(0, 4) + "-" + uuid.slice(4, 8);
+    const meetingLink = `${window.location.origin}/room/${meetingId}`;
+
+    const meetingData = {
+      ...data,
+      date: formattedDate,
+      meetingLink,
+    };
+
+    console.log("Scheduled Meeting Data:", meetingData);
+    reset();
+    // Close the modal after submitting
+    document.getElementById("modal-2").checked = false;
+
+    // You can add your form submission logic here
   };
 
   const handleInstantMeet = () => {
@@ -44,9 +59,9 @@ const Home = () => {
       navigate("/login");
       return;
     }
-    const uuid = uuidv4(); // Generate a meeting ID
+    const uuid = uuidv4(); 
     const meetingId = uuid.slice(0, 4) + "-" + uuid.slice(4, 8);
-    navigate(`/room/${meetingId}`); // Redirect to the new meeting room
+    navigate(`/room/${meetingId}`);
   };
 
   return (
