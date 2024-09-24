@@ -128,7 +128,7 @@ const Room = () => {
       </Helmet>
 
       {/* Main Section */}
-      <div className="flex-grow flex justify-center pb-24">
+      <div className={`${ isDrawerOpen && "lg:w-3/4"} flex-grow flex justify-center pb-24`}>
         <div className="flex w-full max-w-screen-xl">
           <div
             className={`${
@@ -224,7 +224,7 @@ const Room = () => {
 
       {/* Drawer Section */}
       {isDrawerOpen && (
-        <div className="fixed bottom-26 rounded-2xl right-0 w-full lg:w-1/4 h-[85%] lg:h-h-[85%]l bg-gray-400 p-5 text-black flex flex-col z-40">
+        <div className={`${ isDrawerOpen && "lg:w-1/4"} mt-5 fixed bottom-26 rounded-2xl right-0 lg:w-1/4 h-[85%] lg:h-h-[85%]l bg-gray-400 p-5 text-black flex flex-col z-40`}>
           {/* Close Button */}
           <button
             className="bg-red-600 hover:bg-red-500 py-1 px-3 rounded-md text-white self-end"
