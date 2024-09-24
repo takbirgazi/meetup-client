@@ -45,19 +45,49 @@ const Home = () => {
               <div className="dropdown-menu w-44 dropdown-menu-bottom-right">
                 <button
                   onClick={handleInstantMeet}
-                  className="dropdown-item text-sm flex-row items-center gap-2"
+                  className="dropdown-item text-sm flex-row items-center gap-2 "
                 >
                   <TiPlusOutline />
                   Instant meeting
                 </button>
-                <button
+                <label
                   tabIndex="-1"
-                  className="dropdown-item text-sm flex-row items-center gap-2"
+                  className="dropdown-item text-sm flex-row items-center gap-2 "
+                  htmlFor="modal-2"
                 >
                   <FaRegCalendarCheck />
                   Schedule for later
-                </button>
+                </label>
               </div>
+              {/* modal starts here*/}
+              <input className="modal-state" id="modal-2" type="checkbox" />
+              <div className="modal w-screen">
+                <label className="modal-overlay" htmlFor="modal-2"></label>
+                <div className="modal-content flex flex-col gap-5 max-w-3xl">
+                  <label
+                    htmlFor="modal-2"
+                    className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+                  >
+                    ✕
+                  </label>
+                  <h1 className="text-2xl font-semibold">
+                    Schedule Meeting for Later
+                  </h1>
+                  <form>
+                    <div className="flex flex-col gap-3">
+                      <p> {user?.displayName} </p>
+                      <p> {user?.email} </p>
+                    </div>
+                    <div className="flex gap-3">
+                      <button className="btn btn-error btn-block">
+                        Submit
+                      </button>
+                      {/* <button className="btn btn-block">Cancel</button> */}
+                    </div>
+                  </form>
+                </div>
+              </div>
+              {/* modal ends here */}
             </div>
 
             <input className="input w-auto" placeholder="Enter Meet Code..." />
