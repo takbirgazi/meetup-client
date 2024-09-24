@@ -1,15 +1,43 @@
-
+import moment from "moment";
+import { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
+import { useForm } from "react-hook-form";
 import { FaRegCalendarCheck } from "react-icons/fa6";
 import { TiPlusOutline } from "react-icons/ti";
 import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import useAuth from "../../hooks/useAuth";
-import { useForm } from "react-hook-form";
 
 const Home = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      name: user?.displayName || "",
+      email: user?.email || "",
+    },
+  });
+
+  useEffect(() => {
+    if (user) {
+      reset({
+        name: user.displayName || "",
+        email: user.email || "",
+      });
+    }
+  }, [user, reset]);
+
+  const onSubmit = (data) => {
+    const formattedDate = moment(data.date).format("DD MMM YYYY, hh:mm A");
+    console.log("Scheduled Meeting Data:", { ...data, date: formattedDate });
+    // Handle the submission logic here
+  };
 
   const handleInstantMeet = () => {
     if (!user) {
@@ -19,18 +47,6 @@ const Home = () => {
     const uuid = uuidv4(); // Generate a meeting ID
     const meetingId = uuid.slice(0, 4) + "-" + uuid.slice(4, 8);
     navigate(`/room/${meetingId}`); // Redirect to the new meeting room
-  };
-
-  const { register, handleSubmit } = useForm({
-    defaultValues: {
-      name: user?.displayName || '',
-      email: user?.email || ''
-    }
-  });
-
-  const onSubmit = (data) => {
-    console.log("Scheduled Meeting Data:", data);
-    // Handle the submission logic here
   };
 
   return (
@@ -44,7 +60,6 @@ const Home = () => {
             <h1 className="text-3xl text-white">
               Video Calls and Meetings for Everyone
             </h1>
-            
             <h4 className="text-lg text-gray-300">
               Connect, collaborate, and celebrate from anywhere with{" "}
             </h4>
@@ -85,9 +100,14 @@ const Home = () => {
                   <h1 className="text-2xl font-semibold">
                     Schedule Meeting for Later
                   </h1>
-                  <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3">
+                  <form
+                    onSubmit={handleSubmit(onSubmit)}
+                    className="flex flex-col gap-3"
+                  >
                     <div>
-                      <label htmlFor="name" className="text-black">Name:</label>
+                      <label htmlFor="name" className="text-black">
+                        Name:
+                      </label>
                       <input
                         id="name"
                         type="text"
@@ -96,29 +116,36 @@ const Home = () => {
                         readOnly
                       />
                     </div>
-                    
                     <div>
-                      <label htmlFor="email" className="text-black">Email:</label>
+                      <label htmlFor="email" className="text-black">
+                        Email:
+                      </label>
                       <input
                         id="email"
                         type="email"
                         className="input text-black bg-white border border-gray-300 rounded p-2 w-full"
-                       
                         {...register("email", { required: true })}
                         readOnly
                       />
                     </div>
                     <div>
-                      <label htmlFor="date" className="text-black">Schedule Date:</label>
+                      <label htmlFor="date" className="text-black">
+                        Schedule Date:
+                      </label>
                       <input
                         id="date"
                         type="datetime-local"
                         className="input text-black bg-white border border-gray-300 rounded p-2 w-full"
                         {...register("date", { required: true })}
                       />
+                      {errors.date && (
+                        <p className="text-red-500">This field is required</p>
+                      )}
                     </div>
                     <div className="flex gap-3">
-                      <button type="submit" className="btn btn-error btn-block">Submit</button>
+                      <button type="submit" className="btn btn-error btn-block">
+                        Submit
+                      </button>
                     </div>
                   </form>
                 </div>
