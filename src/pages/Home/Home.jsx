@@ -8,6 +8,7 @@ import { TiPlusOutline } from "react-icons/ti";
 import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import useAuth from "../../hooks/useAuth";
+import { axiosCommon } from '../../hooks/useAxiosCommon';
 
 const Home = () => {
   const { user } = useAuth();
@@ -36,7 +37,7 @@ const Home = () => {
 
   const onSubmit = (data) => {
     const formattedDate = moment(data.date).format("DD MMM YYYY, hh:mm A");
-    const uuid = uuidv4(); 
+    const uuid = uuidv4();
     const meetingId = uuid.slice(0, 4) + "-" + uuid.slice(4, 8);
     const meetingLink = `${window.location.origin}/room/${meetingId}`;
 
@@ -59,10 +60,21 @@ const Home = () => {
       navigate("/login");
       return;
     }
-    const uuid = uuidv4(); 
+    const uuid = uuidv4();
     const meetingId = uuid.slice(0, 4) + "-" + uuid.slice(4, 8);
     navigate(`/room/${meetingId}`);
   };
+
+  const handleCreateMeeting = () => {
+    // axiosCommon.post('/create-meeting', {})
+    //   .then((response) => {
+    //     console.log(response.data)
+    //   }
+    //   )
+    //   .catch((error) => {
+    //     console.error(error)
+    //   })
+  }
 
   return (
     <div className="min-h-[calc(100vh-4.1rem)] min-w-screen bg-[#202124] flex items-center justify-center">
@@ -168,7 +180,7 @@ const Home = () => {
               {/* Modal ends here */}
             </div>
             <input className="input w-auto" placeholder="Enter Meet Code..." />
-            <button className="btn btn-solid-primary">Join</button>
+            <button className="btn btn-solid-primary" onClick={handleCreateMeeting}>Join</button>
           </div>
         </div>
       </div>
