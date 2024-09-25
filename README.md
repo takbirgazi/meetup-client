@@ -17,4 +17,5 @@
 * uuid
 * react-hook-form
 * axios 
+* react-hot-toast
 
