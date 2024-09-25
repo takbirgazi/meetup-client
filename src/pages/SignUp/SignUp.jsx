@@ -3,7 +3,8 @@ import { Link, ScrollRestoration, useNavigate } from 'react-router-dom';
 import useAuth from '../../hooks/useAuth';
 import { FaEyeSlash, FaRegEye } from 'react-icons/fa';
 import Swal from 'sweetalert2';
-import TitleBanner from '../../shared/TitleBanner';
+import useAxiosCommon from '../../hooks/useAxiosCommon';
+// import TitleBanner from '../../shared/TitleBanner';
 
 const SignUp = () => {
     const { createAccount, profileUpdate } = useAuth();
@@ -13,6 +14,7 @@ const SignUp = () => {
     const [viewConfPass, setViewConfPass] = useState(false);
     const [allPass, setAllPass] = useState({ pass: null, conf: null });
     const navigate = useNavigate();
+    const axios = useAxiosCommon();
 
     const handlePasswordStrength = e => {
         // console.log(e.target.value);
@@ -68,7 +70,6 @@ const SignUp = () => {
         const last_name = data.get('last_name');
         const username = data.get('username');
         const mail = data.get('mail');
-        const phone = data.get('phone');
 
         // e.target.reset();
 
@@ -77,7 +78,6 @@ const SignUp = () => {
             last_name,
             username,
             email: mail,
-            phone,
             password: allPass.pass,
             createdAt: new Date().toISOString(),
             role: 'general-user',
@@ -89,27 +89,34 @@ const SignUp = () => {
                 profileUpdate(username, null)
                     .then(data => {
                         // console.log("username updated.")
-                        Swal.fire({
-                            title: "Great job!",
-                            text: "Your Account Registered Successfully!",
-                            icon: "success",
-                            showConfirmButton: false,
-                            timer: 2000,
-                        });
-                        navigate('/');
-                        e.target.reset();
+                        axios.post('/addUser', userInfo)
+                            .then(res => {
+                                if (res.data.insertedId) {
+                                    Swal.fire({
+                                        title: "Great job!",
+                                        text: "Your Account Registered Successfully!",
+                                        icon: "success",
+                                        showConfirmButton: false,
+                                        timer: 2000,
+                                    });
+                                    navigate('/');
+                                    e.target.reset();                                  
+                                }
+                            })
+                            .catch(error => console.log(error.message))
                     })
                     .catch(error => console.log(error.message))
             })
             .catch(error => console.log(error))
     }
-    // console.log(allPass);
+
     return (
         <div className=''>
             <ScrollRestoration />
-            <TitleBanner title={"Create Account"} route={"Home / SignUp"} />
+            {/* <TitleBanner title={"Create Account"} route={"Home / SignUp"} /> */}
             <div className='w-full flex items-center justify-center  my-20'>
                 <form onSubmit={handleSignUp} class="mx-auto flex w-full max-w-lg flex-col rounded-xl border border-border bg-backgroundSecondary p-4 sm:p-20">
+                    <h2 className='text-xl pb-8 text-center font-semibold text-gray-700'>Create An Account</h2>
                     <div class="form-group">
                         <div className='w-full flex justify-between'>
                             <div className="form-field w-[48%]">

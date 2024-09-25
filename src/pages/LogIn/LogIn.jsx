@@ -1,25 +1,24 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Link, ScrollRestoration, useNavigate } from 'react-router-dom';
-import { FcGoogle } from 'react-icons/fc';
-import { FaEyeSlash, FaFacebookSquare, FaGithub, FaRegEye } from 'react-icons/fa';
-import { BsTwitterX } from 'react-icons/bs';
 import Swal from 'sweetalert2';
 import useAuth from '../../hooks/useAuth';
-import TitleBanner from '../../shared/TitleBanner';
+import useAxiosCommon from '../../hooks/useAxiosCommon';
+// import TitleBanner from '../../shared/TitleBanner';
 
 const Login = () => {
     const { logIn, googleSignIn, githubSignIn } = useAuth();
     const [viewPass, setViewPass] = useState(false);
     const [error, setError] = useState(null);
     const navigate = useNavigate();
+    const axios = useAxiosCommon();
 
     const handleSignIn = e => {
         e.preventDefault();
         const data = new FormData(e.target);
-        
+
         const mail = data.get('email');
         const password = data.get('password');
-        
+
         // console.log(mail, password);
         e.target.reset();
         logIn(mail, password)
@@ -40,34 +39,46 @@ const Login = () => {
     }
 
     const setUserForProviders = (data, provider) => {
-        const userInfo = {
-            first_name: data.user?.displayName.split(' ')[0],
-            last_name: (data.user?.displayName.split(' ')?.length > 1 ? data.user?.displayName.split(' ')[1] : ''),
-            username: data?.user?.displayName,
-            photoURL: data?.user?.photoURL,
-            email: data?.user?.email,
-            provider,
-            createdAt: new Date().toUTCString(),
-            role: 'general_user',
-        };
-
-        Swal.fire({
-            title: `Hello ${data?.user?.displayName}!`,
-            text: "User Logged in Successfully!",
-            icon: "success",
-            showConfirmButton: false,
-            timer: 2000,
-        });
-        navigate('/');
-        //     Swal.fire({
-        //         title: `Hello ${data?.user?.displayName}!`,
-        //         text: "User Created & Logged in Successfully!",
-        //         icon: "success",
-        //         showConfirmButton: false,
-        //         timer: 2000,
-        //     });
-        // }
-        // navigate('/');
+        axios.get(`/userSearch?email=${data?.user?.email}`)
+            .then(res => {
+                if (res.data.exists) {
+                    Swal.fire({
+                        title: `Hello ${data?.user?.displayName}!`,
+                        text: "User Logged in Successfully!",
+                        icon: "success",
+                        showConfirmButton: false,
+                        timer: 2000,
+                    });
+                } else {
+                    const userInfo = {
+                        first_name: data.user?.displayName.split(' ')[0],
+                        last_name: (data.user?.displayName.split(' ')?.length > 1 ? data.user?.displayName.split(' ')[1] : ''),
+                        username: data?.user?.displayName,
+                        photoURL: data?.user?.photoURL,
+                        email: data?.user?.email,
+                        provider,
+                        createdAt: new Date().toUTCString(),
+                        role: 'general-user',
+                    };
+                    axios.post('/addUser', userInfo)
+                        .then(res => {
+                            if (res.data.insertedId) {
+                                Swal.fire({
+                                    title: `Hello ${data?.user?.displayName}!`,
+                                    text: "User Created & Logged in Successfully!",
+                                    icon: "success",
+                                    showConfirmButton: false,
+                                    timer: 2000,
+                                });
+                                navigate('/');
+                                e.target.reset();
+                            }
+                        })
+                        .catch(error => console.log(error.message))
+                }
+                navigate('/');
+            })
+            .catch(error => console.log(error.message))
     }
 
     const handleGoogleSignIn = () => {
@@ -89,7 +100,7 @@ const Login = () => {
     return (
         <div>
             <ScrollRestoration />
-            <TitleBanner title={"User Sign In"} route={"Home / Login"} />
+            {/* <TitleBanner title={"User Sign In"} route={"Home / Login"} /> */}
             <div className='w-full flex items-center justify-center  my-12'>
 
                 <div class="mx-auto flex w-full max-w-lg flex-col rounded-xl border border-border bg-backgroundSecondary p-4 sm:p-20">
@@ -150,7 +161,7 @@ const Login = () => {
                         </div>
                         <div class="form-field pt-5">
                             <div class="form-control justify-between">
-                                <input type="submit" class="btn btn-primary w-full" value={'Sign in'}/>
+                                <input type="submit" class="btn btn-primary w-full" value={'Sign in'} />
                             </div>
                         </div>
 
