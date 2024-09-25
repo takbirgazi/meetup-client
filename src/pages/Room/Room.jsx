@@ -291,13 +291,13 @@ const Room = () => {
                   >
                     <TfiLayoutGrid4Alt />
                   </button>
-                  <button
+                  {/* <button
                     className={`text-2xl ${layout === "spotlight" ? "bg-blue-500" : ""
                       }`}
                     onClick={() => handleLayoutChange("spotlight")}
                   >
                     <TfiLayoutColumn4 />
-                  </button>
+                  </button> */}
                 </div>
               </div>
             ) : null}
