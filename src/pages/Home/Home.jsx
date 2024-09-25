@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import useAuth from "../../hooks/useAuth";
 import { axiosCommon } from '../../hooks/useAxiosCommon';
+import toast from "react-hot-toast";
 
 const Home = () => {
   const { user } = useAuth();
@@ -40,20 +41,31 @@ const Home = () => {
     const uuid = uuidv4();
     const meetingId = uuid.slice(0, 4) + "-" + uuid.slice(4, 8);
     const meetingLink = `${window.location.origin}/room/${meetingId}`;
+    const status = "scheduled";
 
     const meetingData = {
       ...data,
       date: formattedDate,
       meetingLink,
+      status
     };
 
-    console.log("Scheduled Meeting Data:", meetingData);
-    reset();
-    // Close the modal after submitting
-    document.getElementById("modal-2").checked = false;
+    console.log(meetingData);
 
-    // You can add your form submission logic here
+    // Submit the form data to the backend
+    axiosCommon.post('/create-meeting', meetingData)
+      .then((response) => {
+        toast.success('Meeting scheduled successfully!');
+        console.log('Scheduled Meeting Data:', response.data);
+        reset(); 
+        document.getElementById("modal-2").checked = false;
+      })
+      .catch((error) => {
+        toast.error('Failed to schedule the meeting. Please try again.');
+        console.error('Error scheduling meeting:', error);
+      });
   };
+
 
   const handleInstantMeet = () => {
     if (!user) {
@@ -65,16 +77,7 @@ const Home = () => {
     navigate(`/room/${meetingId}`);
   };
 
-  const handleCreateMeeting = () => {
-    // axiosCommon.post('/create-meeting', {})
-    //   .then((response) => {
-    //     console.log(response.data)
-    //   }
-    //   )
-    //   .catch((error) => {
-    //     console.error(error)
-    //   })
-  }
+  
 
   return (
     <div className="min-h-[calc(100vh-4.1rem)] min-w-screen bg-[#202124] flex items-center justify-center">
@@ -180,7 +183,7 @@ const Home = () => {
               {/* Modal ends here */}
             </div>
             <input className="input w-auto" placeholder="Enter Meet Code..." />
-            <button className="btn btn-solid-primary" onClick={handleCreateMeeting}>Join</button>
+            <button className="btn btn-solid-primary">Join</button>
           </div>
         </div>
       </div>
@@ -189,3 +192,4 @@ const Home = () => {
 };
 
 export default Home;
+
