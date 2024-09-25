@@ -1,19 +1,19 @@
-
 import moment from "moment";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { FaRegCalendarCheck } from "react-icons/fa6";
 import { TiPlusOutline } from "react-icons/ti";
 import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import useAuth from "../../hooks/useAuth";
-import { axiosCommon } from '../../hooks/useAxiosCommon';
-import toast from "react-hot-toast";
+import { axiosCommon } from "../../hooks/useAxiosCommon";
 
 const Home = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
+  const [meetingInput, setMeetingInput] = useState("");
 
   const {
     register,
@@ -47,37 +47,103 @@ const Home = () => {
       ...data,
       date: formattedDate,
       meetingLink,
-      status
+      meetingId,
+      status,
     };
 
     console.log(meetingData);
 
     // Submit the form data to the backend
-    axiosCommon.post('/create-meeting', meetingData)
+    axiosCommon
+      .post("/create-meeting", meetingData)
       .then((response) => {
-        toast.success('Meeting scheduled successfully!');
-        console.log('Scheduled Meeting Data:', response.data);
-        reset(); 
+        toast.success("Meeting scheduled successfully!");
+        console.log("Scheduled Meeting Data:", response.data);
+        reset();
         document.getElementById("modal-2").checked = false;
       })
       .catch((error) => {
-        toast.error('Failed to schedule the meeting. Please try again.');
-        console.error('Error scheduling meeting:', error);
+        toast.error("Failed to schedule the meeting. Please try again.");
+        console.error("Error scheduling meeting:", error);
       });
   };
 
-
+  // Instant Meeting Handler
   const handleInstantMeet = () => {
     if (!user) {
-      navigate("/login");
+      toast.error("Please login to create instant meeting.");
       return;
     }
     const uuid = uuidv4();
     const meetingId = uuid.slice(0, 4) + "-" + uuid.slice(4, 8);
-    navigate(`/room/${meetingId}`);
+    const meetingLink = `${window.location.origin}/room/${meetingId}`;
+    const status = "current";
+
+    const meetingData = {
+      name: user?.displayName,
+      email: user?.email,
+      date: moment().format("DD MMM YYYY, hh:mm A"),
+      meetingLink,
+      meetingId,
+      status,
+    };
+
+    console.log(meetingData);
+
+    // Submit the form data to the backend
+    axiosCommon
+      .post("/create-meeting", meetingData)
+      .then((response) => {
+        toast.success("Instant meeting created successfully!");
+        console.log("Current Meeting Data:", response.data);
+        navigate(`/room/${meetingId}`);
+      })
+      .catch((error) => {
+        toast.error("Failed to create instant meeting. Please try again.");
+        console.error("Error creating instant meeting:", error);
+      });
   };
 
-  
+  // show error message for handleSchedule if user is not logged in
+  const handleScheduleForLater = (e) => {
+    if (!user) {
+      e.preventDefault();
+      toast.error("Please login to schedule a meeting.");
+      return;
+    }
+  };
+  // handle join meeting
+  const handleJoinMeeting = async () => {
+    if (!user) {
+      toast.error("Please login to join a meeting.");
+      return;
+    }
+    if (!meetingInput) {
+      toast.error("Please enter a meeting code or link.");
+      return;
+    }
+    let meetingId = meetingInput.trim();
+
+    // Extract meeting ID if the input is a full meeting link
+    if (meetingInput.includes("/room/")) {
+      const urlParts = meetingInput.split("/room/");
+      meetingId = urlParts[urlParts.length - 1];
+    }
+
+    try {
+      // Check if the meeting exists in the database
+      const response = await axiosCommon.get(`/meetings/${meetingId}`);
+
+      if (response.status === 200 && response.data) {
+        navigate(`/room/${meetingId}`); // Redirect to the meeting room
+      } else {
+        toast.error("Meeting not found."); // Show error toast
+      }
+    } catch (error) {
+      console.error("Error checking meeting:", error);
+      toast.error("Meeting not found."); // Show error toast
+    }
+  };
 
   return (
     <div className="min-h-[calc(100vh-4.1rem)] min-w-screen bg-[#202124] flex items-center justify-center">
@@ -111,6 +177,7 @@ const Home = () => {
                   tabIndex="-1"
                   className="dropdown-item text-sm flex-row items-center gap-2"
                   htmlFor="modal-2"
+                  onClick={handleScheduleForLater}
                 >
                   <FaRegCalendarCheck />
                   Schedule for later
@@ -182,8 +249,18 @@ const Home = () => {
               </div>
               {/* Modal ends here */}
             </div>
-            <input className="input w-auto" placeholder="Enter Meet Code..." />
-            <button className="btn btn-solid-primary">Join</button>
+            <input
+              className="input w-auto"
+              placeholder="Enter Meet Code or Link..."
+              value={meetingInput}
+              onChange={(e) => setMeetingInput(e.target.value)}
+            />
+            <button
+              className="btn btn-solid-primary"
+              onClick={handleJoinMeeting}
+            >
+              Join
+            </button>
           </div>
         </div>
       </div>
@@ -192,4 +269,3 @@ const Home = () => {
 };
 
 export default Home;
-
