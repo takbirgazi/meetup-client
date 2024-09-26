@@ -1,74 +1,128 @@
 import React, { useState } from "react";
+import { useForm } from "react-hook-form";
 import { FaEyeSlash, FaRegEye } from "react-icons/fa";
 import { Link, ScrollRestoration, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import useAuth from "../../hooks/useAuth";
 import useAxiosCommon from "../../hooks/useAxiosCommon";
+
 // import TitleBanner from '../../shared/TitleBanner';
 
 const SignUp = () => {
   const { createAccount, profileUpdate } = useAuth();
-  const [error, setError] = useState(null);
-  const [passStrength, setPassStrength] = useState(null);
+  // const [error, setError] = useState(null);
+  // const [passStrength, setPassStrength] = useState(null);
   const [viewPass, setViewPass] = useState(false);
   const [viewConfPass, setViewConfPass] = useState(false);
-  const [allPass, setAllPass] = useState({ pass: null, conf: null });
+  // const [allPass, setAllPass] = useState({ pass: null, conf: null });
   const navigate = useNavigate();
   const axios = useAxiosCommon();
 
-  const handlePasswordStrength = (e) => {
-    // console.log(e.target.value);
-    const pass = e.target.value;
+  // const handlePasswordStrength = (e) => {
+  // console.log(e.target.value);
+  //   const pass = e.target.value;
 
-    setAllPass({ pass, conf: allPass.conf });
+  // setAllPass({ pass, conf: allPass.conf });
 
-    if (pass.length == 0) {
-      setPassStrength("");
-    } else if (!/^(?=.*[A-Z])/.test(pass)) {
-      setPassStrength("At least one capital letter is required");
-      return;
-    } else if (!/^(?=.*[a-z])/.test(pass)) {
-      setPassStrength("At least one small letter is required");
-      return;
-    } else if (!/^(?=.*\d)/.test(pass)) {
-      setPassStrength("At least one digit is required");
-      return;
-    } else if (!/^(?=.*[@$!%*?&.])/.test(pass)) {
-      setPassStrength("At least one special character is required");
-      return;
-    } else if (!/^.{6,}/.test(pass)) {
-      setPassStrength("At least 6 characters are required");
-      return;
-    } else {
-      setPassStrength(null);
-    }
-  };
+  // if (pass.length == 0) {
+  //   setPassStrength("");
+  // } else if (!/^(?=.*[A-Z])/.test(pass)) {
+  //   setPassStrength("At least one capital letter is required");
+  //   return;
+  // } else if (!/^(?=.*[a-z])/.test(pass)) {
+  //   setPassStrength("At least one small letter is required");
+  //   return;
+  // } else if (!/^(?=.*\d)/.test(pass)) {
+  //   setPassStrength("At least one digit is required");
+  //   return;
+  // } else if (!/^(?=.*[@$!%*?&.])/.test(pass)) {
+  //   setPassStrength("At least one special character is required");
+  //   return;
+  // } else if (!/^.{6,}/.test(pass)) {
+  //   setPassStrength("At least 6 characters are required");
+  //   return;
+  // } else {
+  //   setPassStrength(null);
+  // }
+  // };
 
-  const mismatchingChecker = (e) => {
-    setAllPass({ pass: allPass.pass, conf: e.target.value });
+  // const mismatchingChecker = (e) => {
+  //   setAllPass({ pass: allPass.pass, conf: e.target.value });
 
-    if (passStrength) {
-      setError("Create password with the requirements");
-      return;
-    } else if (allPass.pass != e.target.value) {
-      setError("Password confirmation mismatched!!");
-      return;
-    } else if (e.target.value.length == 0) {
-      setError("");
-    } else {
-      // console.log(passStrength);
-      setError(null);
-    }
-  };
+  //   if (passStrength) {
+  //     setError("Create password with the requirements");
+  //     return;
+  //   } else if (allPass.pass != e.target.value) {
+  //     setError("Password confirmation mismatched!!");
+  //     return;
+  //   } else if (e.target.value.length == 0) {
+  //     setError("");
+  //   } else {
+  // console.log(passStrength);
+  //     setError(null);
+  //   }
+  // };
 
-  const handleSignUp = (e) => {
-    e.preventDefault();
+  // const handleSignUp = (e) => {
+  //   e.preventDefault();
 
-    const data = new FormData(e.target);
-    const first_name = data.get("first_name");
-    const last_name = data.get("last_name");
-    const username = data.get("username");
-    const mail = data.get("mail");
+  //   const data = new FormData(e.target);
+  //   const first_name = data.get("first_name");
+  //   const last_name = data.get("last_name");
+  //   const username = data.get("username");
+  //   const mail = data.get("mail");
+
+  //   // e.target.reset();
+
+  //   const userInfo = {
+  //     first_name,
+  //     last_name,
+  //     username,
+  //     email: mail,
+  //     password: allPass.pass,
+  //     createdAt: new Date().toISOString(),
+  //     role: "general-user",
+  //   };
+
+  //   createAccount(mail, allPass.pass)
+  //     .then((res) => {
+  //       profileUpdate(username, null)
+  //         .then((data) => {
+  //           // console.log("username updated.")
+  //           axios
+  //             .post("/addUser", userInfo)
+  //             .then((res) => {
+  //               if (res.data.insertedId) {
+  //                 Swal.fire({
+  //                   title: "Great job!",
+  //                   text: "Your Account Registered Successfully!",
+  //                   icon: "success",
+  //                   showConfirmButton: false,
+  //                   timer: 2000,
+  //                 });
+  //                 navigate("/");
+  //                 e.target.reset();
+  //               }
+  //             })
+  //             .catch((error) => console.log(error.message));
+  //         })
+  //         .catch((error) => console.log(error.message));
+  //     })
+  //     .catch((error) => console.log(error));
+  // };
+
+  // coded by minhaj
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = async (data) => {
+    // e.preventDefault();
+
+    const { first_name, last_name, username, mail, password } = data;
 
     // e.target.reset();
 
@@ -77,12 +131,12 @@ const SignUp = () => {
       last_name,
       username,
       email: mail,
-      password: allPass.pass,
+      password,
       createdAt: new Date().toISOString(),
       role: "general-user",
     };
 
-    createAccount(mail, allPass.pass)
+    createAccount(mail, password)
       .then((res) => {
         profileUpdate(username, null)
           .then((data) => {
@@ -113,10 +167,10 @@ const SignUp = () => {
     <div className="">
       <ScrollRestoration />
       {/* <TitleBanner title={"Create Account"} route={"Home / SignUp"} /> */}
-      <div className="w-full flex items-center justify-center  my-20">
+      <div className="w-full min-h-[calc(100vh-4.1rem)]  flex items-center justify-center">
         <form
-          onSubmit={handleSignUp}
-          class="mx-auto flex w-full max-w-lg flex-col rounded-xl border border-border bg-backgroundSecondary p-4 sm:p-20"
+          onSubmit={handleSubmit(onSubmit)}
+          className="mx-auto flex w-full max-w-lg flex-col rounded-xl border border-border bg-backgroundSecondary p-4 sm:p-14"
         >
           <h2 className="text-xl pb-8 text-center font-semibold text-gray-700">
             Create An Account
@@ -129,8 +183,15 @@ const SignUp = () => {
                   name="first_name"
                   placeholder="John"
                   className="input "
-                  required
+                  {...register("first_name", {
+                    required: "First Name is required",
+                  })}
                 />
+                {errors.first_name && (
+                  <p className="text-red-500 text-xs">
+                    {errors.first_name.message}
+                  </p>
+                )}
               </div>
               <div className="form-field w-[48%]">
                 <label className="form-label">Last Name *</label>
@@ -138,8 +199,15 @@ const SignUp = () => {
                   name="last_name"
                   placeholder="Doe"
                   className="input"
-                  required
+                  {...register("last_name", {
+                    required: "Last Name is required",
+                  })}
                 />
+                {errors.last_name && (
+                  <p className="text-red-500 text-xs">
+                    {errors.last_name.message}
+                  </p>
+                )}
               </div>
             </div>
             <div className="form-field w-full">
@@ -149,8 +217,15 @@ const SignUp = () => {
                 name="username"
                 placeholder="demo_name"
                 className="input max-w-full"
-                required
+                {...register("username", {
+                  required: "Username is required",
+                })}
               />
+              {errors.username && (
+                <p className="text-red-500 text-xs">
+                  {errors.username.message}
+                </p>
+              )}
             </div>
             <div className="form-field">
               <label className="form-label">Email *</label>
@@ -159,8 +234,13 @@ const SignUp = () => {
                 name="mail"
                 placeholder="customer@demo.com"
                 className="input max-w-full"
-                required
+                {...register("mail", {
+                  required: "Email is required",
+                })}
               />
+              {errors.mail && (
+                <p className="text-red-500 text-xs">{errors.mail.message}</p>
+              )}
             </div>
             <div className="form-field">
               <label className="form-label">
@@ -168,12 +248,19 @@ const SignUp = () => {
               </label>
               <div className="relative">
                 <input
-                  onChange={handlePasswordStrength}
+                  // onChange={handlePasswordStrength}
                   type={viewPass ? "text" : "password"}
                   name="password"
                   placeholder="password"
                   className="input max-w-full"
-                  required
+                  {...register("password", {
+                    required: "Password is required",
+                    pattern: {
+                      value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
+                      message:
+                        "Password must be at least 8 characters long and contain at least one letter and one number",
+                    },
+                  })}
                 />
                 <FaRegEye
                   size={18}
@@ -190,8 +277,13 @@ const SignUp = () => {
                   }
                 />
               </div>
+              {errors.password && (
+                <p className="text-red-500 text-xs">
+                  {errors.password.message}
+                </p>
+              )}
             </div>
-            {allPass.pass ? (
+            {/* {allPass.pass ? (
               passStrength ? (
                 <p className="text-xs text-red-500">** {passStrength} **</p>
               ) : (
@@ -201,19 +293,23 @@ const SignUp = () => {
               )
             ) : (
               <></>
-            )}
+            )} */}
             <div className="form-field">
               <label className="form-label">
                 <span className="label-text">Confirm Password *</span>
               </label>
               <div className="relative">
                 <input
-                  onChange={mismatchingChecker}
+                  // onChange={mismatchingChecker}
                   type={viewConfPass ? "text" : "password"}
                   name="conf_password"
                   placeholder="password"
                   className="input max-w-full"
-                  required
+                  {...register("conf_password", {
+                    required: "Confirm Password is required",
+                    validate: (value) =>
+                      value === watch("password") || "Passwords do not match",
+                  })}
                 />
                 <FaRegEye
                   size={18}
@@ -234,8 +330,13 @@ const SignUp = () => {
                   }
                 />
               </div>
+              {errors.conf_password && (
+                <p className="text-red-500 text-xs">
+                  {errors.conf_password.message}
+                </p>
+              )}
             </div>
-            {allPass.conf ? (
+            {/* {allPass.conf ? (
               error ? (
                 <p className="text-xs text-red-500">** {error} **</p>
               ) : (
@@ -243,8 +344,8 @@ const SignUp = () => {
               )
             ) : (
               <></>
-            )}
-            <div class="form-field">
+            )} */}
+            {/* <div class="form-field">
               <div class="form-field justify-between flex-row">
                 <div class="flex gap-2">
                   <input type="checkbox" class="checkbox" />
@@ -256,17 +357,23 @@ const SignUp = () => {
                   </a>
                 </label>
               </div>
-            </div>
+            </div> */}
             <div className="flex items-center justify-start gap-2 pt-4">
               <input
                 type="checkbox"
+                name="privacy"
                 className="checkbox checkbox-sm"
-                required
+                {...register("privacy", { required: true })}
               />
               <h4 className="text-sm font-semibold">
                 {"I've read and accept the Privacy Policy"}
               </h4>
             </div>
+            {errors.privacy && (
+              <p className="text-red-500 text-xs">
+                You must accept the Privacy Policy
+              </p>
+            )}
             <p className="text-xs">
               By signing up, you agree to our{" "}
               <a
