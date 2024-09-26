@@ -44,14 +44,19 @@ const Home = () => {
     const status = "scheduled";
 
     const meetingData = {
-      ...data,
       date: formattedDate,
       meetingLink,
       meetingId,
       status,
+      participants: [{
+        name: user?.displayName,
+        email: user?.email,
+        photoURL: user?.photoURL,
+        role: 'host',
+      }],
     };
 
-    console.log(meetingData);
+    // console.log(meetingData);
 
     // Submit the form data to the backend
     axiosCommon
@@ -80,15 +85,19 @@ const Home = () => {
     const status = "current";
 
     const meetingData = {
-      name: user?.displayName,
-      email: user?.email,
       date: moment().format("DD MMM YYYY, hh:mm A"),
       meetingLink,
       meetingId,
       status,
+      participants: [{
+        name: user?.displayName,
+        email: user?.email,
+        photoURL: user?.photoURL,
+        role: 'host',
+      }],
     };
 
-    console.log(meetingData);
+    // console.log(meetingData);
 
     // Submit the form data to the backend
     axiosCommon
@@ -106,6 +115,7 @@ const Home = () => {
 
   // show error message for handleSchedule if user is not logged in
   const handleScheduleForLater = (e) => {
+    console.log('ok')
     if (!user) {
       e.preventDefault();
       toast.error("Please login to schedule a meeting.");
@@ -132,16 +142,38 @@ const Home = () => {
 
     try {
       // Check if the meeting exists in the database
-      const response = await axiosCommon.get(`/meetings/${meetingId}`);
+      const response = await axiosCommon.get(`/meeting/${meetingId}`);
 
       if (response.status === 200 && response.data) {
-        navigate(`/room/${meetingId}`); // Redirect to the meeting room
+        console.log("Meeting found:", response.data);
+
+        // Patch the new participant to the meeting
+        axiosCommon
+          .patch(`/meeting/${meetingId}`, {
+            name: user.displayName,
+            email: user.email,
+            role: "participant",
+          })
+          .then((response) => {
+            // You can check the server response status here
+            if (response.status === 200) {
+              console.log("Participant added successfully!");
+              toast.success(response.data.message);
+              navigate(`/room/${meetingId}`); // Redirect to the meeting room
+            } else {
+              toast.error(response.data.error);
+            }
+          })
+          .catch((error) => {
+            console.error("Error adding participant:", error);
+            toast.error(response.data.error);
+          });
       } else {
-        toast.error("Meeting not found."); // Show error toast
+        toast.error("Meeting not found.");
       }
     } catch (error) {
       console.error("Error checking meeting:", error);
-      toast.error("Meeting not found."); // Show error toast
+      toast.error("Meeting not found.");
     }
   };
 

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { AiOutlineAudio } from "react-icons/ai";
 import { HiOutlineHandRaised } from "react-icons/hi2";
@@ -16,62 +16,39 @@ import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import image from "../../assets/logo.png";
 import UserCard from "./UserCard";
+import { axiosCommon } from "../../hooks/useAxiosCommon";
 
 const Room = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [drawerContent, setDrawerContent] = useState(""); // Polling or Chatting
   const [layout, setLayout] = useState("tiled"); // Layout type: "tiled" or "spotlight"
   const [chatMessage, setChatMessage] = useState(""); // State for chat input
+  const [participants, setParticipants] = useState([]);
 
-  const joinUser = [
-    {
-      name: "Item 1",
-      imageUrl: `https://avatars.githubusercontent.com/u/154421040?v=4`
-    },
-    {
-      name: "Item 2",
-      imageUrl: `https://avatars.githubusercontent.com/u/73244739?v=4`
-    },
-    {
-      name: "Item 3",
-      imageUrl: `https://avatars.githubusercontent.com/u/107040225?v=4`
-    },
-    {
-      name: "Item 4",
-      imageUrl: `https://avatars.githubusercontent.com/u/137285949?v=4`
-    },
-    {
-      name: "Item 5",
-      imageUrl: `https://avatars.githubusercontent.com/u/64192650?v=4`
-    },
-    { name: "Item 6", imageUrl: image },
-    { name: "Item 7", imageUrl: image },
-    { name: "Item 8", imageUrl: image },
-    { name: "Item 9", imageUrl: image },
-    { name: "Item 10", imageUrl: image },
-    { name: "Item 11", imageUrl: image },
-    { name: "Item 12", imageUrl: image },
-    { name: "Item 13", imageUrl: image },
-    { name: "Item 14", imageUrl: image },
-    { name: "Item 15", imageUrl: image },
-    { name: "Item 16", imageUrl: image },
-    { name: "Item 17", imageUrl: image },
-    { name: "Item 18", imageUrl: image },
-    { name: "Item 19", imageUrl: image },
-    { name: "Item 20", imageUrl: image },
-  ];
+  const roomId = location.pathname.split("/").pop();
+
+  useEffect(() => {
+    axiosCommon.get(`meeting/${roomId}`)
+      .then((res) => {
+        setParticipants(res.data.participants)
+      }
+      )
+      .catch((err) => {
+        console.log(err)
+      });
+  }, [roomId]);
 
   const MAX_USERS_DISPLAYED = 15;
   const displayedUsers =
-    joinUser?.length > MAX_USERS_DISPLAYED
+    participants?.length > MAX_USERS_DISPLAYED
       ? [
-        ...joinUser.slice(0, MAX_USERS_DISPLAYED - 1),
+        ...participants.slice(0, MAX_USERS_DISPLAYED - 1),
         {
-          name: `${joinUser.length - MAX_USERS_DISPLAYED + 1}+`,
+          name: `${participants.length - MAX_USERS_DISPLAYED + 1}+`,
           imageUrl: image,
         },
       ]
-      : joinUser;
+      : participants;
 
   // Function to toggle the drawer
   const toggleDrawer = (content) => {
@@ -148,12 +125,12 @@ const Room = () => {
           <div className="flex w-full max-w-screen-xl">
             <div
               className={`${layout === "tiled"
-                  ? "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4"
-                  : "flex justify-center"
+                ? "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4"
+                : "flex justify-center"
                 } w-full p-5`}
             >
-              {displayedUsers.map((user) => (
-                <UserCard key={user.name} cardData={user} />
+              {displayedUsers?.map((user) => (
+                <UserCard key={user?.name} cardData={user} />
               ))}
             </div>
           </div>
@@ -215,7 +192,7 @@ const Room = () => {
             <div className="hidden lg:flex space-x-2">
               <div className="relative px-4 py-3 btn text-white bg-transparent hover:bg-gray-700 rounded-full">
                 <span className="absolute top-0 right-0 bg-red-600 text-white text-xs rounded-full px-1">
-                  {joinUser.length}
+                  {participants.length}
                 </span>
                 <button>
                   <TbUsers />
