@@ -256,10 +256,14 @@ const SignUp = () => {
                   {...register("password", {
                     required: "Password is required",
                     pattern: {
-                      value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
+                      value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]$/,
                       message:
-                        "Password must be at least 8 characters long and contain at least one letter and one number",
+                        "Password must contain at least one letter and one number",
                     },
+                    minLength: {
+                      value: 8,
+                      message: 'password should be at least 8 character long'
+                    }
                   })}
                 />
                 <FaRegEye
