@@ -4,6 +4,7 @@ import { IoSettingsOutline } from "react-icons/io5";
 import { MdLogout } from "react-icons/md";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
+import avatar from "../../assets/cat.png";
 import logo1 from "../../assets/logo1.png";
 import useAuth from "../../hooks/useAuth";
 
@@ -59,7 +60,11 @@ const Navbar = () => {
                   className="btn btn-ghost flex cursor-pointer px-0"
                   tabIndex="0"
                 >
-                  <img src={user?.photoURL} alt="avatar" />
+                  {user?.photoURL ? (
+                    <img src={user?.photoURL} alt="avatar" />
+                  ) : (
+                    <img src={avatar} alt="avatar" />
+                  )}
                 </label>
 
                 <div className="dropdown-menu dropdown-menu-bottom-left">
