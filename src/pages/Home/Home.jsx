@@ -48,12 +48,14 @@ const Home = () => {
       meetingLink,
       meetingId,
       status,
-      participants: [{
-        name: user?.displayName,
-        email: user?.email,
-        photoURL: user?.photoURL,
-        role: 'host',
-      }],
+      participants: [
+        {
+          name: user?.displayName,
+          email: user?.email,
+          photoURL: user?.photoURL,
+          role: "host",
+        },
+      ],
     };
 
     // console.log(meetingData);
@@ -89,12 +91,14 @@ const Home = () => {
       meetingLink,
       meetingId,
       status,
-      participants: [{
-        name: user?.displayName,
-        email: user?.email,
-        photoURL: user?.photoURL,
-        role: 'host',
-      }],
+      participants: [
+        {
+          name: user?.displayName,
+          email: user?.email,
+          photoURL: user?.photoURL,
+          role: "host",
+        },
+      ],
     };
 
     // console.log(meetingData);
@@ -115,7 +119,7 @@ const Home = () => {
 
   // show error message for handleSchedule if user is not logged in
   const handleScheduleForLater = (e) => {
-    console.log('ok')
+    console.log("ok");
     if (!user) {
       e.preventDefault();
       toast.error("Please login to schedule a meeting.");
