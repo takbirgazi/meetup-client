@@ -65,6 +65,16 @@ const Home = () => {
       .post("/create-meeting", meetingData)
       .then((response) => {
         toast.success("Meeting scheduled successfully!");
+
+        toast(
+          <div>
+            <p>{meetingLink}</p>
+          </div>,
+          {
+            duration: 500000, 
+          }
+        );
+
         console.log("Scheduled Meeting Data:", response.data);
         reset();
         document.getElementById("modal-2").checked = false;
@@ -220,7 +230,7 @@ const Home = () => {
                 </label>
               </div>
               {/* Modal starts here */}
-              <input className="modal-state" id="modal-2" type="checkbox" />
+              <input className="modal-state " id="modal-2" type="checkbox" />
               <div className="modal w-screen">
                 <label className="modal-overlay" htmlFor="modal-2"></label>
                 <div className="modal-content flex flex-col gap-5 max-w-3xl bg-white text-black rounded-lg p-5">
@@ -230,14 +240,14 @@ const Home = () => {
                   >
                     ✕
                   </label>
-                  <h1 className="text-2xl font-semibold">
+                  <h1 className="text-2xl font-semibold pt-4 mt-6 ">
                     Schedule Meeting for Later
                   </h1>
                   <form
                     onSubmit={handleSubmit(onSubmit)}
                     className="flex flex-col gap-3"
                   >
-                    <div>
+                    {/* <div>
                       <label htmlFor="name" className="text-black">
                         Name:
                       </label>
@@ -248,8 +258,8 @@ const Home = () => {
                         {...register("name", { required: true })}
                         readOnly
                       />
-                    </div>
-                    <div>
+                    </div> */}
+                    {/* <div>
                       <label htmlFor="email" className="text-black">
                         Email:
                       </label>
@@ -260,23 +270,23 @@ const Home = () => {
                         {...register("email", { required: true })}
                         readOnly
                       />
-                    </div>
+                    </div> */}
                     <div>
-                      <label htmlFor="date" className="text-black">
+                      {/* <label htmlFor="date" className="text-black">
                         Schedule Date:
-                      </label>
+                      </label> */}
                       <input
                         id="date"
                         type="datetime-local"
-                        className="input text-black bg-white border border-gray-300 rounded p-2 w-full"
+                        className="input text-black bg-white border border-gray-300 rounded p-2 w-full "
                         {...register("date", { required: true })}
                       />
                       {errors.date && (
                         <p className="text-red-500">This field is required</p>
                       )}
                     </div>
-                    <div className="flex gap-3">
-                      <button type="submit" className="btn btn-error btn-block">
+                    <div className="flex gap-3 mb-4">
+                      <button type="submit" className="btn btn-error btn-block bg-[#1E3799]">
                         Submit
                       </button>
                     </div>
