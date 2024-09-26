@@ -107,7 +107,7 @@ const Login = () => {
       <ScrollRestoration />
       {/* <TitleBanner title={"User Sign In"} route={"Home / Login"} /> */}
       <div className="w-full min-h-[calc(100vh-4.1rem)] flex items-center justify-center">
-        <div class="mx-auto flex w-full max-w-lg flex-col rounded-xl border border-border bg-backgroundSecondary p-4 sm:p-14">
+        <div class="mx-auto flex w-full max-w-lg flex-col rounded-xl border border-border bg-backgroundSecondary p-4 sm:p-16">
           <div class="flex w-full flex-col gap-2">
             <p>Sign in with</p>
             <div class="flex w-full flex-col gap-2">
