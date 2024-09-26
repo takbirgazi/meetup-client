@@ -4,6 +4,7 @@ import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { FaRegCalendarCheck } from "react-icons/fa6";
+import { IoCopyOutline } from "react-icons/io5";
 import { TiPlusOutline } from "react-icons/ti";
 import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
@@ -64,7 +65,27 @@ const Home = () => {
     axiosCommon
       .post("/create-meeting", meetingData)
       .then((response) => {
+        const meetingLink = meetingData.meetingLink;
         toast.success("Meeting scheduled successfully!");
+        toast.success(
+          <div className="flex items-center gap-2">
+            {/* keep the meeting link text only and make it blue like a link  */}
+            <p className="text-blue-500">Scheduled Meeting Link: </p>
+            {/* copy the link by this button */}
+            <button
+              onClick={() => {
+                navigator.clipboard.writeText(meetingLink);
+                toast.success("Meeting link copied to clipboard!");
+              }}
+              className="btn btn-sm btn-solid-primary"
+            >
+              <IoCopyOutline />
+            </button>
+          </div>,
+          {
+            duration: 500000,
+          }
+        );
         console.log("Scheduled Meeting Data:", response.data);
         reset();
         document.getElementById("modal-2").checked = false;
@@ -223,21 +244,22 @@ const Home = () => {
               <input className="modal-state" id="modal-2" type="checkbox" />
               <div className="modal w-screen">
                 <label className="modal-overlay" htmlFor="modal-2"></label>
-                <div className="modal-content flex flex-col gap-5 max-w-3xl bg-white text-black rounded-lg p-5">
-                  <label
-                    htmlFor="modal-2"
-                    className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
-                  >
-                    ✕
-                  </label>
-                  <h1 className="text-2xl font-semibold">
-                    Schedule Meeting for Later
-                  </h1>
-                  <form
-                    onSubmit={handleSubmit(onSubmit)}
-                    className="flex flex-col gap-3"
-                  >
-                    <div>
+                <div className="modal-content min-h-72 flex flex-col gap-5 max-w-3xl bg-white text-black rounded-lg  p-12">
+                  <div className="flex flex-col min-h-60 justify-center">
+                    <label
+                      htmlFor="modal-2"
+                      className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+                    >
+                      ✕
+                    </label>
+                    <h1 className="md:text-3xl text-2xl text-center font-semibold ">
+                      Schedule Meeting for Later
+                    </h1>
+                    <form
+                      onSubmit={handleSubmit(onSubmit)}
+                      className="flex flex-col gap-3"
+                    >
+                      {/* <div>
                       <label htmlFor="name" className="text-black">
                         Name:
                       </label>
@@ -260,27 +282,31 @@ const Home = () => {
                         {...register("email", { required: true })}
                         readOnly
                       />
-                    </div>
-                    <div>
-                      <label htmlFor="date" className="text-black">
+                    </div> */}
+                      <div className="text-center my-6">
+                        {/* <label htmlFor="date" className="text-black">
                         Schedule Date:
-                      </label>
-                      <input
-                        id="date"
-                        type="datetime-local"
-                        className="input text-black bg-white border border-gray-300 rounded p-2 w-full"
-                        {...register("date", { required: true })}
-                      />
-                      {errors.date && (
-                        <p className="text-red-500">This field is required</p>
-                      )}
-                    </div>
-                    <div className="flex gap-3">
-                      <button type="submit" className="btn btn-error btn-block">
-                        Submit
-                      </button>
-                    </div>
-                  </form>
+                      </label> */}
+                        <input
+                          id="date"
+                          type="datetime-local"
+                          className="input text-black bg-white border border-gray-300 rounded p-2 w-full"
+                          {...register("date", { required: true })}
+                        />
+                        {errors.date && (
+                          <p className="text-red-500">This field is required</p>
+                        )}
+                      </div>
+                      <div className="flex gap-3">
+                        <button
+                          type="submit"
+                          className="btn btn-error btn-block bg-[#1e3799]"
+                        >
+                          Submit
+                        </button>
+                      </div>
+                    </form>
+                  </div>
                 </div>
               </div>
               {/* Modal ends here */}
