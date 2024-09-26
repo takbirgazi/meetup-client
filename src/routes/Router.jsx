@@ -6,6 +6,7 @@ import Home from "./../pages/Home/Home";
 import SignUp from "../pages/SignUp/SignUp";
 import LogIn from "../pages/LogIn/LogIn";
 import Room from "../pages/Room/Room";
+import Meeting from "../pages/Meeting/Meeting";
 
 const router = createBrowserRouter([
     {
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
             {
                 path: "/room/:id",
                 element: <Room />
+            },
+            {
+                path: "/room",
+                element: <Meeting />
             },
         ]
     }
