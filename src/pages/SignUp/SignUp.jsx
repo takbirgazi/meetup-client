@@ -209,6 +209,9 @@ const SignUp = () => {
                 )}
               </div>
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 894b430 (jwt commented for now)
             </div>
             <div className="form-field w-full">
               <label className="label w-full">Username *</label>
@@ -289,6 +292,7 @@ const SignUp = () => {
               )}
             </div>
             {/* {allPass.pass ? (
+<<<<<<< HEAD
 =======
 =======
         const userInfo = {
@@ -604,6 +608,8 @@ const SignUp = () => {
                 </div>
                 {/* {allPass.pass ? (
 >>>>>>> 2fbd780 (nothing changed)
+=======
+>>>>>>> 894b430 (jwt commented for now)
               passStrength ? (
                 <p className="text-xs text-red-500">** {passStrength} **</p>
               ) : (
