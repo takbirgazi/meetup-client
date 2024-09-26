@@ -1,6 +1,7 @@
 import React, { createContext, useEffect, useState } from 'react';
 import app from '../FirebaseProivder/FirebaseProvider';
 import {createUserWithEmailAndPassword, getAuth, GithubAuthProvider, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile} from 'firebase/auth';
+import useAxiosCommon from '../../hooks/useAxiosCommon';
 
 export const AuthContext = createContext(null);
 const AuthProvider = ({children}) => {
@@ -10,6 +11,7 @@ const AuthProvider = ({children}) => {
     const googleProvider = new GoogleAuthProvider();
     const githubProvider = new GithubAuthProvider();
     const auth = getAuth(app);
+    const axios = useAxiosCommon();
 
     const createAccount = (email, password) =>{
         setLoading(true);
@@ -48,6 +50,18 @@ const AuthProvider = ({children}) => {
             setUser(currentUser);
             setLoading(false);
             console.log('current user is : ', currentUser);
+            // if(currentUser){
+            //     // const loggedUser = {
+            //     //     email: currentUser?.email
+            //     // }
+            //     axios.post('/jwt', {email: currentUser?.email}, {withCredentials: true})
+            //     .then(res=>console.log(res.data))
+            //     .catch(error=>console.log(error.message))
+            // }else{
+            //     axios.post('/logout', {withCredentials: true})
+            //     .then(res=> console.log(res.data))
+            //     .catch(error=> console.log(error.message))
+            // }
         })
 
         return () => {

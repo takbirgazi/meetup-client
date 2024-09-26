@@ -75,8 +75,6 @@ const Login = () => {
                   showConfirmButton: false,
                   timer: 2000,
                 });
-                navigate("/");
-                e.target.reset();
               }
             })
             .catch((error) => console.log(error.message));
