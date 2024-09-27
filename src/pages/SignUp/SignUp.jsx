@@ -121,7 +121,6 @@ const SignUp = () => {
 
   const onSubmit = async (data) => {
     // e.preventDefault();
-
     const { first_name, last_name, username, mail, password } = data;
 
     // e.target.reset();
@@ -412,16 +411,37 @@ const SignUp = () => {
                     to={"/logIn"}
                     className="link link-underline-hover link-primary"
                   >
-                    Sign In
-                  </Link>
-                </a>
+                    Privacy Policy.
+                  </a>
+                </p>
+                <div class="form-field pt-5">
+                  <div class="form-field justify-between">
+                    <input
+                      type="submit"
+                      class="btn btn-primary w-full"
+                      value={"Sign Up"}
+                    />
+                  </div>
+                </div>
+
+                <div class="form-field">
+                  <div class="form-control">
+                    <a class="text-sm cursor-auto text-blue-500">
+                      Already have an account?{" "}
+                      <Link
+                        to={"/logIn"}
+                        className="link link-underline-hover link-primary"
+                      >
+                        Sign In
+                      </Link>
+                    </a>
+                  </div>
+                </div>
               </div>
-            </div>
+            </form>
           </div>
-        </form>
       </div>
-    </div>
-  );
+      );
 };
 
-export default SignUp;
+      export default SignUp;
