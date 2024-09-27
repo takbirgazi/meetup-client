@@ -18,8 +18,4 @@
 * react-hook-form
 * axios 
 * react-hot-toast
-<<<<<<< HEAD
-=======
 * @livekit/components-react @livekit/components-styles livekit-client --save
-
->>>>>>> 3cf717a (Add: make roome page and add meeting)
