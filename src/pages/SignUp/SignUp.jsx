@@ -255,10 +255,11 @@ const SignUp = () => {
                   className="input max-w-full"
                   {...register("password", {
                     required: "Password is required",
+                    // Password must contain at least one letter  one number and one special character
                     pattern: {
-                      value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]$/,
+                      value: /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&.])/,
                       message:
-                        "Password must contain at least one letter and one number",
+                        "Password must contain at least one letter, one number and one special character",
                     },
                     minLength: {
                       value: 8,
