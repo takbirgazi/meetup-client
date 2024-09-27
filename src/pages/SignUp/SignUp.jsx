@@ -121,6 +121,7 @@ const SignUp = () => {
 
   const onSubmit = async (data) => {
     // e.preventDefault();
+
     const { first_name, last_name, username, mail, password } = data;
 
     // e.target.reset();
@@ -254,11 +255,10 @@ const SignUp = () => {
                   className="input max-w-full"
                   {...register("password", {
                     required: "Password is required",
-                    // Password must contain at least one letter  one number and one special character
                     pattern: {
-                      value: /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&.])/,
+                      value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]$/,
                       message:
-                        "Password must contain at least one letter, one number and one special character",
+                        "Password must contain at least one letter and one number",
                     },
                     minLength: {
                       value: 8,
@@ -412,37 +412,16 @@ const SignUp = () => {
                     to={"/logIn"}
                     className="link link-underline-hover link-primary"
                   >
-                    Privacy Policy.
-                  </a>
-                </p>
-                <div class="form-field pt-5">
-                  <div class="form-field justify-between">
-                    <input
-                      type="submit"
-                      class="btn btn-primary w-full"
-                      value={"Sign Up"}
-                    />
-                  </div>
-                </div>
-
-                <div class="form-field">
-                  <div class="form-control">
-                    <a class="text-sm cursor-auto text-blue-500">
-                      Already have an account?{" "}
-                      <Link
-                        to={"/logIn"}
-                        className="link link-underline-hover link-primary"
-                      >
-                        Sign In
-                      </Link>
-                    </a>
-                  </div>
-                </div>
+                    Sign In
+                  </Link>
+                </a>
               </div>
-            </form>
+            </div>
           </div>
+        </form>
       </div>
-      );
+    </div>
+  );
 };
 
-      export default SignUp;
+export default SignUp;
