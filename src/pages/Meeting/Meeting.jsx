@@ -5,31 +5,46 @@ import {
   ParticipantTile,
   RoomAudioRenderer,
   useTracks,
+  VideoConference,
 } from "@livekit/components-react";
 import "@livekit/components-styles";
 import { Track } from "livekit-client";
+import { useNavigate } from "react-router-dom";
 
-const serverUrl = 'wss://meetup-egz1eiig.livekit.cloud';
-const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3Mjc0MzMxNjUsImlzcyI6IkFQSTNSUTN4VlBmNGVSWCIsIm5iZiI6MTcyNzQyNTk2NSwic3ViIjoicXVpY2tzdGFydCB1c2VyIGE5aGswOSIsInZpZGVvIjp7ImNhblB1Ymxpc2giOnRydWUsImNhblB1Ymxpc2hEYXRhIjp0cnVlLCJjYW5TdWJzY3JpYmUiOnRydWUsInJvb20iOiJxdWlja3N0YXJ0IHJvb20iLCJyb29tSm9pbiI6dHJ1ZX19.8zcw9wCVpcrs-IZlt0b8X5wpNEqsnhqkYLHvITucnL0';
+const serverUrl = import.meta.env.VITE_liveKit_server_url;
+const token = import.meta.env.VITE_liveKit_token;
 
 export default function Meeting() {
+  const navigate = useNavigate();
+
+  const hndleRedirect = (event) => {
+    if (event.target.className == "lk-disconnect-button") {
+      setTimeout(() => {
+        navigate("/")
+      }, 1500)
+    }
+  }
+
   return (
     <LiveKitRoom
       video={true}
       audio={true}
       token={token}
       serverUrl={serverUrl}
+      connect={true}
       // Use the default LiveKit theme for nice styles.
       data-lk-theme="default"
       style={{ height: '100vh' }}
     >
       {/* Your custom component with basic video conferencing functionality. */}
-      <MyVideoConference />
+      {/* <MyVideoConference /> */}
+
+      <VideoConference onClick={hndleRedirect} />
+
       {/* The RoomAudioRenderer takes care of room-wide audio for you. */}
-      <RoomAudioRenderer />
+      {/* <RoomAudioRenderer /> */}
       {/* Controls for the user to start/stop audio, video, and screen
       share tracks and to leave the room. */}
-      <ControlBar />
     </LiveKitRoom>
   );
 }
