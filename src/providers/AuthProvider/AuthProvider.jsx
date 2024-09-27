@@ -46,23 +46,28 @@ const AuthProvider = ({children}) => {
     }
 
     useEffect(()=>{
-        const unSubscribe = onAuthStateChanged(auth, currentUser => {
-            setUser(currentUser);
+        const unSubscribe = onAuthStateChanged(auth, curUser => {
+            const loggedUser = curUser ? {email: curUser?.email} : {email: user?.email};
+            console.log("user from observer : " + curUser);
+            // console.log(curUser);
             setLoading(false);
-            console.log('current user is : ', currentUser);
-            // if(currentUser){
-            //     // const loggedUser = {
-            //     //     email: currentUser?.email
-            //     // }
-            //     axios.post('/jwt', {email: currentUser?.email}, {withCredentials: true})
-            //     .then(res=>console.log(res.data))
-            //     .catch(error=>console.log(error.message))
-            // }else{
-            //     axios.post('/logout', {withCredentials: true})
-            //     .then(res=> console.log(res.data))
-            //     .catch(error=> console.log(error.message))
-            // }
-        })
+            setUser(curUser);
+                if(curUser){
+                    axios.post('/jwt',loggedUser, {withCredentials: true})
+                    .then(res=>{
+                        if(res?.data?.success){
+                            console.log(res.data);
+                        }
+                    })
+                }else{
+                    axios.post('/logout', loggedUser, {withCredentials: true})
+                    .then(res=>{
+                        if(res?.data?.success){
+                            console.log(res.data);
+                        }
+                    })
+                }
+        });
 
         return () => {
             unSubscribe();
