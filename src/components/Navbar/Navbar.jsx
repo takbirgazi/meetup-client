@@ -22,6 +22,7 @@ const Navbar = () => {
           showConfirmButton: false,
           timer: 2000,
         });
+        localStorage.removeItem("access-token");
       })
       .catch((error) => {
         console.log("logout failed!!");
