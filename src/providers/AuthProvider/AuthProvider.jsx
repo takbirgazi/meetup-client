@@ -57,6 +57,7 @@ const AuthProvider = ({children}) => {
                     .then(res=>{
                         if(res?.data?.success){
                             console.log(res.data);
+                            localStorage.setItem('token',res?.data?.token);
                         }
                     })
                 }else{
@@ -64,6 +65,7 @@ const AuthProvider = ({children}) => {
                     .then(res=>{
                         if(res?.data?.success){
                             console.log(res.data);
+                            localStorage.removeItem('token');
                         }
                     })
                 }
