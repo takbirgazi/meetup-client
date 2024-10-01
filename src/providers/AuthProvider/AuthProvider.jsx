@@ -1,10 +1,10 @@
 import React, { createContext, useEffect, useState } from 'react';
 import app from '../FirebaseProivder/FirebaseProvider';
-import {createUserWithEmailAndPassword, getAuth, GithubAuthProvider, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile} from 'firebase/auth';
+import { createUserWithEmailAndPassword, getAuth, GithubAuthProvider, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from 'firebase/auth';
 import useAxiosCommon from '../../hooks/useAxiosCommon';
 
 export const AuthContext = createContext(null);
-const AuthProvider = ({children}) => {
+const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     // const [token, setToken] = useState(null);
     const [loading, setLoading] = useState(false);
@@ -13,7 +13,7 @@ const AuthProvider = ({children}) => {
     const auth = getAuth(app);
     const axios = useAxiosCommon();
 
-    const createAccount = (email, password) =>{
+    const createAccount = (email, password) => {
         setLoading(true);
         return createUserWithEmailAndPassword(auth, email, password);
     }
@@ -45,36 +45,29 @@ const AuthProvider = ({children}) => {
         return signOut(auth);
     }
 
-    useEffect(()=>{
-        const unSubscribe = onAuthStateChanged(auth, curUser => {
-            const loggedUser = curUser ? {email: curUser?.email} : {email: user?.email};
-            console.log("user from observer : " + curUser);
-            // console.log(curUser);
+    useEffect(() => {
+        const unSubscribe = onAuthStateChanged(auth, currentUser => {
+            setUser(currentUser);
             setLoading(false);
-            setUser(curUser);
-                if(curUser){
-                    axios.post('/jwt',loggedUser, {withCredentials: true})
-                    .then(res=>{
-                        if(res?.data?.success){
-                            console.log(res.data);
-                            localStorage.setItem('token',res?.data?.token);
-                        }
-                    })
-                }else{
-                    axios.post('/logout', loggedUser, {withCredentials: true})
-                    .then(res=>{
-                        if(res?.data?.success){
-                            console.log(res.data);
-                            localStorage.removeItem('token');
-                        }
-                    })
-                }
-        });
+            console.log('current user is : ', currentUser);
+            if (currentUser) {
+                // const loggedUser = {
+                //     email: currentUser?.email
+                // }
+                axios.post('/jwt', { email: currentUser?.email }, { withCredentials: true })
+                    .then(res => {
+                        // console.log(res.data)
+                        localStorage.setItem('access-token', res.data.token);
+                    }
+                    )
+                    .catch(error => console.log(error.message))
+            }
+        })
 
         return () => {
             unSubscribe();
         }
-    },[]);
+    }, []);
 
 
     const authInfo = {
