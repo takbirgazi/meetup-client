@@ -9,12 +9,14 @@ import { TiPlusOutline } from "react-icons/ti";
 import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import useAuth from "../../hooks/useAuth";
-import { axiosCommon } from "../../hooks/useAxiosCommon";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const Home = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [meetingInput, setMeetingInput] = useState("");
+
+  const axiosSecure = useAxiosSecure();
 
   const {
     register,
@@ -62,7 +64,7 @@ const Home = () => {
     // console.log(meetingData);
 
     // Submit the form data to the backend
-    axiosCommon
+    axiosSecure
       .post("/create-meeting", meetingData)
       .then((response) => {
         const meetingLink = meetingData.meetingLink;
@@ -123,9 +125,10 @@ const Home = () => {
     };
 
     // console.log(meetingData);
+    // test
 
     // Submit the form data to the backend
-    axiosCommon
+    axiosSecure
       .post("/create-meeting", meetingData)
       .then((response) => {
         toast.success("Instant meeting created successfully!");
@@ -167,13 +170,13 @@ const Home = () => {
 
     try {
       // Check if the meeting exists in the database
-      const response = await axiosCommon.get(`/meeting/${meetingId}`);
+      const response = await axiosSecure.get(`/meeting/${meetingId}`);
 
       if (response.status === 200 && response.data) {
         console.log("Meeting found:", response.data);
 
         // Patch the new participant to the meeting
-        axiosCommon
+        axiosSecure
           .patch(`/meeting/${meetingId}`, {
             name: user.displayName,
             email: user.email,

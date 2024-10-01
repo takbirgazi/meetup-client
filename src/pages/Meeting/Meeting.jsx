@@ -1,53 +1,162 @@
 import {
-  ControlBar,
   GridLayout,
   LiveKitRoom,
   ParticipantTile,
-  RoomAudioRenderer,
   useTracks,
+  VideoConference,
 } from "@livekit/components-react";
 import "@livekit/components-styles";
 import { Track } from "livekit-client";
+import React, { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-const serverUrl = 'wss://meetup-egz1eiig.livekit.cloud';
-const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3Mjc0MjE1OTMsImlzcyI6IkFQSTNSUTN4VlBmNGVSWCIsIm5iZiI6MTcyNzQxNDM5Mywic3ViIjoicXVpY2tzdGFydCB1c2VyIHhpeWVudCIsInZpZGVvIjp7ImNhblB1Ymxpc2giOnRydWUsImNhblB1Ymxpc2hEYXRhIjp0cnVlLCJjYW5TdWJzY3JpYmUiOnRydWUsInJvb20iOiJxdWlja3N0YXJ0IHJvb20iLCJyb29tSm9pbiI6dHJ1ZX19.1w9w8uixEelckGgL44VcQ7aStkILmiF31hXOQMpLxk4';
+const serverUrl = import.meta.env.VITE_liveKit_server_url;
+const token = import.meta.env.VITE_liveKit_token;
 
 export default function Meeting() {
+  const navigate = useNavigate();
+  const [isRecording, setIsRecording] = useState(false);
+  const mediaRecorderRef = useRef(null);
+  const recordedChunksRef = useRef([]);
+  const streamRef = useRef(null);
+
+  const handleRedirect = (event) => {
+    if (event.target.className === "lk-disconnect-button") {
+      setTimeout(() => {
+        navigate("/");
+      }, 1500);
+    }
+  };
+
+  const handleStartRecording = async () => {
+    try {
+      // Request tab capture stream
+      const tabStream = await navigator.mediaDevices.getDisplayMedia({
+        video: {
+          displaySurface: "browser",
+          cursor: "never",
+        },
+        audio: true,
+        selfBrowserSurface: "include",
+        systemAudio: "include",
+        surfaceSwitching: "exclude",
+        preferCurrentTab: true,
+      });
+
+      streamRef.current = tabStream;
+
+      // Initialize MediaRecorder with the tab stream
+      const mediaRecorder = new MediaRecorder(tabStream, {
+        mimeType: "video/webm",
+      });
+
+      // Capture data chunks
+      mediaRecorder.ondataavailable = (event) => {
+        if (event.data.size > 0) {
+          recordedChunksRef.current.push(event.data);
+        }
+      };
+
+      // Stop recording and automatically download the video
+      mediaRecorder.onstop = () => {
+        const blob = new Blob(recordedChunksRef.current, {
+          type: "video/webm",
+        });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.style.display = "none";
+        a.href = url;
+        a.download = "screen-recording.webm";
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+        recordedChunksRef.current = []; // Clear recorded chunks
+      };
+
+      mediaRecorderRef.current = mediaRecorder;
+      mediaRecorder.start();
+      setIsRecording(true);
+
+      // Listen for the 'ended' event on the stream
+      tabStream.getVideoTracks()[0].addEventListener("ended", () => {
+        handleStopRecording();
+      });
+    } catch (error) {
+      console.error("Error capturing screen:", error);
+    }
+  };
+
+  const handleStopRecording = () => {
+    if (
+      mediaRecorderRef.current &&
+      mediaRecorderRef.current.state !== "inactive"
+    ) {
+      mediaRecorderRef.current.stop();
+      setIsRecording(false);
+    }
+
+    // Stop all tracks in the stream
+    if (streamRef.current) {
+      streamRef.current.getTracks().forEach((track) => track.stop());
+    }
+  };
+
   return (
     <LiveKitRoom
       video={true}
       audio={true}
       token={token}
       serverUrl={serverUrl}
-      // Use the default LiveKit theme for nice styles.
+      connect={true}
       data-lk-theme="default"
-      style={{ height: '100vh' }}
+      style={{ height: "100vh" }}
     >
-      {/* Your custom component with basic video conferencing functionality. */}
-      <MyVideoConference />
-      {/* The RoomAudioRenderer takes care of room-wide audio for you. */}
-      <RoomAudioRenderer />
-      {/* Controls for the user to start/stop audio, video, and screen
-      share tracks and to leave the room. */}
-      <ControlBar />
+      <div
+        style={{
+          position: "absolute",
+          top: "15px",
+          right: "4rem",
+          zIndex: 1000,
+        }}
+      >
+        {!isRecording ? (
+          <button
+            className="btn bg-[#2B2B2B] text-white"
+            onClick={handleStartRecording}
+          >
+            Record
+          </button>
+        ) : (
+          <button
+            className="btn bg-pink-700 text-white animate-pulse"
+            onClick={handleStopRecording}
+          >
+            {/* <span class="dot dot-error"></span> */}
+            Recording...
+          </button>
+        )}
+      </div>
+
+      <VideoConference onClick={handleRedirect} />
     </LiveKitRoom>
   );
 }
 
 function MyVideoConference() {
-  // `useTracks` returns all camera and screen share tracks. If a user
-  // joins without a published camera track, a placeholder track is returned.
   const tracks = useTracks(
     [
       { source: Track.Source.Camera, withPlaceholder: true },
       { source: Track.Source.ScreenShare, withPlaceholder: false },
+      { source: Track.Source.Audio, withPlaceholder: false },
     ],
-    { onlySubscribed: false },
+    { onlySubscribed: false }
   );
+
   return (
-    <GridLayout tracks={tracks} style={{ height: 'calc(100vh - var(--lk-control-bar-height))' }}>
-      {/* The GridLayout accepts zero or one child. The child is used
-      as a template to render all passed in tracks. */}
+    <GridLayout
+      tracks={tracks}
+      style={{ height: "calc(100vh - var(--lk-control-bar-height))" }}
+    >
       <ParticipantTile />
     </GridLayout>
   );
