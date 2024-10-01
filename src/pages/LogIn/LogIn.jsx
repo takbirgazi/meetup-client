@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import { Link, ScrollRestoration, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import useAuth from "../../hooks/useAuth";
-import useAxiosCommon, { axiosCommon } from "../../hooks/useAxiosCommon";
-import toast from "react-hot-toast";
+import useAxiosCommon from "../../hooks/useAxiosCommon";
 // import TitleBanner from '../../shared/TitleBanner';
 
 const Login = () => {
@@ -39,67 +38,66 @@ const Login = () => {
       });
   };
 
+  const setUserForProviders = (data, provider) => {
+    axios
+      .get(`/userSearch?email=${data?.user?.email}`)
+      .then((res) => {
+        if (res.data.exists) {
+          Swal.fire({
+            title: `Hello ${data?.user?.displayName}!`,
+            text: "User Logged in Successfully!",
+            icon: "success",
+            showConfirmButton: false,
+            timer: 2000,
+          });
+        } else {
+          const userInfo = {
+            first_name: data.user?.displayName.split(" ")[0],
+            last_name:
+              data.user?.displayName.split(" ")?.length > 1
+                ? data.user?.displayName.split(" ")[1]
+                : "",
+            username: data?.user?.displayName,
+            photoURL: data?.user?.photoURL,
+            email: data?.user?.email,
+            provider,
+            createdAt: new Date().toUTCString(),
+            role: "general-user",
+          };
+          axios
+            .post("/addUser", userInfo)
+            .then((res) => {
+              if (res.data.insertedId) {
+                Swal.fire({
+                  title: `Hello ${data?.user?.displayName}!`,
+                  text: "User Created & Logged in Successfully!",
+                  icon: "success",
+                  showConfirmButton: false,
+                  timer: 2000,
+                });
+              }
+            })
+            .catch((error) => console.log(error.message));
+        }
+        navigate("/");
+      })
+      .catch((error) => console.log(error.message));
+  };
 
   const handleGoogleSignIn = () => {
     googleSignIn()
-      .then(result => {
-
-        // console.log(result.user)
-        Swal.fire({
-          title: 'User Login Successful.',
-          showClass: {
-            popup: 'animate__animated animate__fadeInDown'
-          },
-          hideClass: {
-            popup: 'animate__animated animate__fadeOutUp'
-          }
-        });
-
-        const userInfo = {
-          email: result.user.email,
-          userName: result.user.displayName,
-          photoURL: result.user.photoURL,
-          createdAt: result.user.metadata.creationTime,
-          lastLoginAt: result.user.metadata.lastSignInTime
-        }
-        axiosCommon.post('/login', userInfo)
-          .then(res => {
-            // console.log(res.data)
-            navigate(location?.state || '/')
-          })
+      .then((res) => {
+        setUserForProviders(res, "google");
       })
-      .catch(error => toast.error(error))
+      .catch((error) => setError(error.message));
   };
 
   const handleGithubSignIn = () => {
     githubSignIn()
-      .then(result => {
-
-        // console.log(result.user)
-        Swal.fire({
-          title: 'User Login Successful.',
-          showClass: {
-            popup: 'animate__animated animate__fadeInDown'
-          },
-          hideClass: {
-            popup: 'animate__animated animate__fadeOutUp'
-          }
-        });
-
-        const userInfo = {
-          email: result.user.email,
-          userName: result.user.displayName,
-          photoURL: result.user.photoURL,
-          createdAt: result.user.metadata.creationTime,
-          lastLoginAt: result.user.metadata.lastSignInTime
-        }
-        axiosCommon.post('/login', userInfo)
-          .then(res => {
-            // console.log(res.data)
-            navigate(location?.state || '/')
-          })
+      .then((res) => {
+        setUserForProviders(res, "github");
       })
-      .catch(error => toast.error(error))
+      .catch((error) => setError(error.message));
   };
 
   return (
