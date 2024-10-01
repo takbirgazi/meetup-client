@@ -64,11 +64,16 @@ const Login = () => {
         }
         axiosCommon.post('/login', userInfo)
           .then(res => {
-            // console.log(res.data)
-            navigate(location?.state || '/')
+            if (res.status === 200 || res.status === 201) {
+              navigate(location?.state || '/')
+            }
           })
       })
-      .catch(error => toast.error(error))
+      .catch(error => {
+        console.log(error)
+        toast.error(error)
+      }
+      )
   };
 
   const handleGithubSignIn = () => {
@@ -95,8 +100,9 @@ const Login = () => {
         }
         axiosCommon.post('/login', userInfo)
           .then(res => {
-            // console.log(res.data)
-            navigate(location?.state || '/')
+            if (res.status === 200 || res.status === 201) {
+              navigate(location?.state || '/')
+            }
           })
       })
       .catch(error => toast.error(error))
