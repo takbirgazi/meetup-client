@@ -58,14 +58,15 @@ const Login = () => {
           userName: result.user.displayName,
           photoURL: result.user.photoURL,
           createdAt: result.user.metadata.creationTime,
-          lastLoginAt: result.user.metadata.lastSignInTime,
-        };
-        axiosCommon.post("/login", userInfo).then((res) => {
-          // console.log(res.data)
-          navigate(location?.state || "/");
-        });
+          lastLoginAt: result.user.metadata.lastSignInTime
+        }
+        axiosCommon.post('/login', userInfo)
+          .then(res => {
+            // console.log(res.data)
+            navigate(location?.state || '/')
+          })
       })
-      .catch((error) => toast.error(error));
+      .catch(error => toast.error(error))
   };
 
   const handleGithubSignIn = () => {
@@ -87,12 +88,13 @@ const Login = () => {
           userName: result.user.displayName,
           photoURL: result.user.photoURL,
           createdAt: result.user.metadata.creationTime,
-          lastLoginAt: result.user.metadata.lastSignInTime,
-        };
-        axiosCommon.post("/login", userInfo).then((res) => {
-          // console.log(res.data)
-          navigate(location?.state || "/");
-        });
+          lastLoginAt: result.user.metadata.lastSignInTime
+        }
+        axiosCommon.post('/login', userInfo)
+          .then(res => {
+            // console.log(res.data)
+            navigate(location?.state || '/')
+          })
       })
       .catch((error) => toast.error(error));
   };
