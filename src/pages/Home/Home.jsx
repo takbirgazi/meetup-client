@@ -16,6 +16,7 @@ const Home = () => {
   const navigate = useNavigate();
   const [meetingInput, setMeetingInput] = useState("");
   const axiosSecure = useAxiosSecure();
+  // added by minhaj
 
   const {
     register,
