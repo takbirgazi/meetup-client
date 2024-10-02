@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import toast from "react-hot-toast";
 import { Link, ScrollRestoration, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import useAuth from "../../hooks/useAuth";
 import useAxiosCommon, { axiosCommon } from "../../hooks/useAxiosCommon";
+import toast from "react-hot-toast";
 // import TitleBanner from '../../shared/TitleBanner';
 
 const Login = () => {
@@ -39,18 +39,20 @@ const Login = () => {
       });
   };
 
+
   const handleGoogleSignIn = () => {
     googleSignIn()
-      .then((result) => {
+      .then(result => {
+
         // console.log(result.user)
         Swal.fire({
-          title: "User Login Successful.",
+          title: 'User Login Successful.',
           showClass: {
-            popup: "animate__animated animate__fadeInDown",
+            popup: 'animate__animated animate__fadeInDown'
           },
           hideClass: {
-            popup: "animate__animated animate__fadeOutUp",
-          },
+            popup: 'animate__animated animate__fadeOutUp'
+          }
         });
 
         const userInfo = {
@@ -62,25 +64,31 @@ const Login = () => {
         }
         axiosCommon.post('/login', userInfo)
           .then(res => {
-            // console.log(res.data)
-            navigate(location?.state || '/')
+            if (res.status === 200 || res.status === 201) {
+              navigate(location?.state || '/')
+            }
           })
       })
-      .catch(error => toast.error(error))
+      .catch(error => {
+        console.log(error)
+        toast.error(error)
+      }
+      )
   };
 
   const handleGithubSignIn = () => {
     githubSignIn()
-      .then((result) => {
+      .then(result => {
+
         // console.log(result.user)
         Swal.fire({
-          title: "User Login Successful.",
+          title: 'User Login Successful.',
           showClass: {
-            popup: "animate__animated animate__fadeInDown",
+            popup: 'animate__animated animate__fadeInDown'
           },
           hideClass: {
-            popup: "animate__animated animate__fadeOutUp",
-          },
+            popup: 'animate__animated animate__fadeOutUp'
+          }
         });
 
         const userInfo = {
@@ -92,11 +100,12 @@ const Login = () => {
         }
         axiosCommon.post('/login', userInfo)
           .then(res => {
-            // console.log(res.data)
-            navigate(location?.state || '/')
+            if (res.status === 200 || res.status === 201) {
+              navigate(location?.state || '/')
+            }
           })
       })
-      .catch((error) => toast.error(error));
+      .catch(error => toast.error(error))
   };
 
   return (
