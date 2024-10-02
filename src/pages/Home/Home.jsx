@@ -9,14 +9,14 @@ import { TiPlusOutline } from "react-icons/ti";
 import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import useAuth from "../../hooks/useAuth";
-import useAxiosSecure from '../../hooks/useAxiosSecure';
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const Home = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [meetingInput, setMeetingInput] = useState("");
-
   const axiosSecure = useAxiosSecure();
+  // added by minhaj
 
   const {
     register,
