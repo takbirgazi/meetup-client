@@ -10,6 +10,7 @@ import { Track } from "livekit-client";
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
+import useAuth from "../../hooks/useAuth";
 
 
 const serverUrl = import.meta.env.VITE_liveKit_server_url;
@@ -17,14 +18,15 @@ const serverUrl = import.meta.env.VITE_liveKit_server_url;
 
 export default function Meeting() {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [isRecording, setIsRecording] = useState(false);
   const [token, setToken] = useState(null);
+  const [roomName, setRoomName] = useState("");
+  const [participantName, setParticipantName] = useState(user?.displayName);
   const mediaRecorderRef = useRef(null);
   const recordedChunksRef = useRef([]);
   const streamRef = useRef(null);
   const axiosSecure = useAxiosSecure();
-
-  console.log(token);
 
   const handleRedirect = (event) => {
     if (event.target.className === "lk-disconnect-button") {
@@ -112,8 +114,10 @@ export default function Meeting() {
     const fetchToken = async () => {
       try {
         const response = await axiosSecure.post("/getToken", {
-          roomName: "quickstart-room",
-          participantName: "participant",
+          // roomName: "quickstart-room",
+          // participantName: "participant",
+          roomName,
+          participantName
         });
 
         if (response.status !== 200) {
