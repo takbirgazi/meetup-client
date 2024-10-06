@@ -8,7 +8,7 @@
 
 - Tailwind CSS
 
-<!-- packages check -->
+<!-- packages -->
 
 **NPM has been used**
 
