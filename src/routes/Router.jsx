@@ -7,6 +7,7 @@ import SignUp from "../pages/SignUp/SignUp";
 import LogIn from "../pages/LogIn/LogIn";
 import Room from "../pages/Room/Room";
 import Meeting from "../pages/Meeting/Meeting";
+import MyPreJoin from "../components/MyPrejoin/MyPrejoin";
 
 const router = createBrowserRouter([
     {
@@ -28,7 +29,7 @@ const router = createBrowserRouter([
             },
             {
                 path: "/room/:id",
-                element: <Meeting />
+                element: <MyPreJoin><Meeting /></MyPreJoin>
             },
             {
                 path: "/room",
