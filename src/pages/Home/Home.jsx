@@ -61,8 +61,6 @@ const Home = () => {
       ],
     };
 
-    // console.log(meetingData);
-
     // Submit the form data to the backend
     axiosSecure
       .post("/create-meeting", meetingData)
@@ -124,14 +122,11 @@ const Home = () => {
       ],
     };
 
-    // console.log(meetingData);
-
     // Submit the form data to the backend
     axiosSecure
       .post("/create-meeting", meetingData)
       .then((response) => {
         toast.success("Instant meeting created successfully!");
-        console.log("Current Meeting Data:", response.data);
         navigate(`/room/${meetingId}`);
       })
       .catch((error) => {
@@ -142,7 +137,6 @@ const Home = () => {
 
   // show error message for handleSchedule if user is not logged in
   const handleScheduleForLater = (e) => {
-    console.log("ok");
     if (!user) {
       e.preventDefault();
       toast.error("Please login to schedule a meeting.");
@@ -172,8 +166,6 @@ const Home = () => {
       const response = await axiosSecure.get(`/meeting/${meetingId}`);
 
       if (response.status === 200 && response.data) {
-        console.log("Meeting found:", response.data);
-
         // Patch the new participant to the meeting
         axiosSecure
           .patch(`/meeting/${meetingId}`, {
@@ -184,7 +176,6 @@ const Home = () => {
           .then((response) => {
             // You can check the server response status here
             if (response.status === 200) {
-              console.log("Participant added successfully!");
               toast.success(response.data.message);
               navigate(`/room/${meetingId}`); // Redirect to the meeting room
             } else {
@@ -261,34 +252,7 @@ const Home = () => {
                       onSubmit={handleSubmit(onSubmit)}
                       className="flex flex-col gap-3"
                     >
-                      {/* <div>
-                      <label htmlFor="name" className="text-black">
-                        Name:
-                      </label>
-                      <input
-                        id="name"
-                        type="text"
-                        className="input text-black bg-white border border-gray-300 rounded p-2 w-full"
-                        {...register("name", { required: true })}
-                        readOnly
-                      />
-                    </div>
-                    <div>
-                      <label htmlFor="email" className="text-black">
-                        Email:
-                      </label>
-                      <input
-                        id="email"
-                        type="email"
-                        className="input text-black bg-white border border-gray-300 rounded p-2 w-full"
-                        {...register("email", { required: true })}
-                        readOnly
-                      />
-                    </div> */}
                       <div className="text-center my-6">
-                        {/* <label htmlFor="date" className="text-black">
-                        Schedule Date:
-                      </label> */}
                         <input
                           id="date"
                           type="datetime-local"

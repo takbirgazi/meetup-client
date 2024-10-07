@@ -41,7 +41,7 @@ const MyPreJoin = ({ children }) => {
     }, [token, roomName, navigate]);
 
     return (
-        <div>
+        <div className="flex items-center justify-center min-h-screen">
             {/* Conditionally render PreJoin or children */}
             {token ? (
                 React.cloneElement(children, { token, formData })  // Pass token as a prop to children
