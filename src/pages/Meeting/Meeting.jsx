@@ -7,24 +7,17 @@ import {
 } from "@livekit/components-react";
 import "@livekit/components-styles";
 import { Track } from "livekit-client";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import useAxiosSecure from "../../hooks/useAxiosSecure";
-
 
 const serverUrl = import.meta.env.VITE_liveKit_server_url;
-// const token = import.meta.env.VITE_liveKit_token;
 
-export default function Meeting() {
+export default function Meeting({ token }) {
   const navigate = useNavigate();
   const [isRecording, setIsRecording] = useState(false);
-  const [token, setToken] = useState(null);
   const mediaRecorderRef = useRef(null);
   const recordedChunksRef = useRef([]);
   const streamRef = useRef(null);
-  const axiosSecure = useAxiosSecure();
-
-  console.log(token);
 
   const handleRedirect = (event) => {
     if (event.target.className === "lk-disconnect-button") {
@@ -106,28 +99,6 @@ export default function Meeting() {
       streamRef.current.getTracks().forEach((track) => track.stop());
     }
   };
-
-  // fetching livekit token from server
-  useEffect(() => {
-    const fetchToken = async () => {
-      try {
-        const response = await axiosSecure.post("/getToken", {
-          roomName: "quickstart-room",
-          participantName: "participant",
-        });
-
-        if (response.status !== 200) {
-          throw new Error("Failed to fetch token");
-        }
-
-        setToken(response.data.token);
-      } catch (error) {
-        console.error("Error fetching token:", error);
-      }
-    };
-
-    fetchToken();
-  }, []);
 
   return (
     <LiveKitRoom
