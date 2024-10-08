@@ -3,15 +3,20 @@ import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import { axiosCommon } from "../../hooks/useAxiosCommon";
+import "./MyPrejoin.css";
 
 const MyPreJoin = ({ children }) => {
     const [token, setToken] = useState(null);
     const [formData, setFormData] = useState(null);
-
     const navigate = useNavigate();
     const roomName = location.pathname.split("/")[2];
     const { user: participantName } = useAuth();
 
+    useEffect(() => {
+        const inputTag = document.getElementById("username");
+        participantName && (inputTag.value = participantName?.displayName);
+        inputTag.nextSibling.disabled = false;
+    }, [participantName])
     // This function handles the form submission
     const handleSubmit = async (data) => {
         try {
@@ -41,7 +46,7 @@ const MyPreJoin = ({ children }) => {
     }, [token, roomName, navigate]);
 
     return (
-        <div className="flex items-center justify-center min-h-screen">
+        <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-500 to-purple-600">
             {/* Conditionally render PreJoin or children */}
             {token ? (
                 React.cloneElement(children, { token, formData })  // Pass token as a prop to children
