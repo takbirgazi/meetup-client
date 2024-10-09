@@ -1,6 +1,5 @@
-
-import React from 'react';
-import ScrollToTop from 'react-scroll-to-top';
+import React from "react";
+import ScrollToTop from "react-scroll-to-top";
 import Faq from "./LandingComponents/FaqSection/Faq";
 import Footer from "./LandingComponents/Footer/Footer";
 import MovingSlider from "./LandingComponents/MovingSlider/MovingSlider";
@@ -23,7 +22,6 @@ const Landing = () => {
         <Footer />
       </div>
 
-
       <ScrollToTop
         smooth
         className="fixed bottom-10 right-10 flex justify-center items-center h-16 w-16 rounded-full border-4 border-blue-500 relative cursor-pointer"
@@ -44,14 +42,13 @@ const CustomIcon = () => (
     viewBox="0 0 24 24"
     stroke="currentColor"
   >
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M5 15l7-7 7 7"
+    />
   </svg>
 );
 
 export default Landing;
-
-
-
-
-
-
