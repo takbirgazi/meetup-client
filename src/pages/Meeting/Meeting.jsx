@@ -11,9 +11,8 @@ import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const serverUrl = import.meta.env.VITE_liveKit_server_url;
-const token = import.meta.env.VITE_liveKit_token;
 
-export default function Meeting() {
+export default function Meeting({ token }) {
   const navigate = useNavigate();
   const [isRecording, setIsRecording] = useState(false);
   const mediaRecorderRef = useRef(null);

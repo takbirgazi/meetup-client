@@ -22,6 +22,7 @@ const Navbar = () => {
           showConfirmButton: false,
           timer: 2000,
         });
+        localStorage.removeItem("access-token");
       })
       .catch((error) => {
         console.log("logout failed!!");
@@ -60,10 +61,28 @@ const Navbar = () => {
                   className="btn btn-ghost flex cursor-pointer px-0"
                   tabIndex="0"
                 >
-                  {user?.photoURL ? (
+                  {/* {user?.photoURL ? (
                     <img src={user?.photoURL} alt="avatar" />
                   ) : (
                     <img src={avatar} alt="avatar" />
+                  )} */}
+                  {user?.photoURL ? (
+                    <img
+                      src={user.photoURL}
+                      alt="User Avatar"
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src =
+                          "https://robohash.org/5412b0d6dbdaee417c459769cef79737?set=set4&bgset=&size=400x400"; // Fallback image
+                      }}
+                      className="rounded-full"
+                    />
+                  ) : (
+                    <img
+                      src={avatar} // Fallback image
+                      alt="Default Avatar"
+                      className="rounded-full"
+                    />
                   )}
                 </label>
 
