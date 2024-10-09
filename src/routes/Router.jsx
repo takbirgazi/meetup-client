@@ -8,6 +8,15 @@ import LogIn from "../pages/LogIn/LogIn";
 import Room from "../pages/Room/Room";
 import Meeting from "../pages/Meeting/Meeting";
 import MyPreJoin from "../components/MyPrejoin/MyPrejoin";
+import Landing from "../pages/Landing/Landing";
+import PrivateRoute from '../routes/PrivateRoute';
+import Dashboard from "../pages/Dashboard/Dashboard";
+import Contact from "../pages/Landing/LandingComponents/FaqSection/ContactUs/Contact";
+import General from "../pages/Dashboard/DashboardComponents/General/General";
+import Meetings from "../pages/Dashboard/DashboardComponents/Meetings/Meetings";
+import Support from "../pages/Dashboard/DashboardComponents/Support/Support";
+import Profile from "../pages/Dashboard/DashboardComponents/Profile/Profile";
+import ChangePassword from "../pages/Dashboard/DashboardComponents/ChangePassword/ChangePassword";
 
 const router = createBrowserRouter([
     {
@@ -17,7 +26,7 @@ const router = createBrowserRouter([
         children: [
             {
                 path: "/",
-                element: <Home />
+                element: <Landing />
             },
             {
                 path: "/logIn",
@@ -33,7 +42,37 @@ const router = createBrowserRouter([
             },
             {
                 path: "/room",
-                element: <Room />
+                element: <Home />
+            },
+            {
+                path: "/contact",
+                element: <Contact></Contact>
+            },
+            {
+                path: "/dashboard",
+                element: <PrivateRoute><Dashboard /></PrivateRoute>,
+                children: [
+                    {
+                        path: "", 
+                        element: <General />,
+                    },
+                    {
+                        path: "meetings",
+                        element: <Meetings />,
+                    },
+                    {
+                        path: "support",
+                        element: <Support />,
+                    },
+                    {
+                        path: "profile",
+                        element: <Profile />,
+                    },
+                    {
+                        path: "change-password",
+                        element: <ChangePassword />,
+                    }
+                ]
             },
         ]
     }
