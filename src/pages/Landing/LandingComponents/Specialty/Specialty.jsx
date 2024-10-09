@@ -1,7 +1,7 @@
 import SpecialtyCard from "./SpecialtyCard";
-import features1 from "../../../../assets/images/LandingPageImages/features1.svg";
-import features2 from "../../../../assets/images/LandingPageImages/features2.svg";
-import features3 from "../../../../assets/images/LandingPageImages/features3.svg";
+import features1 from "../../../../assets/images/landingPageImages/features1.svg";
+import features2 from "../../../../assets/images/landingPageImages/features2.svg";
+import features3 from "../../../../assets/images/landingPageImages/features3.svg";
 
 
 const Specialty = () => {
