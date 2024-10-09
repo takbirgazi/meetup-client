@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+
+import  { useState } from "react";
 import contactUsBanner from "../../../../../assets/images/LandingPageImages/contactUs.jpg";
 import { NavLink } from "react-router-dom";
 import { WiDirectionLeft } from "react-icons/wi";
@@ -29,11 +30,11 @@ const Contact = () => {
   };
 
   return (
-    <div className="">
+    <div className="container mx-auto px-4">
       <div className="relative">
         <img
           src={contactUsBanner}
-          className="h-[320px] w-full"
+          className="h-[320px] w-full object-cover"
           alt="Contact Us"
         />
         <div className="absolute left-[10%] top-[35%] text-white font-bold">
@@ -46,9 +47,8 @@ const Contact = () => {
           <p className="text-3xl font-bold mt-6">CONTACT US</p>
         </div>
       </div>
-      <div className="flex my-10 justify-between container mx-auto">
-        <div className="w-[50%] p-4 mt-32 ml-10">
-          
+      <div className="flex flex-col md:flex-row my-10 justify-between">
+        <div className="w-full md:w-1/2 p-4 mt-10 md:mt-32">
           <div className="flex items-center mb-4">
             <div className="rounded-full border border-black p-2 mr-2 flex items-center justify-center">
               <FaLocationDot className="text-2xl text-black" />
@@ -68,32 +68,32 @@ const Contact = () => {
             <p className="text-lg">meetup24@gmail.com</p>
           </div>
         </div>
-        <div className="w-[50%] mr-10">
+        <div className="w-full md:w-1/2 mr-10">
           <h1 className="text-2xl font-semibold mb-4">We'd be pleased to hear</h1>
           <form className="w-full max-w-lg" onSubmit={handleSubmit}>
-            <div className="flex mb-4">
-              <div className="flex-1 mr-2">
-                <label className="text-lg font-semibold">Name</label>
-                <input
-                  type="text"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  className="border border-gray-400 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400 w-full"
-                  required
-                />
-              </div>
-              <div className="flex-1 ml-2">
-                <label className="text-lg font-semibold">Email</label>
-                <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  className="border border-gray-400 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400 w-full"
-                  required
-                />
-              </div>
+            <div className="flex flex-col mb-4">
+              <label className="text-lg font-semibold">Name</label>
+              <input
+                type="text"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                placeholder="Your Name"
+                className="border border-gray-400 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400 w-full"
+                required
+              />
+            </div>
+            <div className="flex flex-col mb-4">
+              <label className="text-lg font-semibold">Email</label>
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                placeholder="Your Email"
+                className="border border-gray-400 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400 w-full"
+                required
+              />
             </div>
             <div className="flex flex-col mb-4">
               <label className="text-lg font-semibold">Phone</label>
@@ -102,7 +102,8 @@ const Contact = () => {
                 name="phone"
                 value={formData.phone}
                 onChange={handleChange}
-                className="border border-gray-400 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+                placeholder="Your Phone Number"
+                className="border border-gray-400 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400 w-full"
                 required
               />
             </div>
@@ -112,6 +113,7 @@ const Contact = () => {
                 name="message"
                 value={formData.message}
                 onChange={handleChange}
+                placeholder="Your Message"
                 className="border border-gray-400 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
                 rows="4"
                 required
@@ -119,7 +121,7 @@ const Contact = () => {
             </div>
             <button
               type="submit"
-              className="border bg-black text-white px-4 py-2 rounded hover:bg-blue-600"
+              className="border bg-black text-white px-4 py-2 rounded hover:bg-blue-600 transition"
             >
               Send Message
             </button>
