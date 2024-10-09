@@ -1,8 +1,14 @@
+import MovingSlider from "./LandingComponents/MovingSlider/MovingSlider";
+import Specialty from "./LandingComponents/Specialty/Specialty";
+
 
 const Landing = () => {
     return (
         <div className=" bg-[#0F172A] h-screen">
-            Welcome to the landing page!
+
+            <MovingSlider />
+            <Specialty />
+
         </div>
     );
 };
