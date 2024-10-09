@@ -11,6 +11,7 @@ import MyPreJoin from "../components/MyPrejoin/MyPrejoin";
 import Landing from "../pages/Landing/Landing";
 import PrivateRoute from '../routes/PrivateRoute';
 import Dashboard from "../pages/Dashboard/Dashboard";
+import Contact from "../pages/Landing/LandingComponents/FaqSection/ContactUs/Contact";
 
 const router = createBrowserRouter([
     {
@@ -41,6 +42,10 @@ const router = createBrowserRouter([
             {
                 path: "/dashboard",
                 element: <PrivateRoute><Dashboard /></PrivateRoute>
+            },
+            {
+                path: "/contact",
+                element: <Contact></Contact>
             }
         ]
     }

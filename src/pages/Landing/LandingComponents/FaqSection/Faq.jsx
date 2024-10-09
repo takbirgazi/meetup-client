@@ -3,6 +3,7 @@ import { useState } from "react";
 import { WiDirectionRight, WiDirectionUpRight } from "react-icons/wi";
 import FaqData from "./FaqData";
 import img2 from "../../../../assets/images/LandingPageImages/contact.png";
+import { NavLink } from "react-router-dom";
 
 const Faq = () => {
     const [openIndex, setOpenIndex] = useState(null);
@@ -22,6 +23,7 @@ const Faq = () => {
                 <p className="pt-12 font-bold text-xl">Don't get Answer?</p>
                 <p className="pt-2 pb-12 text-gray-600 font-medium">We will answer you in less than 2 Hours!!</p>
                 <div>
+                    <NavLink to='/contact'>
                     <button className="group relative text-[#0095ff] font-medium text-[18px] flex justify-center">
                         Leave us a Message
                         <span className="relative w-6 h-6">
@@ -29,6 +31,7 @@ const Faq = () => {
                             <WiDirectionUpRight className="absolute top-0 left-0 text-4xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                         </span>
                     </button>
+                    </NavLink>
                     <img src={img2} className="w-20 h-20 my-4" />
                 </div>
             </div>
