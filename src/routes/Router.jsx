@@ -12,6 +12,11 @@ import Landing from "../pages/Landing/Landing";
 import PrivateRoute from '../routes/PrivateRoute';
 import Dashboard from "../pages/Dashboard/Dashboard";
 import Contact from "../pages/Landing/LandingComponents/FaqSection/ContactUs/Contact";
+import General from "../pages/Dashboard/DashboardComponents/General/General";
+import Meetings from "../pages/Dashboard/DashboardComponents/Meetings/Meetings";
+import Support from "../pages/Dashboard/DashboardComponents/Support/Support";
+import Profile from "../pages/Dashboard/DashboardComponents/Profile/Profile";
+import ChangePassword from "../pages/Dashboard/DashboardComponents/ChangePassword/ChangePassword";
 
 const router = createBrowserRouter([
     {
@@ -40,13 +45,35 @@ const router = createBrowserRouter([
                 element: <Home />
             },
             {
-                path: "/dashboard",
-                element: <PrivateRoute><Dashboard /></PrivateRoute>
-            },
-            {
                 path: "/contact",
                 element: <Contact></Contact>
-            }
+            },
+            {
+                path: "/dashboard",
+                element: <PrivateRoute><Dashboard /></PrivateRoute>,
+                children: [
+                    {
+                        path: "", 
+                        element: <General />,
+                    },
+                    {
+                        path: "meetings",
+                        element: <Meetings />,
+                    },
+                    {
+                        path: "support",
+                        element: <Support />,
+                    },
+                    {
+                        path: "profile",
+                        element: <Profile />,
+                    },
+                    {
+                        path: "change-password",
+                        element: <ChangePassword />,
+                    }
+                ]
+            },
         ]
     }
 ])

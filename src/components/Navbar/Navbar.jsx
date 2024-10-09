@@ -1,7 +1,7 @@
 import moment from "moment";
 import { IoMdPerson } from "react-icons/io";
 import { IoSettingsOutline } from "react-icons/io5";
-import { MdLogout } from "react-icons/md";
+import { MdDashboard, MdLogout } from "react-icons/md";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import avatar from "../../assets/cat.png";
@@ -46,12 +46,12 @@ const Navbar = () => {
       </div>
       <div className="navbar-end">
         {/* Current Time */}
-        <div className="text-white font-semibold hidden md:block text-[18px]">
+        <div className="text-white font-semibold hidden md:block text-[18px] mr-2">
           {moment().format("h:mm A - ")}
           {moment().format("ll")}
         </div>
 
-        <IoSettingsOutline className="mx-2 md:mx-4 text-white text-2xl" />
+        {/* <IoSettingsOutline className="mx-2 md:mx-4 text-white text-2xl" /> */}
 
         {user ? (
           <div className="avatar avatar-ring avatar-md">
@@ -87,10 +87,13 @@ const Navbar = () => {
                 </label>
 
                 <div className="dropdown-menu dropdown-menu-bottom-left">
-                  <p className="dropdown-item text-sm flex-row items-center gap-2">
-                    {" "}
-                    <IoMdPerson /> {user?.displayName}
-                  </p>
+                  <Link to={'/dashboard'}
+                  >
+                    <p className="dropdown-item text-sm flex-row items-center gap-2">
+                      {" "}
+                      {/* <IoMdPerson /> {user?.displayName} */} <MdDashboard /> Dashboard
+                    </p>
+                  </Link>
 
                   <div
                     onClick={handleLogout}
