@@ -8,6 +8,9 @@ import LogIn from "../pages/LogIn/LogIn";
 import Room from "../pages/Room/Room";
 import Meeting from "../pages/Meeting/Meeting";
 import MyPreJoin from "../components/MyPrejoin/MyPrejoin";
+import Landing from "../pages/Landing/Landing";
+import PrivateRoute from '../routes/PrivateRoute';
+import Dashboard from "../pages/Dashboard/Dashboard";
 
 const router = createBrowserRouter([
     {
@@ -17,7 +20,7 @@ const router = createBrowserRouter([
         children: [
             {
                 path: "/",
-                element: <Home />
+                element: <Landing />
             },
             {
                 path: "/logIn",
@@ -33,8 +36,12 @@ const router = createBrowserRouter([
             },
             {
                 path: "/room",
-                element: <Room />
+                element: <Home />
             },
+            {
+                path: "/dashboard",
+                element: <PrivateRoute><Dashboard /></PrivateRoute>
+            }
         ]
     }
 ])
