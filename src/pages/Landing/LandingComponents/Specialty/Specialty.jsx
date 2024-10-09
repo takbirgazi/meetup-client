@@ -1,7 +1,7 @@
 import SpecialtyCard from "./SpecialtyCard";
-import features1 from "../../../../assets/images/landingPageImages/features1.svg";
-import features2 from "../../../../assets/images/landingPageImages/features2.svg";
-import features3 from "../../../../assets/images/landingPageImages/features3.svg";
+import features1 from "../../../../assets/images/LandingPageImages/features1.svg";
+import features2 from "../../../../assets/images/LandingPageImages/features2.svg";
+import features3 from "../../../../assets/images/LandingPageImages/features3.svg";
 
 
 const Specialty = () => {
@@ -28,9 +28,9 @@ const Specialty = () => {
     ]
 
     return (
-        <div className="p-5 bg-gradient-to-r from-gray-50 to-gray-200 flex flex-col items-center justify-center gap-16">
+        <div className="p-5 flex flex-col items-center justify-center gap-16">
             <div className="flex flex-col gap-5 w-10/12">
-                <p className="text-center font-bold text-xl text-blue-500">Features</p>
+                <p className="text-center font-bold text-xl text-[#0095ff]">Features</p>
                 <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-950">Get amazing benefits</h2>
             </div>
             <div className="w-11/12 md:w-10/12 grid gap-5 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">

@@ -10,7 +10,7 @@ import WhyChooseUs from "./LandingComponents/WhyChooseUs/WhyChooseUs";
 
 const Landing = () => {
   return (
-    <div>
+    <div className='bg-gradient-to-r from-gray-50 to-gray-200'>
       <div className="container mx-auto">
         <MovingSlider />
         <Specialty />
