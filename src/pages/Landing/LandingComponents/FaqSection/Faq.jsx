@@ -46,7 +46,7 @@ const Faq = () => {
                                 onClick={() => toggleAccordion(index)}
                             >
                                 <span className="ml-4 text-3xl text-gray-500">{openIndex === index ? '-' : '+'}</span>
-                                <label className="accordion-title font-semibold">{faq.question}</label>
+                                <label className="accordion-title font-semibold bg-transparent">{faq.question}</label>
                             </div>
                             {openIndex === index && (
                                 <div className="accordion-content flex items-center">
