@@ -1,7 +1,7 @@
 import SpecialtyCard from "./SpecialtyCard";
-import features1 from "../../../../assets/images/LandingPageImages/features1.svg";
-import features2 from "../../../../assets/images/LandingPageImages/features2.svg";
-import features3 from "../../../../assets/images/LandingPageImages/features3.svg";
+import features1 from "../../../../assets/images/landingPageImages/features1.svg";
+import features2 from "../../../../assets/images/landingPageImages/features2.svg";
+import features3 from "../../../../assets/images/landingPageImages/features3.svg";
 
 
 const Specialty = () => {
@@ -9,19 +9,19 @@ const Specialty = () => {
     const featureCardData = [
         {
             id: 1,
-            tittle: "Fast Performance",
+            tittle: `Fast Performance`,
             image: features1,
             desc: `Nor again is there anyone who loves or pursues or desires to pain, because it is pain, but because occasionally`
         },
         {
             id: 2,
-            tittle: "Easy to setup",
+            tittle: `Easy to setup`,
             image: features2,
             desc: `Nor again is there anyone who loves or pursues or desires to pain, because it is pain, but because occasionally`
         },
         {
             id: 3,
-            tittle: "Simple and clean UI",
+            tittle: `Simple and clean UI`,
             image: features3,
             desc: `Nor again is there anyone who loves or pursues or desires to pain, because it is pain, but because occasionally`
         },
