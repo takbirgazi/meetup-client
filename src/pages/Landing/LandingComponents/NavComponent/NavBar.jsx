@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import logo from '../../../../assets/logo.png';
+import logo from '../../../../assets/MeetUp.png';
 import useAuth from '../../../../hooks/useAuth';
 import { RxHamburgerMenu } from "react-icons/rx";
 
@@ -20,7 +20,7 @@ const NavBar = () => {
             <div className="navbar px-4 w-[90%] navbar-sticky m-5 mx-auto rounded-lg backdrop-blur-2xl bg-gray-800 flex items-center">
                 <div className="navbar-start">
                     <a href="#">
-                        <img class="w-auto h-8 md:h-10" src={logo} alt="" />
+                        <img class="w-auto h-10" src={logo} alt="" />
                     </a>
                     {/* <a className="navbar-item  text-white">MeetUp</a> */}
                 </div>
