@@ -1,5 +1,5 @@
-import { Outlet, useLocation } from "react-router-dom";
-import Navbar from "../components/Navbar/Navbar";
+import { Outlet } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
 
 const Root = () => {
 
@@ -8,6 +8,7 @@ const Root = () => {
       <div>
         <Outlet />
       </div>
+      <Toaster />
     </main>
   );
 };
