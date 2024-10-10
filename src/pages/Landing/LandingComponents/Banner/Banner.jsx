@@ -4,10 +4,11 @@ const Banner = () => {
     return (
         <div className='pt-20 w-[85%] mx-auto'>
             <div class="mt-16 flex flex-col items-center py-6 lg:h-[36rem] lg:flex-row">
-                <div class="lg:w-1/2">
+                <div class="lg:w-1/2 space-y-4">
                     <p class="text-3xl w-[50%] font-semibold text-gray-100 lg:text-5xl leading-loose">SuperCharge your Meeting and Make it Effective</p>
 
                     <p class="mt-4 text-gray-100">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsam, eum modi incidunt adipisci quod porro et non exercitationem quasi, maxime culpa ut nemo ab delectus saepe iste nostrum explicabo a?</p>
+                    <a href='#' class="btn btn-outline-primary font-semibold">Join Us</a>
                 </div>
 
                 <div class="flex lg:w-1/2 lg:justify-end">
