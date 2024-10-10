@@ -70,7 +70,7 @@ const Contact = () => {
         </div>
         <div className="w-full md:w-1/2 mr-10">
           <h1 className="text-2xl font-semibold mb-4">We'd be pleased to hear</h1>
-          <form className="w-full max-w-lg" onSubmit={handleSubmit}>
+          <form className="w-full" onSubmit={handleSubmit}>
             <div className="flex flex-col mb-4">
               <label className="text-lg font-semibold">Name</label>
               <input

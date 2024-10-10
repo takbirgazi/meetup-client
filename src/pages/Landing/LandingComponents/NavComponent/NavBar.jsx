@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import logo from '../../../../assets/logo.png';
+import logo from '../../../../assets/MeetUp.png';
 
 const NavBar = () => {
 
@@ -43,7 +43,7 @@ const NavBar = () => {
             <div className="navbar navbar-sticky m-5 w-11/12 mx-auto rounded-lg backdrop-blur-2xl bg-gray-800 container flex items-center">
                 <div className="navbar-start">
                     <a href="#">
-                        <img class="w-auto sm:h-7" src={logo} alt="" />
+                        <img class="w-auto h-10" src={logo} alt="" />
                     </a>
                     {/* <a className="navbar-item  text-white">MeetUp</a> */}
                 </div>
