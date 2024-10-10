@@ -22,7 +22,7 @@ const MovingSwiper = () => {
                     <ul className="logo-list p-5">
                         <li>
                             <img
-                                src={`./src/assets/images/sliderImage/slider-${(index % 6) + 1}.png`}
+                                src={`https://api.geosmartplanning.com.bd/api3/assets/image/slider-${(index % 6) + 1}.png`}
                                 alt={`Icon ${index + 1}`}
                             />
                         </li>
