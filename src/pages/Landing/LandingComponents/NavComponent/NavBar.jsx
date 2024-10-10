@@ -12,32 +12,6 @@ const NavBar = () => {
         <Link className={`navbar-item capitalize text-white hover:text-white hover:border-blue-700 rounded-none pb-4 hover:-pb-3 duration-150 hover:border-b-4 font-medium lg:text-lg`} to={'#aboutme'}>about</Link>
     </>;
 
-    const [activateSection, setActivateSection] = useState('');
-
-    useEffect(() => {
-        const handleScroll = () => {
-            const sections = document.querySelectorAll('section');
-            let currentSection = '';
-
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop;
-                const sectionHeight = section.clientHeight;
-                if (window.scrollY >= sectionTop - sectionHeight / 3) {
-                    currentSection = section.getAttribute('id');
-                }
-            });
-
-            if (currentSection !== activateSection) {
-                setActivateSection(currentSection);
-                window.history.pushState(null, null, `#${currentSection}`);
-            }
-        };
-        window.addEventListener('scroll', handleScroll);
-
-        return () => {
-            window.removeEventListener('scroll', handleScroll);
-        }
-    }, []);
     return (
         <div className='container mx-auto'>
             <div className="navbar navbar-sticky m-5 w-11/12 mx-auto rounded-lg backdrop-blur-2xl bg-gray-800 container flex items-center">
