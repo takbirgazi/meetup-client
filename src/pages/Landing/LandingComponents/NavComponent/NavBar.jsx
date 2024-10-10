@@ -5,42 +5,42 @@ import logo from '../../../../assets/logo.png';
 const NavBar = () => {
 
     const navLinks = <>
-    <Link className={`navbar-item capitalize text-white hover:text-white hover:border-blue-700 rounded-none pb-4 hover:-pb-3 duration-150 hover:border-b-4 font-medium lg:text-lg`} to={'#skills'}>skills</Link>
-    <Link className={`navbar-item capitalize text-white hover:text-white hover:border-blue-700 rounded-none pb-4 hover:-pb-3 duration-150 hover:border-b-4 font-medium lg:text-lg`} to={'#projects'}>projects</Link>
-    <Link className={`navbar-item capitalize text-white hover:text-white hover:border-blue-700 rounded-none pb-4 hover:-pb-3 duration-150 hover:border-b-4 font-medium lg:text-lg`} to={'#education'}>education</Link>
-    <Link className={`navbar-item capitalize text-white hover:text-white hover:border-blue-700 rounded-none pb-4 hover:-pb-3 duration-150 hover:border-b-4 font-medium lg:text-lg`} to={'#experience'}>experience</Link>
-    <Link className={`navbar-item capitalize text-white hover:text-white hover:border-blue-700 rounded-none pb-4 hover:-pb-3 duration-150 hover:border-b-4 font-medium lg:text-lg`} to={'#aboutme'}>about me</Link>
-</>;
+        <Link className={`navbar-item capitalize text-white hover:text-white hover:border-blue-700 rounded-none pb-4 hover:-pb-3 duration-150 hover:border-b-4 font-medium lg:text-lg`} to={'#skills'}>skills</Link>
+        <Link className={`navbar-item capitalize text-white hover:text-white hover:border-blue-700 rounded-none pb-4 hover:-pb-3 duration-150 hover:border-b-4 font-medium lg:text-lg`} to={'#projects'}>projects</Link>
+        <Link className={`navbar-item capitalize text-white hover:text-white hover:border-blue-700 rounded-none pb-4 hover:-pb-3 duration-150 hover:border-b-4 font-medium lg:text-lg`} to={'#education'}>education</Link>
+        <Link className={`navbar-item capitalize text-white hover:text-white hover:border-blue-700 rounded-none pb-4 hover:-pb-3 duration-150 hover:border-b-4 font-medium lg:text-lg`} to={'#experience'}>experience</Link>
+        <Link className={`navbar-item capitalize text-white hover:text-white hover:border-blue-700 rounded-none pb-4 hover:-pb-3 duration-150 hover:border-b-4 font-medium lg:text-lg`} to={'#aboutme'}>about</Link>
+    </>;
 
     const [activateSection, setActivateSection] = useState('');
 
-    useEffect(()=>{
-        const handleScroll = ()=>{
+    useEffect(() => {
+        const handleScroll = () => {
             const sections = document.querySelectorAll('section');
             let currentSection = '';
 
-            sections.forEach(section=>{
+            sections.forEach(section => {
                 const sectionTop = section.offsetTop;
                 const sectionHeight = section.clientHeight;
-                if(window.scrollY >= sectionTop-sectionHeight / 3){
+                if (window.scrollY >= sectionTop - sectionHeight / 3) {
                     currentSection = section.getAttribute('id');
                 }
             });
 
-            if(currentSection !== activateSection){
+            if (currentSection !== activateSection) {
                 setActivateSection(currentSection);
                 window.history.pushState(null, null, `#${currentSection}`);
             }
         };
         window.addEventListener('scroll', handleScroll);
 
-        return ()=>{
+        return () => {
             window.removeEventListener('scroll', handleScroll);
         }
-    },[]);
+    }, []);
     return (
-        <div className=''>
-            <div className="navbar navbar-sticky m-5 w-[95%] mx-auto rounded-lg backdrop-blur-2xl bg-gray-800">
+        <div className='container mx-auto'>
+            <div className="navbar navbar-sticky m-5 w-11/12 mx-auto rounded-lg backdrop-blur-2xl bg-gray-800 container flex items-center">
                 <div className="navbar-start">
                     <a href="#">
                         <img class="w-auto sm:h-7" src={logo} alt="" />
@@ -53,8 +53,8 @@ const NavBar = () => {
                     }
                 </div>
                 <div class="navbar-end flex items-center mt-2 -mx-2 sm:mt-0 space-x-3">
-                    <a href='#' class="btn btn-solid-primary font-semibold">Log In</a>
-                    <a href='#' class="btn btn-outline-primary font-semibold">Sign Up</a>
+                    <NavLink to='/login' className="btn btn-solid-primary font-semibold">Log In</NavLink>
+                    <NavLink to="/signup" className="btn btn-outline-primary font-semibold">Sign Up</NavLink>
                 </div>
             </div>
         </div>
