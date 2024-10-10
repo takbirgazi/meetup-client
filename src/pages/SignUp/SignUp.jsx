@@ -45,7 +45,7 @@ const SignUp = () => {
               .then((res) => {
                 if (res.data.insertedId) {
                   toast.success("Your Account Registered Successfully!");
-                  navigate("/");
+                  navigate("/room");
                   e.target.reset();
                 }
               })
