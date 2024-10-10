@@ -1,4 +1,5 @@
 import Banner from "./LandingComponents/Banner/Banner";
+import Testing from "./LandingComponents/Banner/Testing";
 import MovingSlider from "./LandingComponents/MovingSlider/MovingSlider";
 import NavBar from "./LandingComponents/NavComponent/NavBar";
 import Specialty from "./LandingComponents/Specialty/Specialty";
@@ -6,10 +7,11 @@ import Specialty from "./LandingComponents/Specialty/Specialty";
 
 const Landing = () => {
     return (
-        <div className=" bg-[#0F172A] min-h-screen">
-            <div className="bg-gray-300 h-screen">
+        <div className="">
+            <div className="bg-gray-900 h-screen flex items-center justify-center">
                 <NavBar />
                 <Banner />
+                {/* <Testing/> */}
             </div>
             <MovingSlider />
             <Specialty />
