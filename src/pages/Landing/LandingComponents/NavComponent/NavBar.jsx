@@ -15,32 +15,6 @@ const NavBar = () => {
         <Link className={`navbar-item capitalize md:text-white hover:text-white hover:border-blue-700 rounded-none pb-4 duration-150 hover:border-b-4 font-medium lg:text-lg`} to={'#faq'}>FAQ's</Link>
     </>;
 
-    const [activateSection, setActivateSection] = useState('');
-
-    useEffect(() => {
-        const handleScroll = () => {
-            const sections = document.querySelectorAll('section');
-            let currentSection = '';
-
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop;
-                const sectionHeight = section.clientHeight;
-                if (window.scrollY >= sectionTop - sectionHeight / 3) {
-                    currentSection = section.getAttribute('id');
-                }
-            });
-
-            if (currentSection !== activateSection) {
-                setActivateSection(currentSection);
-                window.history.pushState(null, null, `#${currentSection}`);
-            }
-        };
-        window.addEventListener('scroll', handleScroll);
-
-        return () => {
-            window.removeEventListener('scroll', handleScroll);
-        }
-    }, []);
     return (
         <div className=''>
             <div className="navbar px-4 w-[90%] navbar-sticky m-5 mx-auto rounded-lg backdrop-blur-2xl bg-gray-800 flex items-center">

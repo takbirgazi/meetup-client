@@ -2,7 +2,7 @@ import "keen-slider/keen-slider.min.css";
 import { useKeenSlider } from "keen-slider/react";
 import React from "react";
 import { FaStar } from "react-icons/fa6";
-import testimonialImg from "../../../../assets/images/landingPageImages/Testimonial_img.png";
+import testimonialImg from "../../../../assets/images/LandingPageImages/Testimonial_img.png";
 import "./Testimonials.css";
 
 const Testimonials = () => {

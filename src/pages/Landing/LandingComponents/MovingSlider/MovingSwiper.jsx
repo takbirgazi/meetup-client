@@ -5,7 +5,7 @@ import "swiper/css";
 // Swiper options
 const swiperOptions = {
     modules: [Autoplay, Pagination, Navigation],
-    slidesPerView: 9,
+    slidesPerView: 4,
     autoplay: {
         delay: 2000,
         disableOnInteraction: false,
@@ -16,7 +16,7 @@ const swiperOptions = {
 const MovingSwiper = () => {
 
     return (
-        <Swiper {...swiperOptions}>
+        <Swiper {...swiperOptions} className="flex items-center justify-center">
             {[...Array(10)].map((_, index) => (
                 <SwiperSlide key={index} className="slide-item">
                     <ul className="logo-list p-5">
