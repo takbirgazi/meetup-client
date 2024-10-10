@@ -1,18 +1,14 @@
 import React, { useState } from "react";
 import toast from "react-hot-toast";
-import { Link, ScrollRestoration, useNavigate } from "react-router-dom";
-import Swal from "sweetalert2";
+import { Link, ScrollRestoration, useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import useAxiosCommon, { axiosCommon } from "../../hooks/useAxiosCommon";
-// import TitleBanner from '../../shared/TitleBanner';
 
 const Login = () => {
   const { logIn, googleSignIn, githubSignIn } = useAuth();
-  const [viewPass, setViewPass] = useState(false);
-  const [error, setError] = useState(null);
   const navigate = useNavigate();
   const axios = useAxiosCommon();
-
+  const location = useLocation();
   const handleSignIn = (e) => {
     e.preventDefault();
     const data = new FormData(e.target);
@@ -24,18 +20,11 @@ const Login = () => {
     e.target.reset();
     logIn(mail, password)
       .then((res) => {
-        Swal.fire({
-          title: `Hello ${res?.user?.displayName}!`,
-          text: "User Logged in Successfully!",
-          icon: "success",
-          showConfirmButton: false,
-          timer: 2000,
-        });
-        navigate("/");
+        toast.success("Log In Successfully!");
+        navigate("/room");
       })
       .catch((error) => {
-        setError(error.message);
-        // console.log(error);
+        toast.error(error.message);
       });
   };
 
@@ -43,15 +32,7 @@ const Login = () => {
     googleSignIn()
       .then((result) => {
         // console.log(result.user)
-        Swal.fire({
-          title: "User Login Successful.",
-          showClass: {
-            popup: "animate__animated animate__fadeInDown",
-          },
-          hideClass: {
-            popup: "animate__animated animate__fadeOutUp",
-          },
-        });
+        toast.success("Log In Successfully!");
 
         const userInfo = {
           email: result.user.email,
@@ -67,7 +48,6 @@ const Login = () => {
         });
       })
       .catch((error) => {
-        console.log(error);
         toast.error(error);
       });
   };
@@ -76,15 +56,7 @@ const Login = () => {
     githubSignIn()
       .then((result) => {
         // console.log(result.user)
-        Swal.fire({
-          title: "User Login Successful.",
-          showClass: {
-            popup: "animate__animated animate__fadeInDown",
-          },
-          hideClass: {
-            popup: "animate__animated animate__fadeOutUp",
-          },
-        });
+        toast.success("Log In Successfully!")
 
         const userInfo = {
           email: result.user.email,

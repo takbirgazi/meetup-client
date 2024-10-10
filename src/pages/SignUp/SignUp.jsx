@@ -2,116 +2,15 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaEyeSlash, FaRegEye } from "react-icons/fa";
 import { Link, ScrollRestoration, useNavigate } from "react-router-dom";
-import Swal from "sweetalert2";
 import useAuth from "../../hooks/useAuth";
 import useAxiosCommon from "../../hooks/useAxiosCommon";
 
-// import TitleBanner from '../../shared/TitleBanner';
-
 const SignUp = () => {
   const { createAccount, profileUpdate } = useAuth();
-  // const [error, setError] = useState(null);
-  // const [passStrength, setPassStrength] = useState(null);
   const [viewPass, setViewPass] = useState(false);
   const [viewConfPass, setViewConfPass] = useState(false);
-  // const [allPass, setAllPass] = useState({ pass: null, conf: null });
   const navigate = useNavigate();
   const axios = useAxiosCommon();
-
-  // const handlePasswordStrength = (e) => {
-  // console.log(e.target.value);
-  //   const pass = e.target.value;
-
-  // setAllPass({ pass, conf: allPass.conf });
-
-  // if (pass.length == 0) {
-  //   setPassStrength("");
-  // } else if (!/^(?=.*[A-Z])/.test(pass)) {
-  //   setPassStrength("At least one capital letter is required");
-  //   return;
-  // } else if (!/^(?=.*[a-z])/.test(pass)) {
-  //   setPassStrength("At least one small letter is required");
-  //   return;
-  // } else if (!/^(?=.*\d)/.test(pass)) {
-  //   setPassStrength("At least one digit is required");
-  //   return;
-  // } else if (!/^(?=.*[@$!%*?&.])/.test(pass)) {
-  //   setPassStrength("At least one special character is required");
-  //   return;
-  // } else if (!/^.{6,}/.test(pass)) {
-  //   setPassStrength("At least 6 characters are required");
-  //   return;
-  // } else {
-  //   setPassStrength(null);
-  // }
-  // };
-
-  // const mismatchingChecker = (e) => {
-  //   setAllPass({ pass: allPass.pass, conf: e.target.value });
-
-  //   if (passStrength) {
-  //     setError("Create password with the requirements");
-  //     return;
-  //   } else if (allPass.pass != e.target.value) {
-  //     setError("Password confirmation mismatched!!");
-  //     return;
-  //   } else if (e.target.value.length == 0) {
-  //     setError("");
-  //   } else {
-  // console.log(passStrength);
-  //     setError(null);
-  //   }
-  // };
-
-  // const handleSignUp = (e) => {
-  //   e.preventDefault();
-
-  //   const data = new FormData(e.target);
-  //   const first_name = data.get("first_name");
-  //   const last_name = data.get("last_name");
-  //   const username = data.get("username");
-  //   const mail = data.get("mail");
-
-  //   // e.target.reset();
-
-  //   const userInfo = {
-  //     first_name,
-  //     last_name,
-  //     username,
-  //     email: mail,
-  //     password: allPass.pass,
-  //     createdAt: new Date().toISOString(),
-  //     role: "general-user",
-  //   };
-
-  //   createAccount(mail, allPass.pass)
-  //     .then((res) => {
-  //       profileUpdate(username, null)
-  //         .then((data) => {
-  //           // console.log("username updated.")
-  //           axios
-  //             .post("/addUser", userInfo)
-  //             .then((res) => {
-  //               if (res.data.insertedId) {
-  //                 Swal.fire({
-  //                   title: "Great job!",
-  //                   text: "Your Account Registered Successfully!",
-  //                   icon: "success",
-  //                   showConfirmButton: false,
-  //                   timer: 2000,
-  //                 });
-  //                 navigate("/");
-  //                 e.target.reset();
-  //               }
-  //             })
-  //             .catch((error) => console.log(error.message));
-  //         })
-  //         .catch((error) => console.log(error.message));
-  //     })
-  //     .catch((error) => console.log(error));
-  // };
-
-  // coded by minhaj
   const {
     register,
     handleSubmit,
@@ -145,14 +44,8 @@ const SignUp = () => {
               .post("/addUser", userInfo)
               .then((res) => {
                 if (res.data.insertedId) {
-                  Swal.fire({
-                    title: "Great job!",
-                    text: "Your Account Registered Successfully!",
-                    icon: "success",
-                    showConfirmButton: false,
-                    timer: 2000,
-                  });
-                  navigate("/");
+                  toast.success("Your Account Registered Successfully!");
+                  navigate("/room");
                   e.target.reset();
                 }
               })
@@ -164,9 +57,8 @@ const SignUp = () => {
   };
 
   return (
-    <div className="">
+    <div className="py-10">
       <ScrollRestoration />
-      {/* <TitleBanner title={"Create Account"} route={"Home / SignUp"} /> */}
       <div className="w-full min-h-[calc(100vh-4.1rem)]  flex items-center justify-center">
         <form
           onSubmit={handleSubmit(onSubmit)}
@@ -287,17 +179,6 @@ const SignUp = () => {
                 </p>
               )}
             </div>
-            {/* {allPass.pass ? (
-              passStrength ? (
-                <p className="text-xs text-red-500">** {passStrength} **</p>
-              ) : (
-                <p className="text-xs text-green-500">
-                  ** your password is strong now **
-                </p>
-              )
-            ) : (
-              <></>
-            )} */}
             <div className="form-field">
               <label className="form-label">
                 <span className="label-text">Confirm Password *</span>
@@ -340,28 +221,6 @@ const SignUp = () => {
                 </p>
               )}
             </div>
-            {/* {allPass.conf ? (
-              error ? (
-                <p className="text-xs text-red-500">** {error} **</p>
-              ) : (
-                <p className="text-xs text-green-500">** you're okay now **</p>
-              )
-            ) : (
-              <></>
-            )} */}
-            {/* <div class="form-field">
-              <div class="form-field justify-between flex-row">
-                <div class="flex gap-2">
-                  <input type="checkbox" class="checkbox" />
-                  <a href="#">Remember me</a>
-                </div>
-                <label class="form-label">
-                  <a class="link link-underline-hover link-primary text-sm">
-                    Forgot your password?
-                  </a>
-                </label>
-              </div>
-            </div> */}
             <div className="flex items-center justify-start gap-2 pt-4">
               <input
                 type="checkbox"

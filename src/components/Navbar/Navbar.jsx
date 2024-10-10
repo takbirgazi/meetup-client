@@ -1,39 +1,24 @@
 import moment from "moment";
-import { IoMdPerson } from "react-icons/io";
-import { IoSettingsOutline } from "react-icons/io5";
 import { MdDashboard, MdLogout } from "react-icons/md";
-import { Link } from "react-router-dom";
-import Swal from "sweetalert2";
+import { Link, useNavigate } from "react-router-dom";
 import avatar from "../../assets/cat.png";
-import logo1 from "../../assets/logo1.png";
 import useAuth from "../../hooks/useAuth";
+import toast from "react-hot-toast";
+import logo from "../../assets/MeetUp.png"
 
 const Navbar = () => {
   const { user, logOut } = useAuth();
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     logOut()
       .then(() => {
-        console.log("user Logged out!!");
-        Swal.fire({
-          title: "Good Bye!",
-          text: "User logout successful!",
-          icon: "success",
-          showConfirmButton: false,
-          timer: 2000,
-        });
+        toast.success("Log Out Successful!");
         localStorage.removeItem("access-token");
+        navigate("/")
       })
       .catch((error) => {
-        console.log("logout failed!!");
-        Swal.fire({
-          title: "Error Occured!",
-          text: "User logout Failed!",
-          icon: "error",
-          showConfirmButton: false,
-          footer: error.message,
-          timer: 2000,
-        });
+        toast.error("Log Out Failed!");
       });
   };
 
@@ -41,7 +26,7 @@ const Navbar = () => {
     <div className="navbar bg-[#1E3799] h-[65px]  border-none shadow-none mx-auto rounded-sm">
       <div className="navbar-start">
         <Link to="/" className="navbar-item font-bold text-white text-xl">
-          <img src={logo1} className="h-full w-[80px] md:w-[100px]" />
+          <img src={logo} className="h-10 w-auto" />
         </Link>
       </div>
       <div className="navbar-end">
