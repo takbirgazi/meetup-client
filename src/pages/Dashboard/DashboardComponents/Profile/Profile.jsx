@@ -11,7 +11,7 @@ const Profile = () => {
         photoURL: "",
     });
 
-    const { user, profileUpdate } = useAuth();
+    const { user, profileUpdate, setLoading } = useAuth();
     const IMGBB_API_KEY = '1b1fbff76382bc5873f0dedaa1c82836';
 
     const handleChange = (e) => {
@@ -27,8 +27,12 @@ const Profile = () => {
         })
             .then((response) => {
                 console.log(response.data)
-                setEditMode(false);
                 profileUpdate(formData.userName, formData.photoURL);
+                setLoading(false);
+                setEditMode(false);
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1500);
             })
             .catch((error) => {
                 console.error("Error updating user data:", error);
@@ -88,7 +92,7 @@ const Profile = () => {
                                     <input
                                         type="text"
                                         name="userName"
-                                        value={user?.displayName}
+                                        defaultValue={user?.displayName}
                                         onChange={handleChange}
                                         className="border border-gray-300 p-2 rounded w-full focus:ring-2 hover:border-primary focus:ring-blue-300"
                                     />
