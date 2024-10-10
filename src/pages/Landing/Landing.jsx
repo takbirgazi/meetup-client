@@ -26,7 +26,7 @@ const Landing = () => {
 
       <ScrollToTop
         smooth
-        className="fixed bottom-10 right-10 flex justify-center items-center h-16 w-16 rounded-full border-4 border-blue-500 relative cursor-pointer"
+        className="fixed bottom-10 right-10 flex justify-center items-center h-16 w-16 rounded-full border-4 border-blue-500 cursor-pointer"
         component={<CustomIcon />}
       >
         <div className="absolute inset-0 rounded-full border-4 border-blue-600 animate-pulse"></div>
