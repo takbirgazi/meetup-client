@@ -3,10 +3,12 @@ import { FiVideo } from "react-icons/fi";
 import { RiLockStarLine, RiVoiceprintFill } from "react-icons/ri";
 import { SlCalender } from "react-icons/sl";
 import groupImg from "../../../../assets/images/LandingPageImages/group-image.avif";
+import { ScrollRestoration } from "react-router-dom";
 
 const WhyChooseUs = () => {
   return (
-    <div className="my-28 mx-[6%]  md:flex justify-between items-center">
+    <div id="advantage" className="section my-28 mx-[6%]  md:flex justify-between items-center">
+      <ScrollRestoration/>
       {/* section:1 (all the texts and icons) */}
       <div>
         <div>

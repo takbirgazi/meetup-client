@@ -10,6 +10,7 @@ import NavBar from "./LandingComponents/NavComponent/NavBar";
 import Specialty from "./LandingComponents/Specialty/Specialty";
 import Testimonials from "./LandingComponents/Testimonials/Testimonials";
 import WhyChooseUs from "./LandingComponents/WhyChooseUs/WhyChooseUs";
+import { ScrollRestoration } from "react-router-dom";
 
 const Landing = () => {
   return (
