@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@heroicons/react": "^2.1.5",
     "@livekit/components-react": "^2.6.5",
     "@livekit/components-styles": "^1.1.2",
     "axios": "^1.7.7",
