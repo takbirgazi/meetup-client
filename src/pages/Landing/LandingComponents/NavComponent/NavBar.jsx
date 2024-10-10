@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import logo from '../../../../assets/logo.png';
 
 const NavBar = () => {
 
     const navLinks = <>
-    <Link className={`navbar-item capitalize text-white hover:text-white hover:border-blue-700 rounded-none pb-4 hover:-pb-3 duration-150 hover:border-b-4 font-medium lg:text-lg`} to={'#skills'}>skills</Link>
-    <Link className={`navbar-item capitalize text-white hover:text-white hover:border-blue-700 rounded-none pb-4 hover:-pb-3 duration-150 hover:border-b-4 font-medium lg:text-lg`} to={'#projects'}>projects</Link>
-    <Link className={`navbar-item capitalize text-white hover:text-white hover:border-blue-700 rounded-none pb-4 hover:-pb-3 duration-150 hover:border-b-4 font-medium lg:text-lg`} to={'#education'}>education</Link>
-    <Link className={`navbar-item capitalize text-white hover:text-white hover:border-blue-700 rounded-none pb-4 hover:-pb-3 duration-150 hover:border-b-4 font-medium lg:text-lg`} to={'#experience'}>experience</Link>
-    <Link className={`navbar-item capitalize text-white hover:text-white hover:border-blue-700 rounded-none pb-4 hover:-pb-3 duration-150 hover:border-b-4 font-medium lg:text-lg`} to={'#aboutme'}>about me</Link>
+    <Link className={`navbar-item capitalize text-white hover:text-white hover:border-blue-700 rounded-none pb-4 duration-150 hover:border-b-4 font-medium lg:text-lg`} to={'#home'}>home</Link>
+    <Link className={`navbar-item capitalize text-white hover:text-white hover:border-blue-700 rounded-none pb-4 duration-150 hover:border-b-4 font-medium lg:text-lg`} to={'#partners'}>partners</Link>
+    <Link className={`navbar-item capitalize text-white hover:text-white hover:border-blue-700 rounded-none pb-4 duration-150 hover:border-b-4 font-medium lg:text-lg`} to={'#features'}>features</Link>
+    <Link className={`navbar-item capitalize text-white hover:text-white hover:border-blue-700 rounded-none pb-4 duration-150 hover:border-b-4 font-medium lg:text-lg`} to={'#advantage'}>advantage</Link>
+    <Link className={`navbar-item capitalize text-white hover:text-white hover:border-blue-700 rounded-none pb-4 duration-150 hover:border-b-4 font-medium lg:text-lg`} to={'#faq'}>FAQ's</Link>
 </>;
 
     const [activateSection, setActivateSection] = useState('');

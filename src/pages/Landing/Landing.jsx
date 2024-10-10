@@ -10,14 +10,15 @@ import NavBar from "./LandingComponents/NavComponent/NavBar";
 import Specialty from "./LandingComponents/Specialty/Specialty";
 import Testimonials from "./LandingComponents/Testimonials/Testimonials";
 import WhyChooseUs from "./LandingComponents/WhyChooseUs/WhyChooseUs";
+import { ScrollRestoration } from "react-router-dom";
 
 const Landing = () => {
     return (
         <div className='bg-gradient-to-r from-gray-50 to-gray-200'>
-            <div className="bg-gray-900 h-screen flex items-center justify-center">
+            <div id="home" className="section bg-gray-900 h-screen flex items-center justify-center">
+                <ScrollRestoration/>
                 <NavBar />
                 <Banner />
-                {/* <Testing/> */}
             </div>
             <div className="container mx-auto">
                 <MovingSlider />
