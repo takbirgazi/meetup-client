@@ -3,7 +3,7 @@ import { Link, NavLink, Outlet } from 'react-router-dom';
 import useAuth from '../../hooks/useAuth';
 import { MdOutlineMeetingRoom } from 'react-icons/md';
 import { IoIosLogOut } from 'react-icons/io';
-
+import logo from "../../assets/MeetUpLogo.png"
 const Dashboard = () => {
     const { user, logOut } = useAuth();
 
@@ -106,10 +106,7 @@ const Dashboard = () => {
                         className='hover:bg-gray-4'
                     >
                         <section className="sidebar-title items-center p-4 flex">
-                            <svg fill="none" height="42" viewBox="0 0 32 32" width="42" xmlns="http://www.w3.org/2000/svg">
-                                <rect height="100%" rx="16" width="100%"></rect>
-                                <path clipRule="evenodd" d="M17.6482 10.1305L15.8785 7.02583L7.02979 22.5499H10.5278L17.6482 10.1305ZM19.8798 14.0457L18.11 17.1983L19.394 19.4511H16.8453L15.1056 22.5499H24.7272L19.8798 14.0457Z" fill="currentColor" fillRule="evenodd"></path>
-                            </svg>
+                            <img src={logo} className='h-8 w-auto' />
 
                             <div className="flex flex-col">
                                 <span>MeatUp</span>
@@ -149,7 +146,12 @@ const Dashboard = () => {
             </div>
             <div className="flex w-full flex-col p-4">
                 <div className="w-fit">
-                    <label htmlFor="sidebar-mobile-fixed" className="btn-primary btn sm:hidden">Open Sidebar</label>
+                    <label htmlFor="sidebar-mobile-fixed" className="btn btn-outline border-[#1E3E62] text-[#1E3E62] sm:hidden">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25H12" />
+                        </svg>
+
+                    </label>
                 </div>
                 <div className=''>
                     <Outlet />

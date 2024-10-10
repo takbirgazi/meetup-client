@@ -11,13 +11,13 @@ import { v4 as uuidv4 } from "uuid";
 import useAuth from "../../hooks/useAuth";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import Navbar from "../../components/Navbar/Navbar";
+import bg from "../../assets/images/bg1.webp";
 
 const Home = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [meetingInput, setMeetingInput] = useState("");
   const axiosSecure = useAxiosSecure();
-  // added by minhaj
 
   const {
     register,
@@ -62,7 +62,6 @@ const Home = () => {
       ],
     };
 
-    // Submit the form data to the backend
     axiosSecure
       .post("/create-meeting", meetingData)
       .then((response) => {
@@ -70,9 +69,7 @@ const Home = () => {
         toast.success("Meeting scheduled successfully!");
         toast.success(
           <div className="flex items-center gap-2">
-            {/* keep the meeting link text only and make it blue like a link  */}
             <p className="text-blue-500">Scheduled Meeting Link: </p>
-            {/* copy the link by this button */}
             <button
               onClick={() => {
                 navigator.clipboard.writeText(meetingLink);
@@ -97,7 +94,6 @@ const Home = () => {
       });
   };
 
-  // Instant Meeting Handler
   const handleInstantMeet = () => {
     if (!user) {
       toast.error("Please login to create instant meeting.");
@@ -123,7 +119,6 @@ const Home = () => {
       ],
     };
 
-    // Submit the form data to the backend
     axiosSecure
       .post("/create-meeting", meetingData)
       .then((response) => {
@@ -136,7 +131,6 @@ const Home = () => {
       });
   };
 
-  // show error message for handleSchedule if user is not logged in
   const handleScheduleForLater = (e) => {
     if (!user) {
       e.preventDefault();
@@ -144,7 +138,7 @@ const Home = () => {
       return;
     }
   };
-  // handle join meeting
+
   const handleJoinMeeting = async () => {
     if (!user) {
       toast.error("Please login to join a meeting.");
@@ -156,18 +150,15 @@ const Home = () => {
     }
     let meetingId = meetingInput.trim();
 
-    // Extract meeting ID if the input is a full meeting link
     if (meetingInput.includes("/room/")) {
       const urlParts = meetingInput.split("/room/");
       meetingId = urlParts[urlParts.length - 1];
     }
 
     try {
-      // Check if the meeting exists in the database
       const response = await axiosSecure.get(`/meeting/${meetingId}`);
 
       if (response.status === 200 && response.data) {
-        // Patch the new participant to the meeting
         axiosSecure
           .patch(`/meeting/${meetingId}`, {
             name: user.displayName,
@@ -175,10 +166,9 @@ const Home = () => {
             role: "participant",
           })
           .then((response) => {
-            // You can check the server response status here
             if (response.status === 200) {
               toast.success(response.data.message);
-              navigate(`/room/${meetingId}`); // Redirect to the meeting room
+              navigate(`/room/${meetingId}`);
             } else {
               toast.error(response.data.error);
             }
@@ -199,7 +189,14 @@ const Home = () => {
   return (
     <div>
       <Navbar />
-      <div className="min-h-[calc(100vh-4.1rem)] min-w-screen bg-[#202124] flex items-center justify-center">
+      <div
+        className="min-h-[calc(100vh-4.1rem)] min-w-screen flex items-center justify-center"
+        style={{
+          backgroundImage: `url(${bg})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
         <div className="relative h-full flex flex-col items-center justify-center w-full max-w-screen-xl mx-auto">
           <Helmet>
             <title>Home - MeetUp</title>
@@ -236,7 +233,6 @@ const Home = () => {
                     Schedule for later
                   </label>
                 </div>
-                {/* Modal starts here */}
                 <input className="modal-state" id="modal-2" type="checkbox" />
                 <div className="modal w-screen">
                   <label className="modal-overlay" htmlFor="modal-2"></label>
@@ -263,7 +259,9 @@ const Home = () => {
                             {...register("date", { required: true })}
                           />
                           {errors.date && (
-                            <p className="text-red-500">This field is required</p>
+                            <p className="text-red-500">
+                              This field is required
+                            </p>
                           )}
                         </div>
                         <div className="flex gap-3">
@@ -278,7 +276,6 @@ const Home = () => {
                     </div>
                   </div>
                 </div>
-                {/* Modal ends here */}
               </div>
               <input
                 className="input w-auto"

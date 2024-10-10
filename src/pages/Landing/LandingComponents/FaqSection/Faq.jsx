@@ -5,7 +5,7 @@ import { useState } from "react";
 import { WiDirectionRight, WiDirectionUpRight } from "react-icons/wi";
 import FaqData from "./FaqData";
 import img2 from "../../../../assets/images/LandingPageImages/contact.png";
-import { NavLink } from "react-router-dom";
+import { NavLink, ScrollRestoration } from "react-router-dom";
 
 const Faq = () => {
     const [openIndex, setOpenIndex] = useState(null);
@@ -15,7 +15,8 @@ const Faq = () => {
     };
 
     return (
-        <div className="flex flex-col lg:flex-row my-28 mx-[6%] justify-between">
+        <div id='faq' className="section flex flex-col lg:flex-row my-28 mx-[6%] justify-between">
+            <ScrollRestoration/>
             <div className="w-full lg:w-[50%] mb-8 lg:mb-0">
                 <h4 className="text-[#0095ff] text-2xl pb-8 font-medium">QUESTIONS & ANSWERS</h4>
                 <h1 className="text-4xl md:text-5xl pb-4 font-semibold">

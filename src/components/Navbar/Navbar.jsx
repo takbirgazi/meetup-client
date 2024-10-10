@@ -2,9 +2,9 @@ import moment from "moment";
 import { MdDashboard, MdLogout } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
 import avatar from "../../assets/cat.png";
-import logo1 from "../../assets/logo1.png";
 import useAuth from "../../hooks/useAuth";
 import toast from "react-hot-toast";
+import logo from "../../assets/MeetUp.png"
 
 const Navbar = () => {
   const { user, logOut } = useAuth();
@@ -23,10 +23,10 @@ const Navbar = () => {
   };
 
   return (
-    <div className="navbar bg-[#1E3799] h-[65px]  border-none shadow-none mx-auto rounded-sm">
+    <div className="navbar bg-black h-[65px]  border-none shadow-none mx-auto rounded-sm">
       <div className="navbar-start">
         <Link to="/" className="navbar-item font-bold text-white text-xl">
-          <img src={logo1} className="h-full w-[80px] md:w-[100px]" />
+          <img src={logo} className="h-10 w-auto" />
         </Link>
       </div>
       <div className="navbar-end">

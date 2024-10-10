@@ -1,14 +1,15 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Banner = () => {
     return (
-        <div className='pt-20 w-[85%] mx-auto'>
-            <div class="mt-16 flex flex-col items-center py-6 lg:h-[36rem] lg:flex-row">
-                <div class="lg:w-1/2 space-y-4">
-                    <p class="text-3xl w-[50%] font-semibold text-gray-100 lg:text-5xl leading-loose">SuperCharge your Meeting and Make it Effective</p>
+        <div className='w-[95%] mx-auto'>
+            <div class="mt-16 flex flex-col items-center py-6 lg:h-[36rem] lg:flex-row gap-10">
+                <div class="lg:w-1/2 p-4 space-y-4 text-center md:text-start">
+                    <p class="text-3xl md:w-[50%] font-semibold text-gray-100 lg:text-5xl">SuperCharge your Meeting and Make it Effective</p>
 
-                    <p class="mt-4 text-gray-100">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsam, eum modi incidunt adipisci quod porro et non exercitationem quasi, maxime culpa ut nemo ab delectus saepe iste nostrum explicabo a?</p>
-                    <a href='#' class="btn btn-outline-primary font-semibold">Join Us</a>
+                    <p class="mt-4 text-gray-100">Experience seamless, high-quality video streaming and real-time meetings with our app, designed for effortless collaboration and connection from anywhere. With powerful features stay productive and engaged with a click</p>
+                    <Link to={'/room'} class="btn btn-outline-primary font-semibold">Explore a meeting</Link>
                 </div>
 
                 <div class="flex lg:w-1/2 lg:justify-end">
