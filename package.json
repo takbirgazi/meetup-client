@@ -15,6 +15,7 @@
     "@livekit/components-styles": "^1.1.2",
     "axios": "^1.7.7",
     "firebase": "^10.13.2",
+    "keen-slider": "^6.8.6",
     "livekit-client": "^2.5.7",
     "localforage": "^1.10.0",
     "match-sorter": "^6.3.4",
