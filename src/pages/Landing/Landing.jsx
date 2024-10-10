@@ -9,7 +9,7 @@ import WhyChooseUs from "./LandingComponents/WhyChooseUs/WhyChooseUs";
 
 const Landing = () => {
   return (
-    <div className='bg-gradient-to-r from-gray-50 to-gray-200'>
+    <div className="bg-gradient-to-r from-gray-50 to-gray-200">
       <div className="container mx-auto">
         <MovingSlider />
         <Specialty />
@@ -24,7 +24,7 @@ const Landing = () => {
 
       <ScrollToTop
         smooth
-        className="fixed bottom-10 right-10 flex justify-center items-center h-16 w-16 rounded-full border-4 border-blue-500 relative cursor-pointer"
+        className="bottom-10 right-10 flex justify-center items-center h-16 w-16 rounded-full border-4 border-blue-500 relative cursor-pointer"
         component={<CustomIcon />}
       >
         <div className="absolute inset-0 rounded-full border-4 border-blue-600 animate-pulse"></div>
