@@ -2,7 +2,7 @@ import React from "react";
 import { FiVideo } from "react-icons/fi";
 import { RiLockStarLine, RiVoiceprintFill } from "react-icons/ri";
 import { SlCalender } from "react-icons/sl";
-import groupImg from "../../../../assets/images/landingPageImages/group-image.avif";
+import groupImg from "../../../../assets/images/LandingPageImages/group-image.avif";
 
 const WhyChooseUs = () => {
   return (
