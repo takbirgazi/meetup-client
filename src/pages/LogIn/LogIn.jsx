@@ -21,7 +21,7 @@ const Login = () => {
     logIn(mail, password)
       .then((res) => {
         toast.success("Log In Successfully!");
-        navigate("/");
+        navigate("/room");
       })
       .catch((error) => {
         toast.error(error.message);
