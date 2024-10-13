@@ -4,7 +4,17 @@ import useAuth from '../../hooks/useAuth';
 import { MdOutlineMeetingRoom } from 'react-icons/md';
 import { IoIosLogOut } from 'react-icons/io';
 import logo from "../../assets/MeetUpLogo.png"
+import { useState } from 'react';
+import ChatBot from './DashboardComponents/General/GeneralComponents/ChatBot/ChatBot';
 const Dashboard = () => {
+
+    const [isChatBotOpen, setIsChatBotOpen] = useState(false);
+
+    // Toggle ChatBot visibility
+    const toggleChatBot = () => {
+        setIsChatBotOpen(!isChatBotOpen);
+    };
+
     const { user, logOut } = useAuth();
 
     const menuActive = `menu-active bg-gray-4`;
@@ -147,14 +157,41 @@ const Dashboard = () => {
             <div className="flex w-full flex-col p-4">
                 <div className="w-fit">
                     <label htmlFor="sidebar-mobile-fixed" className="btn btn-outline border-[#1E3E62] text-[#1E3E62] sm:hidden">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25H12" />
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25H12" />
                         </svg>
 
                     </label>
                 </div>
                 <div className=''>
                     <Outlet />
+                    {/* AI Chat Integration Button */}
+                    {/* ChatBot Popover */}
+                    <div className="popover fixed bottom-5 right-5">
+                        <label
+                            className="popover-trigger my-2 cursor-pointer hover:shadow-xl hover:shadow-blue-400 rounded-full"
+                            tabIndex="0"
+                            onClick={toggleChatBot}  // Trigger chatbox open/close
+                        >
+                            {
+                                isChatBotOpen ? (
+                                    <img src="/src/assets/images/bottom-right.png" alt="Closec chat" className='w-10 h-10' />
+                                ) : (
+                                    <img src="/src/assets/images/chatBot.png" alt="Chat with AI" className="w-14 h-14" />
+                                )
+                            }
+
+                        </label>
+                        {isChatBotOpen && (
+                            // Position the popover-content above the button
+                            <div className="popover-content popover-top-left absolute w-screen max-w-md bottom-full mb-4 md:mr-5 bg-white border-2 border-slate-400" tabIndex="0">
+                                <div className="popover-arrow bg-blue-400"></div>
+                                <div className="overflow-hidden rounded-lg">
+                                    <ChatBot onClose={toggleChatBot} /> {/* Render the ChatBot component */}
+                                </div>
+                            </div>
+                        )}
+                    </div>
                 </div>
             </div>
         </div >
