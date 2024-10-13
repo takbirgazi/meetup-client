@@ -20,7 +20,7 @@ const NavBar = () => {
             <div className="navbar px-4 w-[90%] navbar-sticky m-5 mx-auto rounded-lg backdrop-blur-2xl bg-gray-800 flex items-center">
                 <div className="navbar-start">
                     <a href="#">
-                        <img class="w-auto h-10" src={logo} alt="" />
+                        <img className="w-auto h-10" src={logo} alt="" />
                     </a>
                     {/* <a className="navbar-item  text-white">MeetUp</a> */}
                 </div>
@@ -29,13 +29,13 @@ const NavBar = () => {
                         navLinks
                     }
                 </div>
-                <div class="navbar-end">
-                    <div class="dropdown-container md:hidden">
-                        <div class="dropdown">
-                            <label class=" cursor-pointer" tabindex="0">
+                <div className="navbar-end">
+                    <div className="dropdown-container md:hidden">
+                        <div className="dropdown">
+                            <label className=" cursor-pointer" tabIndex="0">
                                 <RxHamburgerMenu className='text-white' size={25} />
                             </label>
-                            <div class="dropdown-menu dropdown-menu-bottom-left">
+                            <div className="dropdown-menu dropdown-menu-bottom-left">
                                 {
                                     navLinks
                                 }
@@ -47,7 +47,7 @@ const NavBar = () => {
                                                 <img src={user?.photoURL} alt="avatar" />
                                             </div>
                                         </div>
-                                    </> : <div class="p-2 flex items-center mt-2 -mx-2 sm:mt-0 space-x-3">
+                                    </> : <div className="p-2 flex items-center mt-2 -mx-2 sm:mt-0 space-x-3">
                                         <Link to='/login' className="btn btn-solid-primary font-semibold">Log In</Link>
                                         <Link to="/signup" className="btn btn-outline-primary font-semibold">Sign Up</Link>
                                     </div>
@@ -61,7 +61,7 @@ const NavBar = () => {
                                     <div className="avatar">
                                         <img src={user?.photoURL} alt="avatar" />
                                     </div>
-                            </> : <div class="navbar-end flex items-center mt-2 -mx-2 sm:mt-0 space-x-3">
+                            </> : <div className="navbar-end flex items-center mt-2 -mx-2 sm:mt-0 space-x-3">
                                 <Link to='/login' className="btn btn-solid-primary font-semibold w-28">Log In</Link>
                                 <Link to="/signup" className="btn btn-outline-primary font-semibold w-28">Sign Up</Link>
                             </div>

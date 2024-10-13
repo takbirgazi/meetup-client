@@ -1,8 +1,10 @@
-import React from 'react';
-import ScheduleMeetingModal from './GeneralComponents/ScheduleMeetingModal/ScheduleMeetingModal\';/ScheduleMeetingModal';
-
+import React, { useState } from 'react';
+import ScheduleMeetingModal from './GeneralComponents/ScheduleMeetingModal/ScheduleMeetingModal';
+import ChatBot from './GeneralComponents/ChatBot/ChatBot';
 
 const General = () => {
+
+    
     return (
         <div className="flex flex-wrap justify-center gap-4 p-4">
             {/* Calendar - Scheduling */}
@@ -46,13 +48,9 @@ const General = () => {
                 </div>
             </div>
 
-            {/* AI Chat Integration */}
-            <div className="w-full md:w-1/2 lg:w-1/3 p-4 bg-white shadow rounded">
-                <h2 className="text-xl font-semibold mb-2">AI Chat Integration</h2>
-                <div className="h-40 bg-gray-200 flex items-center justify-center">
-                    <span>AI Chat Placeholder</span>
-                </div>
-            </div>
+            {/* AI Chat Integration Button */}
+
+
         </div>
     );
 };

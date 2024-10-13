@@ -35,7 +35,7 @@ const Faq = () => {
                             </span>
                         </button>
                     </NavLink>
-                    <img src={img2} className="w-20 h-20 my-4" />
+                    <img src={img2} className="w-16 h-16 my-4" />
                 </div>
             </div>
             <div className="w-full lg:w-[50%]">
