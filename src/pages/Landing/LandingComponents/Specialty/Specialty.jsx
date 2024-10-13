@@ -12,19 +12,19 @@ const Specialty = () => {
             id: 1,
             tittle: `Fast Performance`,
             image: features1,
-            desc: `Nor again is there anyone who loves or pursues or desires to pain, because it is pain, but because occasionally`
+            desc: `No one likes delays, but sometimes they seem unavoidable. With Fast Performance, they’re gone. Enjoy fast, seamless, and secure video calls.`
         },
         {
             id: 2,
             tittle: `Easy to setup`,
             image: features2,
-            desc: `Nor again is there anyone who loves or pursues or desires to pain, because it is pain, but because occasionally`
+            desc: `No one seeks complexity. Easy to Setup gets you connected fast, with a simple one-click install and no complicated steps.`
         },
         {
             id: 3,
             tittle: `Simple and clean UI`,
             image: features3,
-            desc: `Nor again is there anyone who loves or pursues or desires to pain, because it is pain, but because occasionally`
+            desc: `Nobody likes clutter. Simple and Clean UI makes everything clear and easy to navigate.`
         },
     ]
 

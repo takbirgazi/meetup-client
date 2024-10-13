@@ -78,7 +78,7 @@ const Testimonials = () => {
               collaboration a breeze.”
             </p>
             <div className="flex items-center mt-5">
-              <div class="avatar">
+              <div className="avatar">
                 <img
                   src="https://i.pravatar.cc/150?u=a042581f4e29026024d"
                   alt="avatar"
@@ -112,7 +112,7 @@ const Testimonials = () => {
               collaboration a breeze.”
             </p>
             <div className="flex items-center mt-5">
-              <div class="avatar">
+              <div className="avatar">
                 <img
                   src="https://i.pravatar.cc/150?u=a042581f4e29026024d"
                   alt="avatar"
@@ -146,7 +146,7 @@ const Testimonials = () => {
               collaboration a breeze.”
             </p>
             <div className="flex items-center mt-5">
-              <div class="avatar">
+              <div className="avatar">
                 <img
                   src="https://i.pravatar.cc/150?u=a042581f4e29026024d"
                   alt="avatar"
@@ -180,7 +180,7 @@ const Testimonials = () => {
               collaboration a breeze.”
             </p>
             <div className="flex items-center mt-5">
-              <div class="avatar">
+              <div className="avatar">
                 <img
                   src="https://i.pravatar.cc/150?u=a042581f4e29026024d"
                   alt="avatar"
@@ -214,7 +214,7 @@ const Testimonials = () => {
               collaboration a breeze.”
             </p>
             <div className="flex items-center mt-5">
-              <div class="avatar">
+              <div className="avatar">
                 <img
                   src="https://i.pravatar.cc/150?u=a042581f4e29026024d"
                   alt="avatar"
