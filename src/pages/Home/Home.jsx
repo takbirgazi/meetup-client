@@ -8,10 +8,10 @@ import { IoCopyOutline } from "react-icons/io5";
 import { TiPlusOutline } from "react-icons/ti";
 import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
+import bg from "../../assets/images/bg1.webp";
+import Navbar from "../../components/Navbar/Navbar";
 import useAuth from "../../hooks/useAuth";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
-import Navbar from "../../components/Navbar/Navbar";
-import bg from "../../assets/images/bg1.webp";
 
 const Home = () => {
   const { user } = useAuth();
