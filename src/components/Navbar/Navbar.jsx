@@ -23,7 +23,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className="navbar bg-black h-[65px]  border-none shadow-none mx-auto rounded-sm">
+    <div className="navbar bg-current h-[65px] shadow-lg shadow-red-300 mx-auto z-50">
       <div className="navbar-start">
         <Link to="/" className="navbar-item font-bold text-white text-xl">
           <img src={logo} className="h-10 w-auto" />
