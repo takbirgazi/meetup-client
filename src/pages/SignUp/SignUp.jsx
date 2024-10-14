@@ -10,6 +10,7 @@ const SignUp = () => {
   const [viewPass, setViewPass] = useState(false);
   const [viewConfPass, setViewConfPass] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
   const axios = useAxiosCommon();
   const {
     register,
@@ -45,7 +46,7 @@ const SignUp = () => {
               .then((res) => {
                 if (res.data.insertedId) {
                   toast.success("Your Account Registered Successfully!");
-                  navigate("/room");
+                  navigate(location?.state?.from?.pathname || "/room");
                   e.target.reset();
                 }
               })

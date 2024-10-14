@@ -23,7 +23,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className="navbar bg-current h-[65px] shadow-lg shadow-red-300 mx-auto z-50">
+    <div className="navbar bg-[#101827] h-[65px] shadow-lg shadow-[#1d283c] mx-auto z-50">
       <div className="navbar-start">
         <Link to="/" className="navbar-item font-bold text-white text-xl">
           <img src={logo} className="h-10 w-auto" />
@@ -53,7 +53,7 @@ const Navbar = () => {
                   )} */}
                   {user?.photoURL ? (
                     <img
-                      src={user.photoURL}
+                      src={user?.photoURL}
                       alt="User Avatar"
                       onError={(e) => {
                         e.target.onerror = null;
