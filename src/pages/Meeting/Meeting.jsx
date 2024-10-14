@@ -22,8 +22,8 @@ export default function Meeting({ token }) {
   const handleRedirect = (event) => {
     if (event.target.className === "lk-disconnect-button") {
       setTimeout(() => {
-        navigate("/");
-      }, 1500);
+        navigate("/room");
+      }, 1000);
     }
   };
 
