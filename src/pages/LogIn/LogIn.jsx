@@ -9,6 +9,7 @@ const Login = () => {
   const navigate = useNavigate();
   const axios = useAxiosCommon();
   const location = useLocation();
+
   const handleSignIn = (e) => {
     e.preventDefault();
     const data = new FormData(e.target);
@@ -21,7 +22,7 @@ const Login = () => {
     logIn(mail, password)
       .then((res) => {
         toast.success("Log In Successfully!");
-        navigate("/room");
+        navigate(location?.state?.from?.pathname || "/room");
       })
       .catch((error) => {
         toast.error(error.message);
@@ -43,7 +44,7 @@ const Login = () => {
         };
         axiosCommon.post("/login", userInfo).then((res) => {
           if (res.status === 200 || res.status === 201) {
-            navigate(location?.state || "/");
+            navigate(location?.state?.from?.pathname || "/room");
           }
         });
       })
@@ -67,7 +68,7 @@ const Login = () => {
         };
         axiosCommon.post("/login", userInfo).then((res) => {
           if (res.status === 200 || res.status === 201) {
-            navigate(location?.state || "/");
+            navigate(location?.state?.from?.pathname || "/room");
           }
         });
       })
