@@ -12,12 +12,38 @@ import bg from "../../assets/images/bg1.webp";
 import Navbar from "../../components/Navbar/Navbar";
 import useAuth from "../../hooks/useAuth";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
+import Navbar from "../../components/Navbar/Navbar";
+import Particles, { initParticlesEngine } from "@tsparticles/react";
+import options from "../../components/ParticleOptions/ParticleOptions";
+import { loadSlim } from "@tsparticles/slim";
+
 
 const Home = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [meetingInput, setMeetingInput] = useState("");
   const axiosSecure = useAxiosSecure();
+  const [init, setInit] = useState(false);
+
+  // this should be run only once per application lifetime
+  useEffect(() => {
+    initParticlesEngine(async (engine) => {
+      // you can initiate the tsParticles instance (engine) here, adding custom shapes or presets
+      // this loads the tsparticles package bundle, it's the easiest method for getting everything ready
+      // starting from v2 you can add only the features you need reducing the bundle size
+      //await loadAll(engine);
+      //await loadFull(engine);
+      await loadSlim(engine);
+      //await loadBasic(engine);
+    }).then(() => {
+      setInit(true);
+    });
+  }, []);
+
+  const particlesLoaded = (container) => {
+    console.log(container);
+  };
+
 
   const {
     register,
@@ -184,117 +210,121 @@ const Home = () => {
       console.error("Error checking meeting:", error);
       toast.error("Meeting not found.");
     }
-  };
+}
+return (
+  <div className="min-h-screen min-w-screen relative">
+    <Helmet>
+      <title>Home - MeetUp</title>
+    </Helmet>
 
-  return (
-    <div>
+    <div
+      className="flex flex-col items-center justify-center"
+    >
       <Navbar />
-      <div
-        className="min-h-[calc(100vh-4.1rem)] min-w-screen flex items-center justify-center"
-        style={{
-          backgroundImage: `url(${bg})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      >
-        <div className="relative h-full flex flex-col items-center justify-center w-full max-w-screen-xl mx-auto">
-          <Helmet>
-            <title>Home - MeetUp</title>
-          </Helmet>
-          <div className="flex flex-col items-center">
-            <div className="text-center space-y-1 text-balance">
-              <h1 className="text-3xl text-white">
-                Video Calls and Meetings for Everyone
-              </h1>
-              <h4 className="text-lg text-gray-300">
-                Connect, collaborate, and celebrate from anywhere with{" "}
-              </h4>
-            </div>
-            <div className="flex flex-wrap w-full justify-center items-center md:gap-3 gap-1 mt-4">
-              <div className="dropdown">
-                <button className="btn my-2" tabIndex="0">
-                  New Meeting
+      {
+        init
+        && <Particles
+          id="tsparticles"
+          options={options}
+          loaded={particlesLoaded}
+          className="absolute top-0 left-0 w-full h-full"
+        />
+      }
+      <div className="min-h-screen-100 relative flex flex-col items-center justify-center w-full max-w-screen-xl mx-auto">
+        <div className="flex flex-col items-center">
+          <div className="text-center space-y-1 text-balance">
+            <h1 className="text-3xl text-white">
+              Video Calls and Meetings for Everyone
+            </h1>
+            <h4 className="text-lg text-gray-300">
+              Connect, collaborate, and celebrate from anywhere with{" "}
+            </h4>
+          </div>
+          <div className="flex flex-wrap w-full justify-center items-center md:gap-3 gap-1 mt-4">
+            <div className="dropdown">
+              <button className="btn my-2" tabIndex="0">
+                New Meeting
+              </button>
+              <div className="dropdown-menu w-44 dropdown-menu-bottom-right">
+                <button
+                  onClick={handleInstantMeet}
+                  className="dropdown-item text-sm flex-row items-center gap-2"
+                >
+                  <TiPlusOutline />
+                  Instant meeting
                 </button>
-                <div className="dropdown-menu w-44 dropdown-menu-bottom-right">
-                  <button
-                    onClick={handleInstantMeet}
-                    className="dropdown-item text-sm flex-row items-center gap-2"
-                  >
-                    <TiPlusOutline />
-                    Instant meeting
-                  </button>
-                  <label
-                    tabIndex="-1"
-                    className="dropdown-item text-sm flex-row items-center gap-2"
-                    htmlFor="modal-2"
-                    onClick={handleScheduleForLater}
-                  >
-                    <FaRegCalendarCheck />
-                    Schedule for later
-                  </label>
-                </div>
-                <input className="modal-state" id="modal-2" type="checkbox" />
-                <div className="modal w-screen">
-                  <label className="modal-overlay" htmlFor="modal-2"></label>
-                  <div className="modal-content min-h-72 flex flex-col gap-5 max-w-3xl bg-white text-black rounded-lg  p-12">
-                    <div className="flex flex-col min-h-60 justify-center">
-                      <label
-                        htmlFor="modal-2"
-                        className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
-                      >
-                        ✕
-                      </label>
-                      <h1 className="md:text-3xl text-2xl text-center font-semibold ">
-                        Schedule Meeting for Later
-                      </h1>
-                      <form
-                        onSubmit={handleSubmit(onSubmit)}
-                        className="flex flex-col gap-3"
-                      >
-                        <div className="text-center my-6">
-                          <input
-                            id="date"
-                            type="datetime-local"
-                            className="input text-black bg-white border border-gray-300 rounded p-2 w-full"
-                            {...register("date", { required: true })}
-                          />
-                          {errors.date && (
-                            <p className="text-red-500">
-                              This field is required
-                            </p>
-                          )}
-                        </div>
-                        <div className="flex gap-3">
-                          <button
-                            type="submit"
-                            className="btn btn-error btn-block bg-[#1e3799]"
-                          >
-                            Submit
-                          </button>
-                        </div>
-                      </form>
-                    </div>
+                <label
+                  tabIndex="-1"
+                  className="dropdown-item text-sm flex-row items-center gap-2"
+                  htmlFor="modal-2"
+                  onClick={handleScheduleForLater}
+                >
+                  <FaRegCalendarCheck />
+                  Schedule for later
+                </label>
+              </div>
+              <input className="modal-state" id="modal-2" type="checkbox" />
+              <div className="modal w-screen">
+                <label className="modal-overlay" htmlFor="modal-2"></label>
+                <div className="modal-content min-h-72 flex flex-col gap-5 max-w-3xl bg-white text-black rounded-lg  p-12">
+                  <div className="flex flex-col min-h-60 justify-center">
+                    <label
+                      htmlFor="modal-2"
+                      className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+                    >
+                      ✕
+                    </label>
+                    <h1 className="md:text-3xl text-2xl text-center font-semibold ">
+                      Schedule Meeting for Later
+                    </h1>
+                    <form
+                      onSubmit={handleSubmit(onSubmit)}
+                      className="flex flex-col gap-3"
+                    >
+                      <div className="text-center my-6">
+                        <input
+                          id="date"
+                          type="datetime-local"
+                          className="input text-black bg-white border border-gray-300 rounded p-2 w-full"
+                          {...register("date", { required: true })}
+                        />
+                        {errors.date && (
+                          <p className="text-red-500">
+                            This field is required
+                          </p>
+                        )}
+                      </div>
+                      <div className="flex gap-3">
+                        <button
+                          type="submit"
+                          className="btn btn-error btn-block bg-[#1e3799]"
+                        >
+                          Submit
+                        </button>
+                      </div>
+                    </form>
                   </div>
                 </div>
               </div>
-              <input
-                className="input w-auto"
-                placeholder="Enter Meet Code or Link..."
-                value={meetingInput}
-                onChange={(e) => setMeetingInput(e.target.value)}
-              />
-              <button
-                className="btn btn-solid-primary"
-                onClick={handleJoinMeeting}
-              >
-                Join
-              </button>
             </div>
+            <input
+              className="input w-auto"
+              placeholder="Enter Meet Code or Link..."
+              value={meetingInput}
+              onChange={(e) => setMeetingInput(e.target.value)}
+            />
+            <button
+              className="btn btn-solid-primary"
+              onClick={handleJoinMeeting}
+            >
+              Join
+            </button>
           </div>
         </div>
       </div>
     </div>
-  );
+  </div>
+);
 };
 
 export default Home;
