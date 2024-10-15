@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { Link, ScrollRestoration, useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
-import useAxiosCommon, { axiosCommon } from "../../hooks/useAxiosCommon";
+import { axiosCommon } from "../../hooks/useAxiosCommon";
+import logo from '../../assets/MeetUp.png';
 
 const Login = () => {
   const { logIn, googleSignIn, githubSignIn } = useAuth();
   const navigate = useNavigate();
-  const axios = useAxiosCommon();
   const location = useLocation();
 
   const handleSignIn = (e) => {
@@ -76,13 +76,14 @@ const Login = () => {
   };
 
   return (
-    <div>
+    <div className="bg-gray-900 h-screen">
       <ScrollRestoration />
       {/* <TitleBanner title={"User Sign In"} route={"Home / Login"} /> */}
       <div className="w-full min-h-[calc(100vh-4.1rem)] flex items-center justify-center">
-        <div class="mx-auto flex w-full max-w-lg flex-col rounded-xl border border-border bg-backgroundSecondary p-4 sm:p-16">
+        <div class="mx-auto flex w-full bg-gray-800 max-w-lg flex-col rounded-xl border-2 border-gray-600 p-4 sm:p-16 items-center justify-center">
+          <img className="w-40 pb-4" src={logo} alt="logo" />
           <div class="flex w-full flex-col gap-2">
-            <p>Sign in with</p>
+            <p className="text-gray-300">Sign in with</p>
             <div class="flex w-full flex-col gap-2">
               <button
                 onClick={handleGoogleSignIn}
@@ -149,7 +150,7 @@ const Login = () => {
 
           <form onSubmit={handleSignIn} class="form-group">
             <div class="form-field">
-              <label class="form-label">Email address</label>
+              <label class="form-label text-gray-300">Email address</label>
 
               <input
                 name="email"
@@ -159,7 +160,7 @@ const Login = () => {
               />
             </div>
             <div class="form-field">
-              <label class="form-label">
+              <label class="form-label text-gray-300">
                 <span>Password</span>
               </label>
               <div class="form-control">
@@ -172,7 +173,7 @@ const Login = () => {
               </div>
             </div>
             <div class="form-field">
-              <div class="form-control justify-between">
+              <div class="form-control justify-between text-gray-300">
                 <div class="flex gap-2">
                   <input type="checkbox" class="checkbox" />
                   <a href="#">Remember me</a>
