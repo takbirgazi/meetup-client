@@ -25,3 +25,4 @@
 - @livekit/components-react @livekit/components-styles livekit-client --save
 - swiper
 - keen-slider
+- @zegocloud/zego-uikit-prebuilt

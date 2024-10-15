@@ -3,7 +3,7 @@ import { Link, NavLink, Outlet } from 'react-router-dom';
 import useAuth from '../../hooks/useAuth';
 import { MdOutlineMeetingRoom } from 'react-icons/md';
 import { IoIosLogOut } from 'react-icons/io';
-import logo from "../../assets/MeetUplogo.png"
+import logo from "../../assets/MeetUpLogo.png";
 import { useState } from 'react';
 import ChatBot from './DashboardComponents/General/GeneralComponents/ChatBot/ChatBot';
 const Dashboard = () => {
