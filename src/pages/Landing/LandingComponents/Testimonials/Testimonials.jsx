@@ -132,7 +132,7 @@ const Testimonials = () => {
           <div className="keen-slider__slide mt-3 md:block md:text-left flex flex-col items-center text-center">
             <div className=" mt-2">
               <img
-                className="w-40 h-12 "
+                className="w-40 h-10 "
                 src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Microsoft_logo_%282012%29.svg/1024px-Microsoft_logo_%282012%29.svg.png"
                 alt=""
               />
@@ -200,7 +200,7 @@ const Testimonials = () => {
           <div className="keen-slider__slide mt-3 md:block md:text-left flex flex-col items-center text-center">
             <div className=" mt-2">
               <img
-                className="w-40 h-12 "
+                className="w-40 h-10 "
                 src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Facebook_logo_%282023%29.svg/1024px-Facebook_logo_%282023%29.svg.png"
                 alt=""
               />

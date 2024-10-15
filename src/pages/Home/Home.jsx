@@ -102,9 +102,8 @@ const Home = () => {
               <IoCopyOutline />
             </button>
           </div>,
-          {
-            duration: 500000,
-          }
+          // if copy to clipboard success then the toast will disappear after 3 seconds otherwise it will stay for 20 seconds
+          { duration: 10000 }
         );
         console.log("Scheduled Meeting Data:", response.data);
         reset();

@@ -30,7 +30,7 @@ const Meetings = () => {
         return (
             <table className="w-full border-collapse border border-gray-300 mt-4">
                 <thead>
-                    <tr className="bg-gray-100">
+                    <tr className="bg-[#101827] text-white">
                         <th className="border border-gray-300 p-2">Name</th>
                         <th className="border border-gray-300 p-2">Host</th>
                         <th className="border border-gray-300 p-2">Date</th>
