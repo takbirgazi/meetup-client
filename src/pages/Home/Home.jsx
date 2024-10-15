@@ -1,3 +1,5 @@
+import Particles, { initParticlesEngine } from "@tsparticles/react";
+import { loadSlim } from "@tsparticles/slim";
 import moment from "moment";
 import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
@@ -8,13 +10,10 @@ import { IoCopyOutline } from "react-icons/io5";
 import { TiPlusOutline } from "react-icons/ti";
 import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
+import Navbar from "../../components/Navbar/Navbar";
+import options from "../../components/ParticleOptions/ParticleOptions";
 import useAuth from "../../hooks/useAuth";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
-import Navbar from "../../components/Navbar/Navbar";
-import Particles, { initParticlesEngine } from "@tsparticles/react";
-import options from "../../components/ParticleOptions/ParticleOptions";
-import { loadSlim } from "@tsparticles/slim";
-
 
 const Home = () => {
   const { user } = useAuth();
@@ -41,7 +40,6 @@ const Home = () => {
   const particlesLoaded = (container) => {
     console.log(container);
   };
-
 
   const {
     register,
@@ -104,9 +102,8 @@ const Home = () => {
               <IoCopyOutline />
             </button>
           </div>,
-          {
-            duration: 500000,
-          }
+          // if copy to clipboard success then the toast will disappear after 3 seconds otherwise it will stay for 20 seconds
+          { duration: 10000 }
         );
         console.log("Scheduled Meeting Data:", response.data);
         reset();
@@ -208,121 +205,118 @@ const Home = () => {
       console.error("Error checking meeting:", error);
       toast.error("Meeting not found.");
     }
-}
-return (
-  <div className="min-h-screen min-w-screen relative">
-    <Helmet>
-      <title>Home - MeetUp</title>
-    </Helmet>
+  };
+  return (
+    <div className="min-h-screen min-w-screen relative">
+      <Helmet>
+        <title>Home - MeetUp</title>
+      </Helmet>
 
-    <div
-      className="flex flex-col items-center justify-center"
-    >
-      <Navbar />
-      {
-        init
-        && <Particles
-          id="tsparticles"
-          options={options}
-          loaded={particlesLoaded}
-          className="absolute top-0 left-0 w-full h-full"
-        />
-      }
-      <div className="min-h-screen-100 relative flex flex-col items-center justify-center w-full max-w-screen-xl mx-auto">
-        <div className="flex flex-col items-center">
-          <div className="text-center space-y-1 text-balance">
-            <h1 className="text-3xl text-white">
-              Video Calls and Meetings for Everyone
-            </h1>
-            <h4 className="text-lg text-gray-300">
-              Connect, collaborate, and celebrate from anywhere with{" "}
-            </h4>
-          </div>
-          <div className="flex flex-wrap w-full justify-center items-center md:gap-3 gap-1 mt-4">
-            <div className="dropdown">
-              <button className="btn my-2" tabIndex="0">
-                New Meeting
-              </button>
-              <div className="dropdown-menu w-44 dropdown-menu-bottom-right">
-                <button
-                  onClick={handleInstantMeet}
-                  className="dropdown-item text-sm flex-row items-center gap-2"
-                >
-                  <TiPlusOutline />
-                  Instant meeting
+      <div className="flex flex-col items-center justify-center">
+        <Navbar />
+        {init && (
+          <Particles
+            id="tsparticles"
+            options={options}
+            loaded={particlesLoaded}
+            className="absolute top-0 left-0 w-full h-full"
+          />
+        )}
+        <div className="min-h-screen-100 relative flex flex-col items-center justify-center w-full max-w-screen-xl mx-auto">
+          <div className="flex flex-col items-center">
+            <div className="text-center space-y-1 text-balance">
+              <h1 className="text-3xl text-white">
+                Video Calls and Meetings for Everyone
+              </h1>
+              <h4 className="text-lg text-gray-300">
+                Connect, collaborate, and celebrate from anywhere with{" "}
+              </h4>
+            </div>
+            <div className="flex flex-wrap w-full justify-center items-center md:gap-3 gap-1 mt-4">
+              <div className="dropdown">
+                <button className="btn my-2" tabIndex="0">
+                  New Meeting
                 </button>
-                <label
-                  tabIndex="-1"
-                  className="dropdown-item text-sm flex-row items-center gap-2"
-                  htmlFor="modal-2"
-                  onClick={handleScheduleForLater}
-                >
-                  <FaRegCalendarCheck />
-                  Schedule for later
-                </label>
-              </div>
-              <input className="modal-state" id="modal-2" type="checkbox" />
-              <div className="modal w-screen">
-                <label className="modal-overlay" htmlFor="modal-2"></label>
-                <div className="modal-content min-h-72 flex flex-col gap-5 max-w-3xl bg-white text-black rounded-lg  p-12">
-                  <div className="flex flex-col min-h-60 justify-center">
-                    <label
-                      htmlFor="modal-2"
-                      className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
-                    >
-                      ✕
-                    </label>
-                    <h1 className="md:text-3xl text-2xl text-center font-semibold ">
-                      Schedule Meeting for Later
-                    </h1>
-                    <form
-                      onSubmit={handleSubmit(onSubmit)}
-                      className="flex flex-col gap-3"
-                    >
-                      <div className="text-center my-6">
-                        <input
-                          id="date"
-                          type="datetime-local"
-                          className="input text-black bg-white border border-gray-300 rounded p-2 w-full"
-                          {...register("date", { required: true })}
-                        />
-                        {errors.date && (
-                          <p className="text-red-500">
-                            This field is required
-                          </p>
-                        )}
-                      </div>
-                      <div className="flex gap-3">
-                        <button
-                          type="submit"
-                          className="btn btn-error btn-block bg-[#1e3799]"
-                        >
-                          Submit
-                        </button>
-                      </div>
-                    </form>
+                <div className="dropdown-menu w-44 dropdown-menu-bottom-right">
+                  <button
+                    onClick={handleInstantMeet}
+                    className="dropdown-item text-sm flex-row items-center gap-2"
+                  >
+                    <TiPlusOutline />
+                    Instant meeting
+                  </button>
+                  <label
+                    tabIndex="-1"
+                    className="dropdown-item text-sm flex-row items-center gap-2"
+                    htmlFor="modal-2"
+                    onClick={handleScheduleForLater}
+                  >
+                    <FaRegCalendarCheck />
+                    Schedule for later
+                  </label>
+                </div>
+                <input className="modal-state" id="modal-2" type="checkbox" />
+                <div className="modal w-screen">
+                  <label className="modal-overlay" htmlFor="modal-2"></label>
+                  <div className="modal-content min-h-72 flex flex-col gap-5 max-w-3xl bg-white text-black rounded-lg  p-12">
+                    <div className="flex flex-col min-h-60 justify-center">
+                      <label
+                        htmlFor="modal-2"
+                        className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+                      >
+                        ✕
+                      </label>
+                      <h1 className="md:text-3xl text-2xl text-center font-semibold ">
+                        Schedule Meeting for Later
+                      </h1>
+                      <form
+                        onSubmit={handleSubmit(onSubmit)}
+                        className="flex flex-col gap-3"
+                      >
+                        <div className="text-center my-6">
+                          <input
+                            id="date"
+                            type="datetime-local"
+                            className="input text-black bg-white border border-gray-300 rounded p-2 w-full"
+                            {...register("date", { required: true })}
+                          />
+                          {errors.date && (
+                            <p className="text-red-500">
+                              This field is required
+                            </p>
+                          )}
+                        </div>
+                        <div className="flex gap-3">
+                          <button
+                            type="submit"
+                            className="btn btn-error btn-block bg-[#1e3799]"
+                          >
+                            Submit
+                          </button>
+                        </div>
+                      </form>
+                    </div>
                   </div>
                 </div>
               </div>
+              <input
+                className="input w-auto"
+                placeholder="Enter Meet Code or Link..."
+                value={meetingInput}
+                onChange={(e) => setMeetingInput(e.target.value)}
+              />
+              <button
+                className="btn btn-solid-primary"
+                onClick={handleJoinMeeting}
+              >
+                Join
+              </button>
             </div>
-            <input
-              className="input w-auto"
-              placeholder="Enter Meet Code or Link..."
-              value={meetingInput}
-              onChange={(e) => setMeetingInput(e.target.value)}
-            />
-            <button
-              className="btn btn-solid-primary"
-              onClick={handleJoinMeeting}
-            >
-              Join
-            </button>
           </div>
         </div>
       </div>
     </div>
-  </div>
-);
+  );
 };
 
 export default Home;
