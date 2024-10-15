@@ -43,7 +43,7 @@ const router = createBrowserRouter([
             // },
             {
                 path: "/room/:id",
-                element: <Meeting />
+                element: <PrivateRoute><Meeting /></PrivateRoute>
             },
             {
                 path: "/room",
@@ -58,7 +58,7 @@ const router = createBrowserRouter([
                 element: <PrivateRoute><Dashboard /></PrivateRoute>,
                 children: [
                     {
-                        path: "", 
+                        path: "",
                         element: <General />,
                     },
                     {
