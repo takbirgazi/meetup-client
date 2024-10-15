@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { FaEyeSlash, FaRegEye } from "react-icons/fa";
 import { Link, ScrollRestoration, useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
+import logo from "../../assets/MeetUp.png"
 import useAxiosCommon from "../../hooks/useAxiosCommon";
 import toast from "react-hot-toast";
 
@@ -59,20 +60,21 @@ const SignUp = () => {
   };
 
   return (
-    <div className="py-10">
+    <div className="py-10 bg-gray-900">
       <ScrollRestoration />
       <div className="w-full min-h-[calc(100vh-4.1rem)]  flex items-center justify-center">
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="mx-auto flex w-full max-w-lg flex-col rounded-xl border border-border bg-backgroundSecondary p-4 sm:p-14"
+          className="text-white mx-auto flex w-full max-w-lg flex-col rounded-xl border-2 border-gray-600 bg-gray-800 p-4 sm:p-14 justify-center items-center"
         >
-          <h2 className="text-xl pb-8 text-center font-semibold text-gray-700">
+          <img className="w-40 pb-4" src={logo} alt="logo" />
+          <h2 className="text-xl pb-8 text-center font-semibold text-gray-200">
             Create An Account
           </h2>
           <div class="form-group">
             <div className="w-full flex justify-between">
               <div className="form-field w-[48%]">
-                <label className="form-label">First Name *</label>
+                <label className="form-label text-gray-300">First Name *</label>
                 <input
                   name="first_name"
                   placeholder="John"
@@ -88,7 +90,7 @@ const SignUp = () => {
                 )}
               </div>
               <div className="form-field w-[48%]">
-                <label className="form-label">Last Name *</label>
+                <label className="form-label text-gray-300">Last Name *</label>
                 <input
                   name="last_name"
                   placeholder="Doe"
@@ -105,7 +107,7 @@ const SignUp = () => {
               </div>
             </div>
             <div className="form-field w-full">
-              <label className="label w-full">Username *</label>
+              <label className="form-label text-gray-100 w-full">Username *</label>
               <input
                 type="text"
                 name="username"
@@ -122,7 +124,7 @@ const SignUp = () => {
               )}
             </div>
             <div className="form-field">
-              <label className="form-label">Email *</label>
+              <label className="form-label text-gray-300">Email *</label>
               <input
                 type="email"
                 name="mail"
@@ -137,7 +139,7 @@ const SignUp = () => {
               )}
             </div>
             <div className="form-field">
-              <label className="form-label">
+              <label className="form-label text-gray-300">
                 <span className="label-text">Password *</span>
               </label>
               <div className="relative">
@@ -180,14 +182,14 @@ const SignUp = () => {
               )}
             </div>
             <div className="form-field">
-              <label className="form-label">
+              <label className="form-label text-gray-300">
                 <span className="label-text">Confirm Password *</span>
               </label>
               <div className="relative">
                 <input
                   type={viewConfPass ? "text" : "password"}
                   name="conf_password"
-                  placeholder="password"
+                  placeholder="confirm password"
                   className="input max-w-full"
                   {...register("conf_password", {
                     required: "Confirm Password is required",
