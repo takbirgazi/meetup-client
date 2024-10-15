@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaEyeSlash, FaRegEye } from "react-icons/fa";
-import { Link, ScrollRestoration, useNavigate } from "react-router-dom";
+import { Link, ScrollRestoration, useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import useAxiosCommon from "../../hooks/useAxiosCommon";
+import toast from "react-hot-toast";
 
 const SignUp = () => {
   const { createAccount, profileUpdate } = useAuth();
@@ -141,7 +142,6 @@ const SignUp = () => {
               </label>
               <div className="relative">
                 <input
-                  // onChange={handlePasswordStrength}
                   type={viewPass ? "text" : "password"}
                   name="password"
                   placeholder="password"
@@ -149,13 +149,12 @@ const SignUp = () => {
                   {...register("password", {
                     required: "Password is required",
                     pattern: {
-                      value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]$/,
-                      message:
-                        "Password must contain at least one letter and one number",
+                      value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
+                      message: "Password must contain at least one letter and one number",
                     },
                     minLength: {
                       value: 8,
-                      message: 'password should be at least 8 character long'
+                      message: 'Password should be at least 8 characters long',
                     }
                   })}
                 />
@@ -186,7 +185,6 @@ const SignUp = () => {
               </label>
               <div className="relative">
                 <input
-                  // onChange={mismatchingChecker}
                   type={viewConfPass ? "text" : "password"}
                   name="conf_password"
                   placeholder="password"

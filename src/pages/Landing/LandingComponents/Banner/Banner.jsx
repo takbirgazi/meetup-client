@@ -15,7 +15,7 @@ const Banner = () => {
           engaged with a click
         </p>
         <Link to={"/room"} class="btn btn-outline-primary font-semibold mt-2">
-          Explore a meeting
+          Explore with a meeting
         </Link>
       </div>
 
