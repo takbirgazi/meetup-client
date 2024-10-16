@@ -28,28 +28,28 @@ const Meetings = () => {
 
     const renderTable = (data) => {
         return (
-            <table className="w-full border-collapse border border-gray-300 mt-4">
+            <table className="w-full border-collapse border border-gray-100 mt-4 text-gray-200">
                 <thead>
                     <tr className="bg-[#101827] text-white">
-                        <th className="border border-gray-300 p-2">Name</th>
-                        <th className="border border-gray-300 p-2">Host</th>
-                        <th className="border border-gray-300 p-2">Date</th>
-                        <th className="border border-gray-300 p-2">Time</th>
-                        <th className="border border-gray-300 p-2">Duration</th>
-                        <th className="border border-gray-300 p-2">Participants</th>
-                        <th className="border border-gray-300 p-2">Actions</th>
+                        <th className="border border-gray-300 p-2 text-gray-200">Name</th>
+                        <th className="border border-gray-300 p-2 text-gray-200">Host</th>
+                        <th className="border border-gray-300 p-2 text-gray-200">Date</th>
+                        <th className="border border-gray-300 p-2 text-gray-200">Time</th>
+                        <th className="border border-gray-300 p-2 text-gray-200">Duration</th>
+                        <th className="border border-gray-300 p-2 text-gray-200">Participants</th>
+                        <th className="border border-gray-300 p-2 text-gray-200">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     {data.map((meeting) => (
                         <tr key={meeting.id}>
-                            <td className="border border-gray-300 p-2">{meeting.name}</td>
-                            <td className="border border-gray-300 p-2">{meeting.host}</td>
-                            <td className="border border-gray-300 p-2">{meeting.date}</td>
-                            <td className="border border-gray-300 p-2">{meeting.time}</td>
-                            <td className="border border-gray-300 p-2">{meeting.duration}</td>
-                            <td className="border border-gray-300 p-2">{meeting.participants}</td>
-                            <td className="border border-gray-300 p-2">
+                            <td className="border border-gray-300 p-2 text-gray-200">{meeting.name}</td>
+                            <td className="border border-gray-300 p-2 text-gray-200">{meeting.host}</td>
+                            <td className="border border-gray-300 p-2 text-gray-200">{meeting.date}</td>
+                            <td className="border border-gray-300 p-2 text-gray-200">{meeting.time}</td>
+                            <td className="border border-gray-300 p-2 text-gray-200">{meeting.duration}</td>
+                            <td className="border border-gray-300 p-2 text-gray-200">{meeting.participants}</td>
+                            <td className="border border-gray-300 p-2 text-gray-200">
                                 <button className="text-blue-500 hover:underline">Join</button>
                             </td>
                         </tr>
@@ -70,7 +70,7 @@ const Meetings = () => {
                     onClick={() => setActiveTab('all')}
                     defaultChecked
                 />
-                <label htmlFor="tab-4" className="tab tab-bordered px-6">All Meetings</label>
+                <label htmlFor="tab-4" className="tab tab-bordered px-6 text-gray-200">All Meetings</label>
 
                 <input
                     type="radio"
@@ -79,7 +79,7 @@ const Meetings = () => {
                     className="tab-toggle"
                     onClick={() => setActiveTab('instant')}
                 />
-                <label htmlFor="tab-5" className="tab tab-bordered px-6">Instant Meetings</label>
+                <label htmlFor="tab-5" className="tab tab-bordered px-6 text-gray-200">Instant Meetings</label>
 
                 <input
                     type="radio"
@@ -88,7 +88,7 @@ const Meetings = () => {
                     className="tab-toggle"
                     onClick={() => setActiveTab('scheduled')}
                 />
-                <label htmlFor="tab-6" className="tab tab-bordered px-6">Scheduled Meetings</label>
+                <label htmlFor="tab-6" className="tab tab-bordered px-6 text-gray-200 hover:text-gray-100">Scheduled Meetings</label>
             </div>
 
             <div className="tab-content mt-4">
