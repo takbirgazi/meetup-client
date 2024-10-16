@@ -1,9 +1,15 @@
-import React, { useState } from "react";
+import React from "react";
 import toast from "react-hot-toast";
-import { Link, NavLink, ScrollRestoration, useLocation, useNavigate } from "react-router-dom";
+import {
+  Link,
+  NavLink,
+  ScrollRestoration,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
+import logo from "../../assets/MeetUp.png";
 import useAuth from "../../hooks/useAuth";
 import { axiosCommon } from "../../hooks/useAxiosCommon";
-import logo from '../../assets/MeetUp.png';
 
 const Login = () => {
   const { user, logIn, googleSignIn, githubSignIn } = useAuth();
@@ -39,6 +45,8 @@ const Login = () => {
           email: result.user.email,
           userName: result.user.displayName,
           photoURL: result.user.photoURL,
+          password: "",
+          role: "general-user",
           createdAt: result.user.metadata.creationTime,
           lastLoginAt: result.user.metadata.lastSignInTime,
         };
@@ -57,12 +65,14 @@ const Login = () => {
     githubSignIn()
       .then((result) => {
         // console.log(result.user)
-        toast.success("Log In Successfully!")
+        toast.success("Log In Successfully!");
 
         const userInfo = {
           email: result.user.email,
           userName: result.user.displayName,
           photoURL: result.user.photoURL,
+          password: "",
+          role: "general-user",
           createdAt: result.user.metadata.creationTime,
           lastLoginAt: result.user.metadata.lastSignInTime,
         };
@@ -77,12 +87,9 @@ const Login = () => {
 
   return (
     <>
-      {
-        user && ( // If user is logged in, redirect to the room page
-          navigate(location?.state?.from?.pathname || "/room")
-        )
-      }
-      <div div className="bg-gray-900 h-screen" >
+      {user && // If user is logged in, redirect to the room page
+        navigate(location?.state?.from?.pathname || "/room")}
+      <div div className="bg-gray-900 h-screen">
         <ScrollRestoration />
         {/* <TitleBanner title={"User Sign In"} route={"Home / Login"} /> */}
         <div className="w-full min-h-[calc(100vh-4.1rem)] flex items-center justify-center">
@@ -154,11 +161,15 @@ const Login = () => {
                 </button>
               </div>
             </div>
-            <div className="divider my-6 text-xs text-gray-300">or continue with</div>
+            <div className="divider my-6 text-xs text-gray-300">
+              or continue with
+            </div>
 
             <form onSubmit={handleSignIn} className="form-group">
               <div className="form-field">
-                <label className="form-label text-gray-300">Email address</label>
+                <label className="form-label text-gray-300">
+                  Email address
+                </label>
 
                 <input
                   name="email"
@@ -219,8 +230,7 @@ const Login = () => {
             </form>
           </div>
         </div>
-      </div >
-
+      </div>
     </>
   );
 };
