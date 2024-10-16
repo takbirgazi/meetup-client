@@ -19,10 +19,10 @@ const Whiteboard = () => {
     };
 
     return (
-        <div className="flex flex-col w-full p-8 shadow-xl rounded-lg bg-gradient-to-r from-gray-100 to-gray-200" id="whiteboard-container">
+        <div className="flex flex-col w-full p-8 shadow-xl rounded-lg bg-gradient-to-r from-gray-700 to-slate-700 text-white" id="whiteboard-container">
             <h2 className="text-2xl font-bold mb-4 text-center">Interactive Whiteboard</h2>
 
-            <div className="flex-grow mb-6 " style={{ minHeight: '600px' }}>
+            <div className="flex-grow mb-6" style={{ minHeight: '600px' }}>
                 <Tldraw
                     ref={tldrawRef}
                     style={{ width: '100%', height: '100%', minHeight: '600px' }}
@@ -32,7 +32,7 @@ const Whiteboard = () => {
             {/* Toolbar with Reset and Fullscreen buttons */}
             <div className="flex justify-center gap-4 mb-6">
                 <button
-                    className="flex items-center px-4 py-2 text-white bg-green-500 hover:bg-green-600 rounded shadow-md"
+                    className="flex items-center px-4 py-2 text-white bg-blue-600 hover:bg-blue-700 rounded shadow-md"
                     onClick={toggleFullscreen}
                 >
                     <FaExpand className="mr-2" /> Fullscreen
