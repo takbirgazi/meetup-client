@@ -5,9 +5,6 @@ import ErrorPage from "./../pages/ErrorPage/ErrorPage";
 import Home from "./../pages/Home/Home";
 import SignUp from "../pages/SignUp/SignUp";
 import LogIn from "../pages/LogIn/LogIn";
-import Room from "../pages/Room/Room";
-// import Meeting from "../pages/Meeting/Meeting";
-// import MyPreJoin from "../components/MyPrejoin/MyPrejoin";
 import Landing from "../pages/Landing/Landing";
 import PrivateRoute from '../routes/PrivateRoute';
 import Dashboard from "../pages/Dashboard/Dashboard";
@@ -17,7 +14,10 @@ import Meetings from "../pages/Dashboard/DashboardComponents/Meetings/Meetings";
 import Support from "../pages/Dashboard/DashboardComponents/Support/Support";
 import Profile from "../pages/Dashboard/DashboardComponents/Profile/Profile";
 import ChangePassword from "../pages/Dashboard/DashboardComponents/ChangePassword/ChangePassword";
-import Meeting from '../pages/Meeting/Page';
+import Meeting from "../pages/Meeting/MeetingWithStremio";
+// import Meeting from "../pages/Meeting/MeetingWithLiveKit";
+// import MyPreJoin from "../components/MyPrejoin/MyPrejoin";
+// import Meeting from '../pages/Meeting/MeetingWithZegoCloud';
 
 const router = createBrowserRouter([
     {
@@ -38,12 +38,16 @@ const router = createBrowserRouter([
                 element: <SignUp />
             },
             // {
-            //     path: "/room/:id",
+            //     path: "/room/:id", // meeting with LiveKit
             //     element: <MyPreJoin><Meeting /></MyPreJoin>
             // },
+            // {
+            //     path: "/room/:id", // Meeting with ZegoCloud
+            //     element: <PrivateRoute><Meeting /></PrivateRoute>
+            // },
             {
-                path: "/room/:id",
-                element: <PrivateRoute><Meeting /></PrivateRoute>
+                path: "/room/:id", // Meeting With Stremio
+                element: <Meeting />
             },
             {
                 path: "/room",
