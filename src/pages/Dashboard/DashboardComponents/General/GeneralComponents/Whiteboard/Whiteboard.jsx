@@ -19,7 +19,7 @@ const Whiteboard = () => {
     };
 
     return (
-        <div className="flex flex-col w-full p-8 shadow-xl rounded-lg bg-gradient-to-r from-slate-200 to-slate-400" id="whiteboard-container">
+        <div className="flex flex-col w-full p-8 shadow-xl rounded-lg bg-gradient-to-r from-gray-100 to-gray-200" id="whiteboard-container">
             <h2 className="text-2xl font-bold mb-4 text-center">Interactive Whiteboard</h2>
 
             <div className="flex-grow mb-6 " style={{ minHeight: '600px' }}>

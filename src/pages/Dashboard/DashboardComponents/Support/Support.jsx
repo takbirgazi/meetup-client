@@ -66,7 +66,7 @@ const Support = () => {
     }, []);
 
     return (
-        <div id="support" className="h-[calc(100vh-20px)] flex items-center justify-center bg-gradient-to-r from-[#4e5668] to-[#101827]">
+        <div id="support" className="h-[calc(100vh-20px)] flex items-center justify-center">
             <div className=" px-6">
                 
                 <div className="text-center">
