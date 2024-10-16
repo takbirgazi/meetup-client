@@ -10,17 +10,19 @@ import { IoCopyOutline } from "react-icons/io5";
 import { TiPlusOutline } from "react-icons/ti";
 import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
+import MiniScheduleTable from "../../components/MiniScheduleTable/MiniScheduleTable";
 import Navbar from "../../components/Navbar/Navbar";
 import options from "../../components/ParticleOptions/ParticleOptions";
 import useAuth from "../../hooks/useAuth";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const Home = () => {
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
   const navigate = useNavigate();
   const [meetingInput, setMeetingInput] = useState("");
   const axiosSecure = useAxiosSecure();
   const [init, setInit] = useState(false);
+  const [meetings, setMeetings] = useState([]);
 
   // this should be run only once per application lifetime
   useEffect(() => {
@@ -206,6 +208,34 @@ const Home = () => {
       toast.error("Meeting not found.");
     }
   };
+  // added by minhaj
+  useEffect(() => {
+    const fetchMeetings = async () => {
+      try {
+        const response = await axiosSecure("/meetings"); // Adjust the endpoint as needed
+        const allMeetings = response.data;
+
+        // Filter meetings based on status and current user
+        const userMeetings = allMeetings.filter(
+          (meeting) =>
+            meeting.status === "scheduled" &&
+            meeting.participants.some(
+              (participant) => participant.email === user.email
+            )
+        );
+
+        setMeetings(userMeetings);
+        console.log(meetings);
+      } catch (error) {
+        console.error("Error fetching meetings:", error);
+        toast.error("Error fetching meetings");
+      }
+    };
+
+    if (user) {
+      fetchMeetings();
+    }
+  }, [user]);
   return (
     <div className="min-h-screen min-w-screen relative">
       <Helmet>
@@ -222,7 +252,8 @@ const Home = () => {
             className="absolute top-0 left-0 w-full h-full"
           />
         )}
-        <div className="min-h-screen-100 relative flex flex-col items-center justify-center w-full max-w-screen-xl mx-auto">
+        <div className="min-h-screen-100 relative flex flex-col md:flex-row justify-between items-center  w-full max-w-screen-xl mx-auto">
+          {/* left side */}
           <div className="flex flex-col items-center">
             <div className="text-center space-y-1 text-balance">
               <h1 className="text-3xl text-white">
@@ -273,7 +304,14 @@ const Home = () => {
                         onSubmit={handleSubmit(onSubmit)}
                         className="flex flex-col gap-3"
                       >
-                        <div className="text-center my-6">
+                        <div className="text-center space-y-4 my-6">
+                          {/* <input
+                            id="date"
+                            type="datetime-local"
+                            className="input text-black bg-white border border-gray-300 rounded p-2 w-full"
+                            {...register("date", { required: true })}
+                          /> */}
+                          {/* date input and time */}
                           <input
                             id="date"
                             type="datetime-local"
@@ -313,6 +351,15 @@ const Home = () => {
               </button>
             </div>
           </div>
+          {/* here I want to show the scheduled meetings and their links inside a button */}
+          {/* right side */}
+          <div className="flex flex-col items-center gap-4 mt-4">
+            {/* table code from here */}
+            {/* Dear team, you can make a component for the table and use it here */}
+            <MiniScheduleTable meetings={meetings} loading={loading} />
+            {/* table code ends here */}
+          </div>
+          {/* right side ends here */}
         </div>
       </div>
     </div>

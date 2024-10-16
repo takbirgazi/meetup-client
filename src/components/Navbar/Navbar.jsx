@@ -1,10 +1,10 @@
 import moment from "moment";
+import toast from "react-hot-toast";
 import { MdDashboard, MdLogout } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
 import avatar from "../../assets/cat.png";
+import logo from "../../assets/MeetUp.png";
 import useAuth from "../../hooks/useAuth";
-import toast from "react-hot-toast";
-import logo from "../../assets/MeetUp.png"
 
 const Navbar = () => {
   const { user, logOut } = useAuth();
@@ -15,7 +15,7 @@ const Navbar = () => {
       .then(() => {
         toast.success("Log Out Successful!");
         localStorage.removeItem("access-token");
-        navigate("/")
+        navigate("/");
       })
       .catch((error) => {
         toast.error("Log Out Failed!");
@@ -57,26 +57,25 @@ const Navbar = () => {
                       alt="User Avatar"
                       onError={(e) => {
                         e.target.onerror = null;
-                        e.target.src =
-                          "https://robohash.org/5412b0d6dbdaee417c459769cef79737?set=set4&bgset=&size=400x400"; // Fallback image
+                        e.target.src = "https://i.ibb.co.com/swx9yyV/cat.png"; // Fallback image
                       }}
                       className="rounded-full"
                     />
                   ) : (
                     <img
                       src={avatar} // Fallback image
-                      alt="Default Avatar"
+                      alt="Default Avatar "
                       className="rounded-full"
                     />
                   )}
                 </label>
 
                 <div className="dropdown-menu dropdown-menu-bottom-left">
-                  <Link to={'/dashboard'}
-                  >
+                  <Link to={"/dashboard"}>
                     <p className="dropdown-item text-sm flex-row items-center gap-2">
                       {" "}
-                      {/* <IoMdPerson /> {user?.displayName} */} <MdDashboard /> Dashboard
+                      {/* <IoMdPerson /> {user?.displayName} */} <MdDashboard />{" "}
+                      Dashboard
                     </p>
                   </Link>
 
