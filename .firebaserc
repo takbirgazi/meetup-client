@@ -1,5 +1,9 @@
 {
   "projects": {
-    "default": "tech-thunders-meet"
-  }
+    "default": "meetup-9da89",
+    "meetup": "meetup-9da89"
+  },
+  "targets": {},
+  "etags": {},
+  "dataconnectEmulatorConfig": {}
 }
