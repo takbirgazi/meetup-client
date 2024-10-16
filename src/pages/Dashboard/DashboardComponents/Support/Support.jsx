@@ -68,14 +68,14 @@ const Support = () => {
   return (
     <div
       id="support"
-      className="h-[calc(100vh-20px)] flex items-center justify-center bg-gradient-to-r from-[#4e5668] to-[#101827]"
+      className="h-[calc(100vh-40px)] flex items-center justify-center rounded-lg bg-gradient-to-r from-slate-200 to-slate-400"
     >
       <div className=" px-6">
         <div className="text-center">
-          <h2 className="text-3xl font-extrabold text-white sm:text-4xl">
+          <h2 className="text-3xl font-extrabold sm:text-4xl">
             Need Help? We're Here to Support You
           </h2>
-          <p className="pt-4 text-lg text-gray-300">
+          <p className="pt-4 text-lg text-gray-800">
             If you're facing any issues or have questions about using MeetUp,
             feel free to reach out to us. Our team is here to help with
             technical problems, setup, and more.
@@ -90,7 +90,7 @@ const Support = () => {
             <h3 className="text-2xl font-semibold text-gray-900">
               Email Support
             </h3>
-            <p className="mt-4 text-gray-600">
+            <p className="mt-4 text-gray-800">
               You can send us an email at{" "}
               <a
                 href="mailto:support@meetup.com"
@@ -113,7 +113,7 @@ const Support = () => {
               <IoChatbubbleEllipsesSharp className="h-12 w-12 border-2 border-transparent p-1 rounded-full" />
             </div>
             <h3 className="text-2xl font-semibold text-gray-900">Live Chat</h3>
-            <p className="mt-4 text-gray-600">
+            <p className="mt-4 text-gray-800">
               Need immediate help? Start a live chat with our support team and
               get your questions answered in real-time.
             </p>
