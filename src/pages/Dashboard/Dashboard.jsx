@@ -167,7 +167,7 @@ const Dashboard = () => {
                     <Outlet />
                     {/* AI Chat Integration Button */}
                     {/* ChatBot Popover */}
-                    <div className="popover fixed bottom-5 right-5">
+                    <div className="popover fixed bottom-28 right-7">
                         <label
                             className="popover-trigger my-2 cursor-pointer hover:shadow-xl hover:shadow-blue-400 rounded-full"
                             tabIndex="0"

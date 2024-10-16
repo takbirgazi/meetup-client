@@ -87,9 +87,13 @@ const Login = () => {
 
   return (
     <>
-      {user && // If user is logged in, redirect to the room page
-        navigate(location?.state?.from?.pathname || "/room")}
-      <div div className="bg-gray-900 h-screen">
+
+      {
+        user && ( // If user is logged in, redirect to the room page
+          navigate(location?.state?.from?.pathname || "/room")
+        )
+      }
+      <div className="bg-gray-900 h-screen" >
         <ScrollRestoration />
         {/* <TitleBanner title={"User Sign In"} route={"Home / Login"} /> */}
         <div className="w-full min-h-[calc(100vh-4.1rem)] flex items-center justify-center">
