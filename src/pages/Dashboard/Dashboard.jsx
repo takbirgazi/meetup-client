@@ -17,13 +17,13 @@ const Dashboard = () => {
 
     const { user, logOut } = useAuth();
 
-    const menuActive = `menu-active bg-black hover:bg-black hover:text-white`;
+    const menuActive = `menu-active bg-black`;
     const menuItem = "menu-item ml-6";
 
     const mainMenuItems =
         <>
             <NavLink to={`/dashboard`} end className={({ isActive }) => isActive ? menuActive : ''}>
-                <li className="menu-item text-white">
+                <li className="menu-item text-white hover:bg-gray-950">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 opacity-75" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
                         <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -33,7 +33,7 @@ const Dashboard = () => {
             </NavLink>
 
             <NavLink to={`/dashboard/meetings`} className={({ isActive }) => isActive ? menuActive : ''}>
-                <li className="menu-item text-white">
+                <li className="menu-item text-white hover:bg-gray-950">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 opacity-75" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
                     </svg>
@@ -42,7 +42,7 @@ const Dashboard = () => {
             </NavLink>
 
             <NavLink to={`/dashboard/support`} className={({ isActive }) => isActive ? menuActive : ''}>
-                <li className="menu-item text-white">
+                <li className="menu-item text-white hover:bg-gray-950">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 opacity-75" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                     </svg>
@@ -52,7 +52,7 @@ const Dashboard = () => {
 
             <li>
                 <input type="checkbox" id="menu-1" className="menu-toggle" />
-                <label className="menu-item justify-between" htmlFor="menu-1">
+                <label className="menu-item justify-between hover:bg-gray-950" htmlFor="menu-1">
                     <div className="flex gap-2 text-white">
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 opacity-75" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
@@ -67,17 +67,17 @@ const Dashboard = () => {
                     </span>
                 </label>
 
-                <div className="menu-item-collapse bg-white rounded-xl">
+                <div className="menu-item-collapse bg-gray-950 rounded-xl text-gray-100">
                     <div className="min-h-0">
                         <NavLink
                             to={`/dashboard/profile`}
-                            className={({ isActive }) => `${menuItem} ${isActive ? menuActive : ""}`}
+                            className={({ isActive }) => `${menuItem} ${isActive ? menuActive : "text-gray-200"}  hover:text-gray-950 my-2 max-w-[85%]`}
                         >
                             Profile
                         </NavLink>
                         <NavLink
                             to={`/dashboard/change-password`}
-                            className={({ isActive }) => `${menuItem} ${isActive ? menuActive : ""}`}
+                            className={({ isActive }) => `${menuItem} ${isActive ? menuActive : "text-gray-200"} hover:text-gray-950 my-2 max-w-[85%]`}
                         >
                             Change Password
                         </NavLink>
@@ -106,7 +106,7 @@ const Dashboard = () => {
         </>
 
     return (
-        <div className="flex flex-row sm:gap-10 ">
+        <div className="flex flex-row sm:gap-10 bg-gradient-to-r from-[#101827] to-[#4e5668] min-h-screen">
             <div className="sm:w-full sm:max-w-[18rem] ">
                 <input type="checkbox" id="sidebar-mobile-fixed" className="sidebar-state" />
                 <label htmlFor="sidebar-mobile-fixed" className="sidebar-overlay"></label>
@@ -167,7 +167,7 @@ const Dashboard = () => {
                     <Outlet />
                     {/* AI Chat Integration Button */}
                     {/* ChatBot Popover */}
-                    <div className="popover fixed bottom-28 right-7">
+                    <div className="popover fixed bottom-28 right-4 z-[99999]">
                         <label
                             className="popover-trigger my-2 cursor-pointer hover:shadow-xl hover:shadow-blue-400 rounded-full"
                             tabIndex="0"
