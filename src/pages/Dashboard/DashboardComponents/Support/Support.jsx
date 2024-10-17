@@ -89,7 +89,7 @@ const Support = () => {
             <p className="mt-4 text-gray-200">
               You can send us an email at <a href="mailto:support@meetup.com" className="text-indigo-400 hover:text-indigo-500">meetup24bd@gmail.com</a> and we'll get back to you as soon as possible.
             </p>
-            <button onClick={openModal} className="mt-6 px-4 py-2 border border-white text-white rounded hover:bg-[#101827] hover:text-white">
+            <button onClick={openModal} className="mt-6 px-4 py-2 bg-gradient-to-r from-[#ffbfff] to-[#a2deff] rounded ">
               Send Email
             </button>
           </div>
@@ -135,6 +135,7 @@ const Support = () => {
                   value={formData.email}
                   onChange={handleInputChange}
                   className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                  placeholder="Enter Your Email"
                   required
                 />
               </div>
