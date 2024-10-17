@@ -14,11 +14,11 @@ import Meetings from "../pages/Dashboard/DashboardComponents/Meetings/Meetings";
 import Support from "../pages/Dashboard/DashboardComponents/Support/Support";
 import Profile from "../pages/Dashboard/DashboardComponents/Profile/Profile";
 import ChangePassword from "../pages/Dashboard/DashboardComponents/ChangePassword/ChangePassword";
-import Meeting from "../pages/Meeting/MeetingWithStremio";
+// import Meeting from "../pages/Meeting/MeetingWithStremio"; // Meeting With Stremio 
 import ToDoApp from "../pages/Dashboard/DashboardComponents/General/GeneralComponents/ToDoList/ToDoApp";
 // import Meeting from "../pages/Meeting/MeetingWithLiveKit";
 // import MyPreJoin from "../components/MyPrejoin/MyPrejoin";
-// import Meeting from '../pages/Meeting/MeetingWithZegoCloud';
+import Meeting from '../pages/Meeting/MeetingWithZegoCloud';
 
 const router = createBrowserRouter([
     {
@@ -42,14 +42,14 @@ const router = createBrowserRouter([
             //     path: "/room/:id", // meeting with LiveKit
             //     element: <MyPreJoin><Meeting /></MyPreJoin>
             // },
-            // {
-            //     path: "/room/:id", // Meeting with ZegoCloud
-            //     element: <PrivateRoute><Meeting /></PrivateRoute>
-            // },
             {
-                path: "/room/:id", // Meeting With Stremio
-                element: <Meeting />
+                path: "/room/:id", // Meeting with ZegoCloud
+                element: <PrivateRoute><Meeting /></PrivateRoute>
             },
+            // {
+            //     path: "/room/:id", // Meeting With Stremio
+            //     element: <Meeting />
+            // },
             {
                 path: "/room",
                 element: <Home />
