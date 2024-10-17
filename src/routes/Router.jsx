@@ -15,6 +15,7 @@ import Support from "../pages/Dashboard/DashboardComponents/Support/Support";
 import Profile from "../pages/Dashboard/DashboardComponents/Profile/Profile";
 import ChangePassword from "../pages/Dashboard/DashboardComponents/ChangePassword/ChangePassword";
 import Meeting from "../pages/Meeting/MeetingWithStremio";
+import ToDoApp from "../pages/Dashboard/DashboardComponents/General/GeneralComponents/ToDoList/ToDoApp";
 // import Meeting from "../pages/Meeting/MeetingWithLiveKit";
 // import MyPreJoin from "../components/MyPrejoin/MyPrejoin";
 // import Meeting from '../pages/Meeting/MeetingWithZegoCloud';
@@ -80,6 +81,10 @@ const router = createBrowserRouter([
                     {
                         path: "change-password",
                         element: <ChangePassword />,
+                    },
+                    {
+                        path: "ToDoApp",
+                        element: <ToDoApp></ToDoApp>,
                     }
                 ]
             },
