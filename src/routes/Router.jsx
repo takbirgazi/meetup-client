@@ -18,6 +18,7 @@ import Meeting from "../pages/Meeting/MeetingWithStremio";
 // import Meeting from "../pages/Meeting/MeetingWithLiveKit";
 // import MyPreJoin from "../components/MyPrejoin/MyPrejoin";
 // import Meeting from '../pages/Meeting/MeetingWithZegoCloud';
+// import Meeting from '../pages/Meeting/MeetingWithZegoCloud';
 
 const router = createBrowserRouter([
     {
@@ -51,7 +52,7 @@ const router = createBrowserRouter([
             },
             {
                 path: "/room",
-                element: <Home />
+                element: <PrivateRoute><Home /></PrivateRoute>
             },
             {
                 path: "/contact",

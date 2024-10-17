@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import toast, { Toaster } from "react-hot-toast";
 import useAuth from "../../../../hooks/useAuth";
 import { axiosCommon } from "../../../../hooks/useAxiosCommon";
+import 'ldrs/hourglass'
+
 
 const ChangePassword = () => {
   const [hasPassword, setHasPassword] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [successMessage, setSuccessMessage] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
 
-  const { user } = useAuth();
+  const { user, passwordUpdate } = useAuth();
 
   const {
     register,
@@ -40,12 +41,10 @@ const ChangePassword = () => {
   }, [user?.email]);
 
   const onSubmit = async (data) => {
-    // console.log("Form data:", data);
-
     if (hasPassword) {
       const { newPassword, confirmPassword } = getValues();
       if (newPassword !== confirmPassword) {
-        setErrorMessage("Passwords do not match");
+        toast.error("Passwords do not match");
         return;
       }
     }
@@ -57,21 +56,37 @@ const ChangePassword = () => {
         newPassword: data.newPassword,
       });
 
-      setSuccessMessage(response.data.message);
-      setErrorMessage(""); // Clear any previous error messages
+      passwordUpdate(data.newPassword);
+
+      toast.success(response.data.message);
+      reset();
     } catch (error) {
       console.log("Error changing password:", error);
-      setErrorMessage(error.response?.data?.message || "An error occurred");
-      setSuccessMessage(""); // Clear any previous success messages
+      toast.error(error.response?.data?.message || "An error occurred",
+        {
+          position: "bottom-center",
+          style: {
+            padding: '10px',
+            background: '#2133',
+            color: '#fff',
+          }
+
+        }
+      );
     }
   };
 
   if (loading) {
-    return <p>Loading...</p>;
+    return <l-hourglass
+      size="40"
+      bg-opacity="0.3"
+      speed="2.75"
+      color="black"
+    ></l-hourglass>;
   }
 
   return (
-    <div className="max-w-md mx-auto p-6 bg-gradient-to-r from-gray-500 to-gray-700 text-slate-200 rounded shadow-md">
+    <div className="max-w-md mx-auto p-6 bg-gradient-to-r from-gray-500 to-gray-700 text-blue-400 rounded shadow-md">
       <h2 className="text-2xl font-semibold mb-4">
         {hasPassword ? "Change Password" : "Set New Password"}
       </h2>
@@ -87,6 +102,7 @@ const ChangePassword = () => {
             <input
               id="currentPassword"
               type="password"
+              placeholder="Enter current Password"
               className="input text-black bg-gray-100 border border-gray-300 rounded p-2 w-full"
               {...register("currentPassword", {
                 required: "Current password is required",
@@ -108,6 +124,7 @@ const ChangePassword = () => {
           <input
             id="newPassword"
             type="password"
+            placeholder="Enter new Password"
             className="input text-black bg-gray-100 border border-gray-300 rounded p-2 w-full"
             {...register("newPassword", {
               required: "New password is required",
@@ -132,6 +149,7 @@ const ChangePassword = () => {
           <input
             id="confirmPassword"
             type="password"
+            placeholder="Confirm new Password"
             className="input text-black bg-gray-100 border border-gray-300 rounded p-2 w-full"
             {...register("confirmPassword", {
               required: "Please confirm your new password",
@@ -153,9 +171,6 @@ const ChangePassword = () => {
           {hasPassword ? "Change Password" : "Set Password"}
         </button>
       </form>
-
-      {successMessage && (<p className="mt-4 text-green-500">{successMessage}</p>)}
-      {errorMessage && <p className="mt-4 text-red-500">{errorMessage}</p>}
     </div>
   );
 };

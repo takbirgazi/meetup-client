@@ -4,14 +4,14 @@ import useAuth from "../../../../hooks/useAuth";
 import { axiosCommon } from "../../../../hooks/useAxiosCommon";
 
 const Profile = () => {
+    const { user, profileUpdate, setLoading } = useAuth();
     const [editMode, setEditMode] = useState(false);
     const [formData, setFormData] = useState({
         userName: "",
         email: "",
-        photoURL: "",
+        photoURL: ""|| user?.photoURL,
     });
 
-    const { user, profileUpdate, setLoading } = useAuth();
     const IMGBB_API_KEY = '1b1fbff76382bc5873f0dedaa1c82836';
 
     const handleChange = (e) => {
@@ -67,7 +67,7 @@ const Profile = () => {
 
     return (
         <div className="p-4 max-w-2xl mx-auto sm:p-6 lg:p-8">
-            <div className="ripple-card shadow-lg bg-gradient-to-r from-gray-50 to-gray-100 shadow-[#596a8c] rounded-lg">
+            <div className="ripple-card shadow-lg bg-gradient-to-r from-gray-500 to-gray-300 shadow-[#596a8c] rounded-lg">
                 <div className="ripple-card-body p-6">
                     <div className="flex items-center justify-between mb-6">
                         <h2 className="text-2xl font-bold">Profile</h2>
@@ -79,7 +79,7 @@ const Profile = () => {
                         </button>
                     </div>
 
-                    <div className="flex flex-col items-center sm:flex-row sm:items-start sm:space-x-6">
+                    <div className="flex flex-col flex-wrap items-center sm:flex-row sm:items-start sm:space-x-6">
                         <img
                             className="w-24 h-24 sm:w-32 sm:h-32 rounded-full mb-4 sm:mb-0"
                             src={user?.photoURL}
@@ -119,7 +119,7 @@ const Profile = () => {
 
                             {
                                 editMode ? (
-                                    <div className="mb-4 ripple-card border hover:border-primary p-3">
+                                    <div className="mb-4 ripple-card border rounded-md hover:border-primary p-3">
                                         <label className="block font-bold text-gray-700 mb-2">Photo URL:</label>
                                         <input
                                             type="text"

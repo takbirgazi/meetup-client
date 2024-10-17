@@ -23,6 +23,7 @@
     "emailjs-com": "^3.2.0",
     "firebase": "^10.13.2",
     "keen-slider": "^6.8.6",
+    "ldrs": "^1.0.2",
     "livekit-client": "^2.5.7",
     "localforage": "^1.10.0",
     "match-sorter": "^6.3.4",

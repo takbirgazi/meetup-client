@@ -79,7 +79,7 @@ const Dashboard = () => {
                             to={`/dashboard/change-password`}
                             className={({ isActive }) => `${menuItem} ${isActive ? menuActive : "text-gray-200"} hover:text-gray-950 my-2 max-w-[85%]`}
                         >
-                            Change Password
+                            Password
                         </NavLink>
 
                     </div>
