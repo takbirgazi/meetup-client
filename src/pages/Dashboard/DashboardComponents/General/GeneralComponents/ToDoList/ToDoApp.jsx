@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { FaArrowLeft, FaTrash } from "react-icons/fa";
+import { FaArrowLeft, FaTrash, FaEdit, FaSave } from "react-icons/fa"; // FaEdit and FaSave for edit and save icons
 import { useNavigate } from "react-router-dom";
 import useAuth from "../../../../../../hooks/useAuth";
 import useAxiosCommon from "../../../../../../hooks/useAxiosCommon";
@@ -7,6 +7,8 @@ import useAxiosCommon from "../../../../../../hooks/useAxiosCommon";
 const ToDoApp = () => {
   const [tasks, setTasks] = useState([]);
   const [newTask, setNewTask] = useState("");
+  const [editIndex, setEditIndex] = useState(null); 
+  const [editTaskText, setEditTaskText] = useState(""); 
   const navigate = useNavigate();
   const axiosCommon = useAxiosCommon();
   const { user } = useAuth();
@@ -58,14 +60,30 @@ const ToDoApp = () => {
     setTasks(updatedTasks);
   };
 
-  //   const completedTasks = tasks.filter((task) => task.completed).length;
+  // Handle entering edit mode for a task
+  const handleEditTask = (index) => {
+    setEditIndex(index); 
+    setEditTaskText(tasks[index].text); 
+  };
+
+  // Handle saving the edited task
+  const saveEditTask = async (index) => {
+    const updatedTask = { ...tasks[index], text: editTaskText };
+    await axiosCommon.patch(`/tasks/${tasks[index]._id}`, updatedTask);
+    const updatedTasks = [...tasks];
+    updatedTasks[index] = updatedTask;
+    setTasks(updatedTasks);
+    setEditIndex(null); 
+  };
+
+ 
   const completedTasks = tasks.filter(
     (task) => task.completed && task.email === user.email
   ).length;
   const myTasks = tasks.filter((task) => task.email === user.email);
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center  relative">
+    <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center relative">
       {/* Back Button */}
       <button
         className="absolute top-4 left-4 p-2 rounded-full hover:bg-gray-700 transition"
@@ -85,7 +103,7 @@ const ToDoApp = () => {
       </div>
 
       {/* Add Task Section */}
-      <div className="w-full max-w-md mb-6 flex">
+      <div className="w-[90%] lg:w-full max-w-md mb-6 flex">
         <input
           type="text"
           className="flex-1 p-2 rounded-l-lg bg-gray-800 text-gray-300"
@@ -103,29 +121,58 @@ const ToDoApp = () => {
       </div>
 
       {/* Task List */}
-      <div className="w-full max-w-md">
-        {tasks
-          .filter((task) => task.email === user.email)
-          .map((task, index) => (
-            <div
-              key={index}
-              className="flex items-center justify-between bg-gray-800 p-4 mb-2 rounded-lg"
-            >
-              <div className="flex items-center">
-                <button
-                  onClick={() => toggleTaskCompletion(index)}
-                  className={`mr-3 ${
-                    task.completed ? "text-green-400" : "text-gray-400"
-                  }`}
-                >
-                  {task.completed ? "✓" : "✗"}
-                </button>
+      <div className="w-[90%] lg:w-full max-w-md">
+        {myTasks.map((task, index) => (
+          <div
+            key={index}
+            className="flex items-center justify-between bg-gray-800 p-4 mb-2 rounded-lg"
+          >
+            <div className="flex items-center">
+              <button
+                onClick={() => toggleTaskCompletion(index)}
+                className={`mr-3 ${
+                  task.completed ? "text-green-400" : "text-gray-400"
+                }`}
+              >
+                {task.completed ? "✓" : "✗"}
+              </button>
+
+              {/* Edit mode input or task text */}
+              {editIndex === index ? (
+                <input
+                  type="text"
+                  className="bg-gray-700 text-white p-1 rounded outline-none"
+                  value={editTaskText}
+                  onChange={(e) => setEditTaskText(e.target.value)}
+                />
+              ) : (
                 <span
                   className={task.completed ? "line-through text-gray-500" : ""}
                 >
                   {task.text}
                 </span>
-              </div>
+              )}
+            </div>
+
+            <div className="flex items-center space-x-2">
+              {/* Edit/Save button */}
+              {editIndex === index ? (
+                <button
+                  onClick={() => saveEditTask(index)}
+                  className="text-blue-500"
+                >
+                  <FaSave />
+                </button>
+              ) : (
+                <button
+                  onClick={() => handleEditTask(index)}
+                  className="text-yellow-500"
+                >
+                  <FaEdit />
+                </button>
+              )}
+
+              {/* Delete button */}
               <button
                 onClick={() => deleteTask(index)}
                 className="text-red-500"
@@ -133,7 +180,8 @@ const ToDoApp = () => {
                 <FaTrash />
               </button>
             </div>
-          ))}
+          </div>
+        ))}
       </div>
     </div>
   );

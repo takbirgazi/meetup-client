@@ -27,3 +27,6 @@
 - keen-slider
 - @zegocloud/zego-uikit-prebuilt
 - @stream-io/video-react-sdk
+- tawk.to
+- Emailjs
+

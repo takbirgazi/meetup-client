@@ -73,35 +73,35 @@ const Support = () => {
           <h2 className="text-3xl font-extrabold text-white sm:text-4xl">
             Need Help? We're Here to Support You
           </h2>
-          <p className="pt-4 text-lg text-gray-300">
+          <p className="pt-4 text-md text-gray-200">
             If you're facing any issues or have questions about using MeetUp, feel free to reach out to us. Our team is here to help with technical problems, setup, and more.
           </p>
         </div>
 
         <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-6 ">
-          <div className="flex-1 bg-white shadow-lg rounded-lg p-6 text-center">
+          <div className="flex-1 bg-gray-900 shadow-lg rounded-lg p-6 text-center">
             <div className="flex items-center justify-center py-5">
-              <MdEmail className="h-12 w-12 border-2 border-transparent p-1 rounded-full" />
+              <MdEmail className="h-12 w-12 border-2 border-transparent p-1 rounded-full text-white" />
             </div>
-            <h3 className="text-2xl font-semibold text-gray-900">
+            <h3 className="text-2xl font-semibold text-white">
               Email Support
             </h3>
-            <p className="mt-4 text-gray-600">
-              You can send us an email at <a href="mailto:support@meetup.com" className="text-indigo-600 hover:text-indigo-500">meetup24bd.com</a> and we'll get back to you as soon as possible.
+            <p className="mt-4 text-gray-200">
+              You can send us an email at <a href="mailto:support@meetup.com" className="text-indigo-400 hover:text-indigo-500">meetup24bd@gmail.com</a> and we'll get back to you as soon as possible.
             </p>
-            <button onClick={openModal} className="mt-6 px-4 py-2 border border-black text-black rounded hover:bg-[#101827] hover:text-white">
+            <button onClick={openModal} className="mt-6 px-4 py-2 border border-white text-white rounded hover:bg-[#101827] hover:text-white">
               Send Email
             </button>
           </div>
 
-          <div className="flex-1 bg-white shadow-lg rounded-lg p-6 text-center">
+          <div className="flex-1 bg-gray-900 shadow-lg rounded-lg p-6 text-center">
             <div className="flex items-center justify-center py-5">
-              <IoChatbubbleEllipsesSharp className="h-12 w-12 border-2 border-transparent p-1 rounded-full" />
+              <IoChatbubbleEllipsesSharp className="h-12 w-12 border-2 border-transparent p-1 rounded-full text-white" />
             </div>
-            <h3 className="text-2xl font-semibold text-gray-900">
+            <h3 className="text-2xl font-semibold text-white">
               Live Chat
             </h3>
-            <p className="mt-4 text-gray-600">
+            <p className="mt-4 text-gray-200">
               Need immediate help? Start a live chat with our support team and get your questions answered in real-time.
             </p>
           </div>
