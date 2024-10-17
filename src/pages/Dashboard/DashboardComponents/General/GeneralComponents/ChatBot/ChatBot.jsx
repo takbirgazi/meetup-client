@@ -189,10 +189,10 @@ const ChatBot = ({ onClose }) => {
   };
 
   return (
-    <div className="chat-bot-container flex flex-col min-h-[500px] max-h-[600px] left-8 md:left-0 border border-primary p-3 rounded-lg relative">
+    <div className="chat-bot-container flex flex-col bg-slate-700 min-h-[400px] max-h-[500px] left-8 md:left-0 border border-primary p-4 rounded-lg relative">
       {/* Header */}
       <div className="flex justify-between items-center mb-3">
-        <img src="/src/assets/images/chatBot.png" alt="ChatBot" className="w-14 h-14" />
+        <img src="/src/assets/images/chatBot.png" alt="ChatBot" className="w-14 h-14" title="Chatbot"/>
         <div className="flex justify-center items-center space-x-1">
           <button onClick={clearChatHistory} className="btn btn-sm btn-ghost">
             <IoReload className="text-white hover:bg-gray-300 text-xl bg-blue-500 rounded-full p-1" />
