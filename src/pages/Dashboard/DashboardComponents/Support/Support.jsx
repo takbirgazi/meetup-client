@@ -66,11 +66,11 @@ const Support = () => {
   }, []);
 
   return (
-    <div id="support" className="h-[calc(100vh-20px)] flex items-center justify-center">
-      <div className=" px-6">
+    <div id="support" className=" flex items-center justify-center">
+      <div className="px-6">
 
         <div className="text-center">
-          <h2 className="text-3xl font-extrabold text-white sm:text-4xl">
+          <h2 className="text-3xl font-extrabold text-white sm:text-4xl mt-[8%]">
             Need Help? We're Here to Support You
           </h2>
           <p className="pt-4 text-md text-gray-200">
@@ -78,7 +78,7 @@ const Support = () => {
           </p>
         </div>
 
-        <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-6 ">
+        <div className="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-6 ">
           <div className="flex-1 bg-gray-900 shadow-lg rounded-lg p-6 text-center">
             <div className="flex items-center justify-center py-5">
               <MdEmail className="h-12 w-12 border-2 border-transparent p-1 rounded-full text-white" />
