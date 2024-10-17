@@ -8,7 +8,7 @@ const General = () => {
 
     return (
         <div className="flex flex-wrap justify-center gap-4 p-4">
-            <div className='flex gap-4 w-full'>
+            <div className='flex gap-4 w-full justify-evenly'>
                 <CalendarScheduling />
                 <ToDoList />
             </div>

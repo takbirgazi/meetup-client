@@ -289,7 +289,8 @@ const Home = () => {
                 <input className="modal-state" id="modal-2" type="checkbox" />
                 <div className="modal w-screen">
                   <label className="modal-overlay" htmlFor="modal-2"></label>
-                  <div className="modal-content min-h-72 flex flex-col gap-5 max-w-3xl bg-white text-black rounded-lg p-4 md:p-12">
+                  <div className="modal-content min-h-72 flex flex-col gap-5 max-w-3xl bg-gray-200 text-black rounded-lg  p-4 md:p-12">
+
                     <div className="flex flex-col min-h-60 justify-center">
                       <label
                         htmlFor="modal-2"
@@ -320,10 +321,13 @@ const Home = () => {
                         <div className="flex gap-3">
                           <button
                             type="submit"
-                            className="btn btn-error btn-block bg-[#1e3799]"
+                            className="btn text-black  btn-block bg-gradient-to-r from-[#ffbfff] to-[#a2deff] "
                           >
                             Submit
                           </button>
+  
+
+
                         </div>
                       </form>
                     </div>
@@ -337,7 +341,7 @@ const Home = () => {
                 onChange={(e) => setMeetingInput(e.target.value)}
               />
               <button
-                className="btn btn-solid-primary"
+                className="btn bg-gradient-to-r from-[#ffbfff] to-[#a2deff]"
                 onClick={handleJoinMeeting}
               >
                 Join
