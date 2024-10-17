@@ -22,7 +22,7 @@ const ToDoApp = () => {
     // Handle adding a new task
     const handleAddTask = async () => {
         if (newTask.trim()) {
-            const response = await axiosCommon.post('/tasks', {
+            const response = await axiosCommon.post('/toDoTasks', {
                 text: newTask,
             });
             setTasks([...tasks, response.data]);
@@ -34,7 +34,7 @@ const ToDoApp = () => {
     const toggleTaskCompletion = async (index) => {
         const task = tasks[index];
         const updatedTask = { ...task, completed: !task.completed };
-        await axiosCommon.patch(`/tasks/${task._id}`, updatedTask);
+        await axiosCommon.put(`/ToDoTasks/${task._id}`, updatedTask);
         const updatedTasks = [...tasks];
         updatedTasks[index] = updatedTask;
         setTasks(updatedTasks);
@@ -43,7 +43,7 @@ const ToDoApp = () => {
     // Handle deleting a task
     const deleteTask = async (index) => {
         const task = tasks[index];
-        await axiosCommon.delete(`/tasks/${task._id}`);
+        await axiosCommon.delete(`/ToDoTasks/${task._id}`);
         const updatedTasks = tasks.filter((_, i) => i !== index);
         setTasks(updatedTasks);
     };
