@@ -116,9 +116,9 @@ const Dashboard = () => {
                         className=''
                     >
                         <section className="sidebar-title items-center p-4 flex">
-                            <img src={logo} className='h-8 w-auto' />
+                            <img src={logo} className='h-10 w-auto mr-2' />
 
-                            <div className="flex flex-col text-white">
+                            <div className="flex flex-col text-white text-[20px]">
                                 <p>MeatUp</p>
                                 <p className="text-xs font-normal">Dashboard</p>
                             </div>

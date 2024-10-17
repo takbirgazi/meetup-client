@@ -14,8 +14,14 @@ const Banner = () => {
           connection from anywhere. With powerful features stay productive and
           engaged with a click
         </p>
-        <Link to={"/room"} className="btn btn-outline-primary font-semibold mt-2">
-          Explore with a meeting
+        
+        <Link
+          to="/room"
+          className="inline-block rounded-lg border-1 border-transparent bg-gradient-to-r from-[#ffbfff] to-[#a2deff] p-[2px] mt-2 font-semibold text-black hover:text-white transition-all duration-300"
+        >
+          <div className="bg-gray-900 text-white px-6 py-2 rounded-md hover:bg-gradient-to-r hover:from-[#ffbfff] hover:to-[#a2deff] hover:text-black">
+            Explore with a meeting
+          </div>
         </Link>
       </div>
 
