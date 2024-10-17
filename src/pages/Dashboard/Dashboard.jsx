@@ -79,7 +79,7 @@ const Dashboard = () => {
                             to={`/dashboard/change-password`}
                             className={({ isActive }) => `${menuItem} ${isActive ? menuActive : "text-gray-200"} hover:text-gray-950 my-2 max-w-[85%]`}
                         >
-                            Change Password
+                            Password
                         </NavLink>
 
                     </div>
@@ -89,7 +89,7 @@ const Dashboard = () => {
 
     const settingsMenuItems =
         <>
-            <div className="dropdown-menu-right-top dropdown-menu mb-5">
+            <div className="dropdown-menu-right-top dropdown-menu mb-5 bg-gradient-to-r from-gray-600 to-gray-700">
                 <NavLink to={`/room`} className={({ isActive }) => isActive ? menuActive : ''}>
                     <div className='menu-item'>
                         <MdOutlineMeetingRoom className='text-blue-600' />
@@ -136,11 +136,11 @@ const Dashboard = () => {
                         </nav>
                     </section>
                     <section className="sidebar-footer justify-end pt-2">
-                        <div className="divider my-0"></div>
-                        <div className="dropdown z-50 flex h-fit w-full cursor-pointer bg-[#FEFAF6] hover:bg-gray-4 ">
-                            <label className="whites mx-2 flex h-fit w-full cursor-pointer p-0 hover:bg-gray-4" tabIndex="0">
+                        {/* <div className="divider my-0"></div> */}
+                        <div className="dropdown z-50 flex h-fit w-full cursor-pointer bg-gradient-to-r from-gray-500 to-gray-800">
+                            <label className="whites mx-2 flex h-fit w-full cursor-pointer rounded-lg p-0 mt-2 hover:bg-gray-800 hover:text-gray-300" tabIndex="0">
                                 <div className="flex flex-row gap-4 p-4 justify-center items-center">
-                                    <div className="avatar-square avatar avatar-md">
+                                    <div className="avatar-ring avatar avatar-md">
                                         <img src={user?.photoURL} alt="avatar" />
                                     </div>
 
@@ -184,7 +184,7 @@ const Dashboard = () => {
                         </label>
                         {isChatBotOpen && (
                             // Position the popover-content above the button
-                            <div className="popover-content popover-top-left absolute w-screen max-w-md bottom-full mb-4 md:mr-5 bg-white border-2 border-slate-400" tabIndex="0">
+                            <div className="popover-content popover-top-left absolute w-screen max-w-md bottom-full mb-4 md:mr-5 bg-black border-2 border-slate-700" tabIndex="0">
                                 <div className="popover-arrow bg-blue-400"></div>
                                 <div className="overflow-hidden rounded-lg">
                                     <ChatBot onClose={toggleChatBot} /> {/* Render the ChatBot component */}

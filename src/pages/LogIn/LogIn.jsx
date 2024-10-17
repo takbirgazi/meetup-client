@@ -31,7 +31,10 @@ const Login = () => {
         navigate(location?.state?.from?.pathname || "/room");
       })
       .catch((error) => {
-        toast.error(error.message);
+        // console.log(error.message.split("/")[1]);
+        if (error.message.split("/")[1] === "invalid-credential).")
+          toast.error("Invalid Credential");
+        return;
       });
   };
 
