@@ -29,4 +29,5 @@
 - @stream-io/video-react-sdk
 - tawk.to
 - Emailjs
+- lucide-react
 
