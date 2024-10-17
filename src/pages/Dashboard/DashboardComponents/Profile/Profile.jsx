@@ -60,7 +60,7 @@ const Profile = () => {
     }
 
     return (
-        <div className="p-4 max-w-2xl mx-auto sm:p-6 lg:p-8 text-white">
+        <div className="max-w-2xl mt-[8%] mx-auto text-white">
             <div className="ripple-card shadow-lg bg-gray-900 rounded-lg">
                 <div className="ripple-card-body p-6">
                     <div className="flex items-center justify-between mb-6">

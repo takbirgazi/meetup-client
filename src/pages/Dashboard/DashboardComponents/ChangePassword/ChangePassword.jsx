@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import useAuth from "../../../../hooks/useAuth";
 import { axiosCommon } from "../../../../hooks/useAxiosCommon";
-import 'ldrs/hourglass'
-
+import 'ldrs/hourglass';
 
 const ChangePassword = () => {
   const [hasPassword, setHasPassword] = useState(null);
@@ -20,7 +19,6 @@ const ChangePassword = () => {
     reset,
   } = useForm();
 
-  // Fetch the user data to check if they have a password
   useEffect(() => {
     const fetchUserPasswordStatus = async () => {
       try {
@@ -61,38 +59,36 @@ const ChangePassword = () => {
       toast.success(response.data.message);
       reset();
     } catch (error) {
-      console.log("Error changing password:", error);
-      toast.error(error.response?.data?.message || "An error occurred",
-        {
-          position: "bottom-center",
-          style: {
-            padding: '10px',
-            background: '#2133',
-            color: '#fff',
-          }
-
+      toast.error(error.response?.data?.message || "An error occurred", {
+        position: "bottom-center",
+        style: {
+          padding: '10px',
+          background: '#2133',
+          color: '#fff',
         }
-      );
+      });
     }
   };
 
   if (loading) {
-    return <l-hourglass
-      size="40"
-      bg-opacity="0.3"
-      speed="2.75"
-      color="black"
-    ></l-hourglass>;
+    return (
+      <l-hourglass
+        size="40"
+        bg-opacity="0.3"
+        speed="2.75"
+        color="black"
+      ></l-hourglass>
+    );
   }
 
   return (
-    <div className="max-w-md mx-auto p-6 bg-gradient-to-r from-gray-500 to-gray-700 text-blue-400 rounded shadow-md">
-      <h2 className="text-2xl font-semibold mb-4">
+    <div className="max-w-md mx-auto mt-[10%] p-6 bg-gray-900 text-white shadow-md ">
+      <h2 className="text-2xl font-semibold mb-4 text-center">
         {hasPassword ? "Change Password" : "Set New Password"}
       </h2>
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4 items-center">
         {hasPassword && (
-          <div>
+          <div className="w-full">
             <label
               htmlFor="currentPassword"
               className="block text-sm font-medium text-slate-300"
@@ -102,8 +98,8 @@ const ChangePassword = () => {
             <input
               id="currentPassword"
               type="password"
-              placeholder="Enter current Password"
-              className="input text-black bg-gray-100 border border-gray-300 rounded p-2 w-full"
+              placeholder="Enter current password"
+              className="input text-white bg-gray-600 border border-gray-300 rounded p-2 w-full box-border"
               {...register("currentPassword", {
                 required: "Current password is required",
               })}
@@ -114,7 +110,7 @@ const ChangePassword = () => {
           </div>
         )}
 
-        <div>
+        <div className="w-full">
           <label
             htmlFor="newPassword"
             className="block text-sm font-medium text-slate-300"
@@ -124,8 +120,8 @@ const ChangePassword = () => {
           <input
             id="newPassword"
             type="password"
-            placeholder="Enter new Password"
-            className="input text-black bg-gray-100 border border-gray-300 rounded p-2 w-full"
+            placeholder="Enter new password"
+            className="input max-w-md text-white bg-gray-600 border border-gray-300 rounded p-2 w-full box-border"
             {...register("newPassword", {
               required: "New password is required",
               minLength: {
@@ -139,7 +135,7 @@ const ChangePassword = () => {
           )}
         </div>
 
-        <div>
+        <div className="w-full">
           <label
             htmlFor="confirmPassword"
             className="block text-sm font-medium text-slate-300"
@@ -149,8 +145,8 @@ const ChangePassword = () => {
           <input
             id="confirmPassword"
             type="password"
-            placeholder="Confirm new Password"
-            className="input text-black bg-gray-100 border border-gray-300 rounded p-2 w-full"
+            placeholder="Confirm new password"
+            className="input max-w-md text-white bg-gray-600 border border-gray-300 rounded p-2 w-full box-border"
             {...register("confirmPassword", {
               required: "Please confirm your new password",
               validate: (value) => {
@@ -166,7 +162,7 @@ const ChangePassword = () => {
 
         <button
           type="submit"
-          className="btn btn-primary bg-[#1e3799] text-white py-2 rounded"
+          className="btn bg-gradient-to-r from-[#ffbfff] to-[#a2deff] text-black py-2 rounded w-full box-border"
         >
           {hasPassword ? "Change Password" : "Set Password"}
         </button>
