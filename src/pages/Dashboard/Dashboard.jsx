@@ -89,17 +89,17 @@ const Dashboard = () => {
 
     const settingsMenuItems =
         <>
-            <div className="dropdown-menu-right-top dropdown-menu mb-5 bg-gradient-to-r from-gray-600 to-gray-700">
+            <div className="dropdown-menu-right-top dropdown-menu mb-5 text-white bg-white">
                 <NavLink to={`/room`} className={({ isActive }) => isActive ? menuActive : ''}>
                     <div className='menu-item'>
-                        <MdOutlineMeetingRoom className='text-blue-600' />
-                        <span>Room</span>
+                        <MdOutlineMeetingRoom className='text-blue-700 font-medium' />
+                        <span className='text-black font-medium'>Room</span>
                     </div>
                 </NavLink>
                 <NavLink to={'/'} onClick={logOut} className={({ isActive }) => isActive ? menuActive : ''}>
                     <div className='menu-item'>
                         <IoIosLogOut className='text-red-600' />
-                        <span>Logout</span>
+                        <span className='text-black font-medium'>Logout</span>
                     </div>
                 </NavLink>
             </div>
@@ -137,8 +137,8 @@ const Dashboard = () => {
                     </section>
                     <section className="sidebar-footer justify-end pt-2">
                         {/* <div className="divider my-0"></div> */}
-                        <div className="dropdown z-50 flex h-fit w-full cursor-pointer bg-gradient-to-r from-gray-500 to-gray-800">
-                            <label className="whites mx-2 flex h-fit w-full cursor-pointer rounded-lg p-0 mt-2 hover:bg-gray-800 hover:text-gray-300" tabIndex="0">
+                        <div className="dropdown z-50 flex h-fit w-full cursor-pointer bg-gradient-to-r from-[#ffbfff] to-[#a2deff]">
+                            <label className="whites mx-2 flex h-fit w-full cursor-pointer rounded-lg p-0 mt-2 " tabIndex="0">
                                 <div className="flex flex-row gap-4 p-4 justify-center items-center">
                                     <div className="avatar-ring avatar avatar-md">
                                         <img src={user?.photoURL} alt="avatar" />

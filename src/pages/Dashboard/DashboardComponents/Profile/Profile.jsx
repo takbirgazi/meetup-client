@@ -9,7 +9,7 @@ const Profile = () => {
     const [formData, setFormData] = useState({
         userName: "",
         email: "",
-        photoURL: ""|| user?.photoURL,
+        photoURL: "" || user?.photoURL,
     });
 
     const IMGBB_API_KEY = '1b1fbff76382bc5873f0dedaa1c82836';
@@ -22,11 +22,8 @@ const Profile = () => {
     };
 
     const handleSave = () => {
-        console.log(formData)
-        axiosCommon.put(`/updateUser`, { ...formData, email: user.email }, {
-        })
+        axiosCommon.put(`/updateUser`, { ...formData, email: user.email }, {})
             .then((response) => {
-                console.log(response.data)
                 profileUpdate(formData.userName, formData.photoURL);
                 setLoading(false);
                 setEditMode(false);
@@ -46,15 +43,12 @@ const Profile = () => {
             formData.append("image", file);
 
             try {
-                // Upload the image to ImgBB
                 const response = await axios.post(
                     `https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`,
                     formData
                 );
 
-                // Set the uploaded image URL to formData
                 setFormData({ ...formData, photoURL: response.data.data.url || user?.photoURL });
-                // console.log("File uploaded successfully: ", response.data.data.url);
             } catch (error) {
                 console.error("Error uploading file to ImgBB: ", error);
             }
@@ -66,13 +60,13 @@ const Profile = () => {
     }
 
     return (
-        <div className="p-4 max-w-2xl mx-auto sm:p-6 lg:p-8">
-            <div className="ripple-card shadow-lg bg-gradient-to-r from-gray-500 to-gray-300 shadow-[#596a8c] rounded-lg">
+        <div className="p-4 max-w-2xl mx-auto sm:p-6 lg:p-8 text-white">
+            <div className="ripple-card shadow-lg bg-gray-900 rounded-lg">
                 <div className="ripple-card-body p-6">
                     <div className="flex items-center justify-between mb-6">
                         <h2 className="text-2xl font-bold">Profile</h2>
                         <button
-                            className={editMode ? `btn btn-outline-error hover:btn-error` : `btn btn-outline-primary hover:btn-secondary`}
+                            className={editMode ? `btn btn-outline-error hover:btn-error` : `btn bg-gradient-to-r from-[#ffbfff] to-[#a2deff]`}
                             onClick={() => setEditMode(!editMode)}
                         >
                             {editMode ? "Cancel" : "Edit"}
@@ -85,71 +79,67 @@ const Profile = () => {
                             src={user?.photoURL}
                             alt="Profile"
                         />
-                        <div className="w-full sm:w-2/3">
+                        <div className="w-full sm:w-2/3 text-white">
                             <div className="mb-4 ripple-card">
-                                <label className="block font-bold text-gray-700 mb-2">Username:</label>
+                                <label className="block font-bold mb-2">Username:</label>
                                 {editMode ? (
                                     <input
                                         type="text"
                                         name="userName"
                                         defaultValue={user?.displayName}
                                         onChange={handleChange}
-                                        className="border border-gray-300 p-2 rounded w-full focus:ring-2 hover:border-primary focus:ring-blue-300"
+                                        className="border border-gray-300 p-2 rounded w-full bg-gray-600 text-white hover:border-primary focus:ring-2 focus:ring-blue-300"
                                     />
                                 ) : (
-                                    <p className="text-gray-800">{user?.displayName}</p>
+                                    <p>{user?.displayName}</p>
                                 )}
                             </div>
 
                             <div className="mb-4 ripple-card">
-                                <label className="block font-bold text-gray-700 mb-2">Email:</label>
+                                <label className="block font-bold mb-2">Email:</label>
                                 {editMode ? (
                                     <input
                                         type="email"
                                         name="email"
                                         value={user?.email}
                                         onChange={handleChange}
-                                        className="border border-gray-300 p-2 rounded w-full hover:border-primary focus:ring-2 focus:ring-blue-300"
+                                        className="border border-gray-300 p-2 rounded w-full bg-gray-600 text-white hover:border-primary focus:ring-2 focus:ring-blue-300"
                                         disabled
                                     />
                                 ) : (
-                                    <p className="text-gray-800">{user?.email}</p>
+                                    <p>{user?.email}</p>
                                 )}
                             </div>
 
-                            {
-                                editMode ? (
-                                    <div className="mb-4 ripple-card border rounded-md hover:border-primary p-3">
-                                        <label className="block font-bold text-gray-700 mb-2">Photo URL:</label>
-                                        <input
-                                            type="text"
-                                            name="photoURL"
-                                            value={formData.photoURL}
-                                            onChange={handleChange}
-                                            className="border border-gray-300 p-2 rounded w-full hover:border-secondary focus:ring-2 focus:ring-blue-300"
-                                            placeholder="Enter photo URL"
-                                        />
-                                        <div className="divider divider-horizontal text-xs">OR</div>
-                                        <input
-                                            type="file"
-                                            name="photoFile"
-                                            onChange={handleFileChange}
-                                            className="border border-gray-300 p-2 rounded w-full hover:border-secondary focus:ring-2 focus:ring-blue-300"
-                                        />
-                                    </div>
-                                )
-                                    :
-                                    (
-                                        <div className="mb-4 ripple-card">
-                                            <label className="block font-bold text-gray-700 mb-2">Last Login:</label>
-                                            <p className="text-gray-800">{new Date(user?.metadata.lastSignInTime).toUTCString()}</p>
-                                        </div>
-                                    )
-                            }
+                            {editMode ? (
+                                <div className="mb-4 ripple-card text-white border rounded-md hover:border-primary p-3">
+                                    <label className="block font-bold mb-2 ">Photo URL:</label>
+                                    <input
+                                        type="text"
+                                        name="photoURL"
+                                        value={formData.photoURL}
+                                        onChange={handleChange}
+                                        className="border border-gray-300 p-2 rounded w-full bg-gray-600 text-white hover:border-secondary focus:ring-2 focus:ring-blue-300"
+                                        placeholder="Enter photo URL"
+                                    />
+                                    <div className="divider divider-horizontal text-xs">OR</div>
+                                    <input
+                                        type="file"
+                                        name="photoFile"
+                                        onChange={handleFileChange}
+                                        className="border border-gray-300 p-2 rounded w-full bg-gray-600 text-white hover:border-secondary focus:ring-2 focus:ring-blue-300"
+                                    />
+                                </div>
+                            ) : (
+                                <div className="mb-4 ripple-card">
+                                    <label className="block font-bold mb-2">Last Login:</label>
+                                    <p>{new Date(user?.metadata.lastSignInTime).toUTCString()}</p>
+                                </div>
+                            )}
 
                             {editMode && (
                                 <button
-                                    className="btn btn-outline-primary mt-4 hover:btn-primary"
+                                    className="btn text-black font-medium mt-4 bg-gradient-to-r from-[#ffbfff] to-[#a2deff]"
                                     onClick={handleSave}
                                 >
                                     Save Changes

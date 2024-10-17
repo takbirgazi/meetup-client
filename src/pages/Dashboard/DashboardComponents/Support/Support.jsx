@@ -150,6 +150,7 @@ const Support = () => {
                   value={formData.subject}
                   onChange={handleInputChange}
                   className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                  placeholder="Enter Subject"
                   required
                 />
               </div>
@@ -164,12 +165,13 @@ const Support = () => {
                   onChange={handleInputChange}
                   className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
                   rows="4"
+                  placeholder="Write Here..."
                   required
                 />
               </div>
               <button
                 type="submit"
-                className="w-full border border-black text-black py-2 px-4 rounded hover:bg-[#101827] hover:text-white"
+                className="w-full bg-gradient-to-r from-[#ffbfff] to-[#a2deff] py-2 rounded font-medium"
               >
                 Send Email
               </button>
