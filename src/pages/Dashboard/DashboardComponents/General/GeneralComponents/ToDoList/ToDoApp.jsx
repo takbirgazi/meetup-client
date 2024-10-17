@@ -106,7 +106,7 @@ const ToDoApp = () => {
       <div className="w-[90%] lg:w-full max-w-md mb-6 flex">
         <input
           type="text"
-          className="flex-1 p-2 rounded-l-lg bg-gray-800 text-gray-300"
+          className="flex-1 p-2 rounded-l-lg bg-gray-800 text-gray-300 outline-none"
           placeholder="Write your next task"
           value={newTask}
           onKeyPress={handleKeyPress}
