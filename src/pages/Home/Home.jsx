@@ -235,7 +235,7 @@ const Home = () => {
     if (user) {
       fetchMeetings();
     }
-  }, [user]);
+  }, [user, meetings]);
   return (
     <div className="min-h-screen min-w-screen relative">
       <Helmet>
@@ -252,9 +252,9 @@ const Home = () => {
             className="absolute top-0 left-0 w-full h-full"
           />
         )}
-        <div className="min-h-screen-100 relative flex flex-col md:flex-row justify-between items-center  w-full max-w-screen-xl mx-auto">
+        <div className="min-h-screen relative flex flex-col md:flex-row justify-evenly items-center w-full max-w-screen-xl mx-auto p-4">
           {/* left side */}
-          <div className="flex flex-col items-center">
+          <div className="flex flex-col items-center md:w-1/2 w-full p-4">
             <div className="text-center space-y-1 text-balance">
               <h1 className="text-3xl text-white">
                 Video Calls and Meetings for Everyone
@@ -289,7 +289,7 @@ const Home = () => {
                 <input className="modal-state" id="modal-2" type="checkbox" />
                 <div className="modal w-screen">
                   <label className="modal-overlay" htmlFor="modal-2"></label>
-                  <div className="modal-content min-h-72 flex flex-col gap-5 max-w-3xl bg-white text-black rounded-lg  p-12">
+                  <div className="modal-content min-h-72 flex flex-col gap-5 max-w-3xl bg-white text-black rounded-lg p-4 md:p-12">
                     <div className="flex flex-col min-h-60 justify-center">
                       <label
                         htmlFor="modal-2"
@@ -305,13 +305,6 @@ const Home = () => {
                         className="flex flex-col gap-3"
                       >
                         <div className="text-center space-y-4 my-6">
-                          {/* <input
-                            id="date"
-                            type="datetime-local"
-                            className="input text-black bg-white border border-gray-300 rounded p-2 w-full"
-                            {...register("date", { required: true })}
-                          /> */}
-                          {/* date input and time */}
                           <input
                             id="date"
                             type="datetime-local"
@@ -351,15 +344,10 @@ const Home = () => {
               </button>
             </div>
           </div>
-          {/* here I want to show the scheduled meetings and their links inside a button */}
           {/* right side */}
-          <div className="flex flex-col items-center gap-4 mt-4">
-            {/* table code from here */}
-            {/* Dear team, you can make a component for the table and use it here */}
+          <div className="flex flex-col items-center gap-4 mt-4 md:mt-0 md:w-1/2 w-full p-4">
             <MiniScheduleTable meetings={meetings} loading={loading} />
-            {/* table code ends here */}
           </div>
-          {/* right side ends here */}
         </div>
       </div>
     </div>
