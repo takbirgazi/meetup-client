@@ -99,7 +99,7 @@ const ChangePassword = () => {
               id="currentPassword"
               type="password"
               placeholder="Enter current password"
-              className="input text-white bg-gray-600 border border-gray-300 rounded p-2 w-full box-border"
+              className="input max-w-md text-white bg-gray-600 border border-gray-300 rounded p-2 w-full box-border"
               {...register("currentPassword", {
                 required: "Current password is required",
               })}
