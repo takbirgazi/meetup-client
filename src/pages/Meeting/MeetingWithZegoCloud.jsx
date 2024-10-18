@@ -33,13 +33,11 @@ const Meeting = () => {
     }
 
     return (
-        <div>
-            <div
-                className="myCallContainer"
-                ref={myMeeting}
-                style={{ width: '100vw', height: '100vh' }}
-            />
-        </div>
+        <div
+            className="myCallContainer"
+            ref={myMeeting}
+            style={{ width: '100vw', height: '100vh' }}
+        />
     );
 };
 
