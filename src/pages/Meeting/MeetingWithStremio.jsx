@@ -20,7 +20,7 @@ const userId = 'Han_Solo';
 export default function Meeting() {
   const { user: participant } = useAuth();
   const params = useParams();
-  
+
   const [meetingId, setMeetingId] = useState(params.id);
   const [prtName, setPrtName] = useState(participant?.displayName);
   const [partImage, setPartImage] = useState(participant?.photoURL);
@@ -45,11 +45,13 @@ export default function Meeting() {
   }, [params.id, participant]);
 
   return (
-    <StreamVideo client={client}>
-      <StreamCall call={call}>
-        <MyUILayout />
-      </StreamCall>
-    </StreamVideo>
+    <div className='bg-gray-900 min-h-screen h-auto flex items-center justify-center'>
+      <StreamVideo client={client}>
+        <StreamCall call={call}>
+          <MyUILayout />
+        </StreamCall>
+      </StreamVideo>
+    </div>
   );
 }
 
