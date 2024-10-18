@@ -1,7 +1,8 @@
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import Particles, { initParticlesEngine } from "@tsparticles/react";
 import { loadSlim } from "@tsparticles/slim";
 import moment from "moment";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
@@ -16,32 +17,107 @@ import options from "../../components/ParticleOptions/ParticleOptions";
 import useAuth from "../../hooks/useAuth";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 
+const MEETINGS_QUERY_KEY = "meetings";
+const REFETCH_INTERVAL = 30000; // 30 seconds
+
 const Home = () => {
-  const { user, loading } = useAuth();
+  const { user } = useAuth();
   const navigate = useNavigate();
   const [meetingInput, setMeetingInput] = useState("");
   const axiosSecure = useAxiosSecure();
   const [init, setInit] = useState(false);
-  const [meetings, setMeetings] = useState([]);
+  const queryClient = useQueryClient();
+  const lastFetchTime = useRef(Date.now());
 
-  // this should be run only once per application lifetime
+  // Memoize the fetch function with better error handling
+  const fetchMeetings = useCallback(async () => {
+    if (!user) return [];
+
+    const now = Date.now();
+    if (now - lastFetchTime.current < 1000) {
+      // Debounce fetches within 1 second
+      return queryClient.getQueryData([MEETINGS_QUERY_KEY, user?.email]) || [];
+    }
+
+    try {
+      lastFetchTime.current = now;
+      const response = await axiosSecure("/meetings");
+      const filteredMeetings = response.data.filter(
+        (meeting) =>
+          meeting.status === "scheduled" &&
+          meeting.participants.some(
+            (participant) => participant.email === user.email
+          )
+      );
+
+      // Sort meetings by date
+      return filteredMeetings.sort(
+        (a, b) =>
+          moment(a.date, "DD MMM YYYY, hh:mm A").valueOf() -
+          moment(b.date, "DD MMM YYYY, hh:mm A").valueOf()
+      );
+    } catch (error) {
+      console.error("Error fetching meetings:", error);
+      return queryClient.getQueryData([MEETINGS_QUERY_KEY, user?.email]) || [];
+    }
+  }, [user, axiosSecure, queryClient]);
+
+  // Optimized React Query implementation with better caching and update strategy
+  const {
+    data: meetings = [],
+    error,
+    isLoading,
+    refetch,
+  } = useQuery({
+    queryKey: [MEETINGS_QUERY_KEY, user?.email],
+    queryFn: fetchMeetings,
+    enabled: !!user,
+    staleTime: REFETCH_INTERVAL,
+    cacheTime: REFETCH_INTERVAL * 2,
+    refetchInterval: REFETCH_INTERVAL,
+    refetchIntervalInBackground: false,
+    refetchOnWindowFocus: false,
+    refetchOnMount: true,
+    onError: (error) => {
+      console.error("Error fetching meetings:", error);
+      toast.error("Failed to fetch meetings");
+    },
+  });
+
+  // Memoize meetings data with deep comparison
+  const memoizedMeetings = useMemo(() => {
+    return meetings.map((meeting) => ({
+      ...meeting,
+      key: `${meeting.meetingId}-${meeting.date}`, // Add a stable key for each meeting
+    }));
+  }, [meetings]);
+
+  // Optimized particle initialization
   useEffect(() => {
-    initParticlesEngine(async (engine) => {
-      // you can initiate the tsParticles instance (engine) here, adding custom shapes or presets
-      // this loads the tsparticles package bundle, it's the easiest method for getting everything ready
-      // starting from v2 you can add only the features you need reducing the bundle size
-      //await loadAll(engine);
-      //await loadFull(engine);
-      await loadSlim(engine);
-      //await loadBasic(engine);
-    }).then(() => {
-      setInit(true);
-    });
+    let mounted = true;
+    if (!init) {
+      const initializeParticles = async () => {
+        try {
+          await initParticlesEngine(async (engine) => {
+            await loadSlim(engine);
+          });
+          if (mounted) {
+            setInit(true);
+          }
+        } catch (error) {
+          console.error("Failed to initialize particles:", error);
+        }
+      };
+      initializeParticles();
+    }
+    return () => {
+      mounted = false;
+    };
   }, []);
 
-  const particlesLoaded = (container) => {
+  const particlesLoaded = useCallback((container) => {
     console.log(container);
-  };
+  }, []);
 
   const {
     register,
@@ -49,12 +125,16 @@ const Home = () => {
     reset,
     formState: { errors },
   } = useForm({
-    defaultValues: {
-      name: user?.displayName || "",
-      email: user?.email || "",
-    },
+    defaultValues: useMemo(
+      () => ({
+        name: user?.displayName || "",
+        email: user?.email || "",
+      }),
+      [user]
+    ),
   });
 
+  // Form reset effect
   useEffect(() => {
     if (user) {
       reset({
@@ -64,32 +144,48 @@ const Home = () => {
     }
   }, [user, reset]);
 
-  const onSubmit = (data) => {
-    const formattedDate = moment(data.date).format("DD MMM YYYY, hh:mm A");
-    const uuid = uuidv4();
-    const meetingId = uuid.slice(0, 4) + "-" + uuid.slice(4, 8);
-    const meetingLink = `${window.location.origin}/room/${meetingId}`;
-    const status = "scheduled";
+  // Optimized meeting creation with proper cache updates
+  const createMeeting = useCallback(
+    async (meetingData) => {
+      try {
+        await axiosSecure.post("/create-meeting", meetingData);
+        // Optimistic update
+        queryClient.setQueryData([MEETINGS_QUERY_KEY, user?.email], (old) => {
+          return [...(old || []), meetingData];
+        });
+        await queryClient.invalidateQueries([MEETINGS_QUERY_KEY, user?.email]);
+      } catch (error) {
+        console.error("Error creating meeting:", error);
+        throw error;
+      }
+    },
+    [axiosSecure, queryClient, user?.email]
+  );
 
-    const meetingData = {
-      date: formattedDate,
-      meetingLink,
-      meetingId,
-      status,
-      participants: [
-        {
-          name: user?.displayName,
-          email: user?.email,
-          photoURL: user?.photoURL,
-          role: "host",
-        },
-      ],
-    };
+  const onSubmit = useCallback(
+    async (data) => {
+      const formattedDate = moment(data.date).format("DD MMM YYYY, hh:mm A");
+      const uuid = uuidv4();
+      const meetingId = uuid.slice(0, 4) + "-" + uuid.slice(4, 8);
+      const meetingLink = `${window.location.origin}/room/${meetingId}`;
 
-    axiosSecure
-      .post("/create-meeting", meetingData)
-      .then((response) => {
-        const meetingLink = meetingData.meetingLink;
+      const meetingData = {
+        date: formattedDate,
+        meetingLink,
+        meetingId,
+        status: "scheduled",
+        participants: [
+          {
+            name: user?.displayName,
+            email: user?.email,
+            photoURL: user?.photoURL,
+            role: "host",
+          },
+        ],
+      };
+
+      try {
+        await createMeeting(meetingData);
         toast.success("Meeting scheduled successfully!");
         toast.success(
           <div className="flex items-center gap-2">
@@ -104,34 +200,33 @@ const Home = () => {
               <IoCopyOutline />
             </button>
           </div>,
-          // if copy to clipboard success then the toast will disappear after 3 seconds otherwise it will stay for 20 seconds
           { duration: 10000 }
         );
-        console.log("Scheduled Meeting Data:", response.data);
+
         reset();
         document.getElementById("modal-2").checked = false;
-      })
-      .catch((error) => {
+      } catch (error) {
         toast.error("Failed to schedule the meeting. Please try again.");
-        console.error("Error scheduling meeting:", error);
-      });
-  };
+      }
+    },
+    [user, createMeeting, reset]
+  );
 
-  const handleInstantMeet = () => {
+  const handleInstantMeet = useCallback(async () => {
     if (!user) {
       toast.error("Please login to create instant meeting.");
       return;
     }
+
     const uuid = uuidv4();
     const meetingId = uuid.slice(0, 4) + "-" + uuid.slice(4, 8);
     const meetingLink = `${window.location.origin}/room/${meetingId}`;
-    const status = "current";
 
     const meetingData = {
       date: moment().format("DD MMM YYYY, hh:mm A"),
       meetingLink,
       meetingId,
-      status,
+      status: "current",
       participants: [
         {
           name: user?.displayName,
@@ -142,27 +237,26 @@ const Home = () => {
       ],
     };
 
-    axiosSecure
-      .post("/create-meeting", meetingData)
-      .then((response) => {
-        toast.success("Instant meeting created successfully!");
-        navigate(`/room/${meetingId}`);
-      })
-      .catch((error) => {
-        toast.error("Failed to create instant meeting. Please try again.");
-        console.error("Error creating instant meeting:", error);
-      });
-  };
-
-  const handleScheduleForLater = (e) => {
-    if (!user) {
-      e.preventDefault();
-      toast.error("Please login to schedule a meeting.");
-      return;
+    try {
+      await createMeeting(meetingData);
+      toast.success("Instant meeting created successfully!");
+      navigate(`/room/${meetingId}`);
+    } catch (error) {
+      toast.error("Failed to create instant meeting. Please try again.");
     }
-  };
+  }, [user, createMeeting, navigate]);
 
-  const handleJoinMeeting = async () => {
+  const handleScheduleForLater = useCallback(
+    (e) => {
+      if (!user) {
+        e.preventDefault();
+        toast.error("Please login to schedule a meeting.");
+      }
+    },
+    [user]
+  );
+
+  const handleJoinMeeting = useCallback(async () => {
     if (!user) {
       toast.error("Please login to join a meeting.");
       return;
@@ -171,8 +265,8 @@ const Home = () => {
       toast.error("Please enter a meeting code or link.");
       return;
     }
-    let meetingId = meetingInput.trim();
 
+    let meetingId = meetingInput.trim();
     if (meetingInput.includes("/room/")) {
       const urlParts = meetingInput.split("/room/");
       meetingId = urlParts[urlParts.length - 1];
@@ -180,26 +274,26 @@ const Home = () => {
 
     try {
       const response = await axiosSecure.get(`/meeting/${meetingId}`);
-
       if (response.status === 200 && response.data) {
-        axiosSecure
-          .patch(`/meeting/${meetingId}`, {
+        const participantResponse = await axiosSecure.patch(
+          `/meeting/${meetingId}`,
+          {
             name: user.displayName,
             email: user.email,
             role: "participant",
-          })
-          .then((response) => {
-            if (response.status === 200) {
-              toast.success(response.data.message);
-              navigate(`/room/${meetingId}`);
-            } else {
-              toast.error(response.data.error);
-            }
-          })
-          .catch((error) => {
-            console.error("Error adding participant:", error);
-            toast.error(response.data.error);
-          });
+          }
+        );
+
+        if (participantResponse.status === 200) {
+          toast.success(participantResponse.data.message);
+          await queryClient.invalidateQueries([
+            MEETINGS_QUERY_KEY,
+            user?.email,
+          ]);
+          navigate(`/room/${meetingId}`);
+        } else {
+          toast.error(participantResponse.data.error);
+        }
       } else {
         toast.error("Meeting not found.");
       }
@@ -207,35 +301,14 @@ const Home = () => {
       console.error("Error checking meeting:", error);
       toast.error("Meeting not found.");
     }
-  };
-  // added by minhaj
-  useEffect(() => {
-    const fetchMeetings = async () => {
-      try {
-        const response = await axiosSecure("/meetings"); // Adjust the endpoint as needed
-        const allMeetings = response.data;
+  }, [user, meetingInput, axiosSecure, queryClient, navigate]);
 
-        // Filter meetings based on status and current user
-        const userMeetings = allMeetings.filter(
-          (meeting) =>
-            meeting.status === "scheduled" &&
-            meeting.participants.some(
-              (participant) => participant.email === user.email
-            )
-        );
+  if (error) {
+    return (
+      <div className="text-center text-red-500">Error loading meetings</div>
+    );
+  }
 
-        setMeetings(userMeetings);
-        console.log(meetings);
-      } catch (error) {
-        console.error("Error fetching meetings:", error);
-        toast.error("Error fetching meetings");
-      }
-    };
-
-    if (user) {
-      fetchMeetings();
-    }
-  }, [user, meetings]);
   return (
     <div className="min-h-screen min-w-screen relative">
       <Helmet>
@@ -253,14 +326,13 @@ const Home = () => {
           />
         )}
         <div className="min-h-screen relative flex flex-col md:flex-row justify-evenly items-center w-full max-w-screen-xl mx-auto p-4">
-          {/* left side */}
           <div className="flex flex-col items-center md:w-1/2 w-full p-4">
             <div className="text-center space-y-1 text-balance">
               <h1 className="text-3xl text-white">
                 Video Calls and Meetings for Everyone
               </h1>
               <h4 className="text-lg text-gray-300">
-                Connect, collaborate, and celebrate from anywhere with{" "}
+                Connect, collaborate, and celebrate from anywhere with
               </h4>
             </div>
             <div className="flex flex-wrap w-full justify-center items-center md:gap-3 gap-1 mt-4">
@@ -289,8 +361,7 @@ const Home = () => {
                 <input className="modal-state" id="modal-2" type="checkbox" />
                 <div className="modal w-screen">
                   <label className="modal-overlay" htmlFor="modal-2"></label>
-                  <div className="modal-content min-h-72 flex flex-col gap-5 max-w-3xl bg-gray-200 text-black rounded-lg  p-4 md:p-12">
-
+                  <div className="modal-content min-h-72 flex flex-col gap-5 max-w-3xl bg-gray-200 text-black rounded-lg p-4 md:p-12">
                     <div className="flex flex-col min-h-60 justify-center">
                       <label
                         htmlFor="modal-2"
@@ -298,7 +369,7 @@ const Home = () => {
                       >
                         ✕
                       </label>
-                      <h1 className="md:text-3xl text-2xl text-center font-semibold ">
+                      <h1 className="md:text-3xl text-2xl text-center font-semibold">
                         Schedule Meeting for Later
                       </h1>
                       <form
@@ -321,13 +392,10 @@ const Home = () => {
                         <div className="flex gap-3">
                           <button
                             type="submit"
-                            className="btn text-black  btn-block bg-gradient-to-r from-[#ffbfff] to-[#a2deff] "
+                            className="btn text-black btn-block bg-gradient-to-r from-[#ffbfff] to-[#a2deff]"
                           >
                             Submit
                           </button>
-  
-
-
                         </div>
                       </form>
                     </div>
@@ -348,9 +416,11 @@ const Home = () => {
               </button>
             </div>
           </div>
-          {/* right side */}
           <div className="flex flex-col items-center gap-4 mt-4 md:mt-0 md:w-1/2 w-full p-4">
-            <MiniScheduleTable meetings={meetings} loading={loading} />
+            <MiniScheduleTable
+              meetings={memoizedMeetings}
+              loading={isLoading}
+            />
           </div>
         </div>
       </div>
