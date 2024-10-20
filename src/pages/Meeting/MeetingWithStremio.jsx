@@ -10,7 +10,7 @@ import {
 } from '@stream-io/video-react-sdk';
 import '@stream-io/video-react-sdk/dist/css/styles.css';
 import useAuth from '../../hooks/useAuth';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
 const apiKey = 'mmhfdzb5evj2';
@@ -56,6 +56,7 @@ export default function Meeting() {
 }
 
 export const MyUILayout = () => {
+  const navigate = useNavigate();
   const { useCallCallingState } = useCallStateHooks();
   const callingState = useCallCallingState();
 
@@ -70,9 +71,9 @@ export const MyUILayout = () => {
   }
 
   return (
-    <StreamTheme className='bg-[#111827] min-h-screen h-auto mx-auto py-5'>
-      <SpeakerLayout participantsBarPosition="bottom" />
-      <CallControls />
+    <StreamTheme className='bg-[#111827] min-h-screen h-auto mx-auto py-5 w-full text-gray-100'>
+      <SpeakerLayout participantsBarPosition="bottom" participantsBarLimit="dynamic" />
+      <CallControls onLeave={() => navigate("/room")} />
     </StreamTheme>
   );
 };
