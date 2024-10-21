@@ -2,6 +2,9 @@ import { ArrowUpRight, Calendar, Clock } from "lucide-react";
 import moment from "moment";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 
+const STORAGE_KEY = "scheduled-meetings";
+
+// Helper function to calculate remaining time
 const calculateRemainingTime = (dateStr) => {
   const now = moment();
   const meetingTime = moment(dateStr, "DD MMM YYYY, hh:mm A");
@@ -31,6 +34,7 @@ const calculateRemainingTime = (dateStr) => {
   return timeString.join(" ");
 };
 
+// MeetingItem component
 const MeetingItem = React.memo(({ meeting, isAnimating, onExpired }) => {
   const [remainingTime, setRemainingTime] = useState(() =>
     calculateRemainingTime(meeting.date)
@@ -45,10 +49,9 @@ const MeetingItem = React.memo(({ meeting, isAnimating, onExpired }) => {
 
       if (newRemainingTime === "expired" && !isExpiring) {
         setIsExpiring(true);
-        // Wait for animation to complete before calling onExpired
         expiryTimeoutRef.current = setTimeout(() => {
           onExpired(meeting._id);
-        }, 500); // Match this with CSS animation duration
+        }, 500);
       }
     };
 
@@ -107,7 +110,7 @@ const MeetingItem = React.memo(({ meeting, isAnimating, onExpired }) => {
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg
-              bg-blue-600 hover:bg-blue-500 text-white text-sm font-medium 
+              bg-gradient-to-r from-[#ffbfff] to-[#a2deff] hover:bg-blue-500  text-sm font-medium 
               transition-all duration-200 hover:shadow-lg hover:shadow-blue-500/25
               hover:scale-105 active:scale-95 min-w-[100px]"
           >
@@ -125,27 +128,66 @@ const MeetingItem = React.memo(({ meeting, isAnimating, onExpired }) => {
   );
 });
 
-const MiniScheduleTable = ({ meetings, loading, onMeetingExpired }) => {
+// MiniScheduleTable component
+const MiniScheduleTable = ({ meetings = [], loading, onMeetingExpired }) => {
   const [validMeetings, setValidMeetings] = useState([]);
   const [animatingItems, setAnimatingItems] = useState(new Set());
   const previousMeetingsRef = useRef([]);
 
-  const handleMeetingExpired = useCallback(
-    (meetingId) => {
-      setValidMeetings((prev) => prev.filter((m) => m._id !== meetingId));
-      onMeetingExpired?.(meetingId);
-    },
-    [onMeetingExpired]
-  );
+  // Updated useEffect to handle duplicates properly
+  useEffect(() => {
+    const currentTime = moment();
 
-  const updateMeetings = useCallback(() => {
-    const currentValidMeetings = meetings.filter(
-      (meeting) => calculateRemainingTime(meeting.date) !== "expired"
+    // Create a Map to store unique meetings by _id
+    const meetingsMap = new Map();
+
+    // First, add all incoming meetings to the map
+    meetings.forEach((meeting) => {
+      if (meeting._id) {
+        meetingsMap.set(meeting._id, meeting);
+      }
+    });
+
+    // Then, get stored meetings and only add them if they don't already exist
+    try {
+      const storedMeetings = JSON.parse(
+        localStorage.getItem(STORAGE_KEY) || "[]"
+      );
+      storedMeetings.forEach((meeting) => {
+        if (meeting._id && !meetingsMap.has(meeting._id)) {
+          meetingsMap.set(meeting._id, meeting);
+        }
+      });
+    } catch (error) {
+      console.error("Error parsing stored meetings:", error);
+    }
+
+    // Convert map back to array and filter valid meetings
+    const allMeetings = Array.from(meetingsMap.values()).filter((meeting) => {
+      return (
+        moment(meeting.date, "DD MMM YYYY, hh:mm A").isAfter(currentTime) &&
+        meeting.meetingLink &&
+        meeting.date
+      );
+    });
+
+    // Sort by date
+    allMeetings.sort(
+      (a, b) =>
+        moment(a.date, "DD MMM YYYY, hh:mm A").valueOf() -
+        moment(b.date, "DD MMM YYYY, hh:mm A").valueOf()
     );
 
-    // Check for new meetings
-    currentValidMeetings.forEach((meeting) => {
-      if (!previousMeetingsRef.current.find((m) => m._id === meeting._id)) {
+    // Update localStorage with the deduplicated list
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(allMeetings));
+    setValidMeetings(allMeetings);
+
+    // Handle animations for new meetings
+    const previousMeetingIds = new Set(
+      previousMeetingsRef.current.map((m) => m._id)
+    );
+    allMeetings.forEach((meeting) => {
+      if (!previousMeetingIds.has(meeting._id)) {
         setAnimatingItems((prev) => new Set(prev).add(meeting._id));
         setTimeout(() => {
           setAnimatingItems((prev) => {
@@ -157,15 +199,20 @@ const MiniScheduleTable = ({ meetings, loading, onMeetingExpired }) => {
       }
     });
 
-    previousMeetingsRef.current = currentValidMeetings;
-    setValidMeetings(currentValidMeetings);
+    previousMeetingsRef.current = allMeetings;
   }, [meetings]);
 
-  useEffect(() => {
-    if (!loading) {
-      updateMeetings();
-    }
-  }, [loading, updateMeetings]);
+  const handleMeetingExpired = useCallback(
+    (meetingId) => {
+      setValidMeetings((prev) => {
+        const updatedMeetings = prev.filter((m) => m._id !== meetingId);
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedMeetings));
+        return updatedMeetings;
+      });
+      onMeetingExpired?.(meetingId);
+    },
+    [onMeetingExpired]
+  );
 
   if (validMeetings.length === 0 && !loading) {
     return (
