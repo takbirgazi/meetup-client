@@ -30,4 +30,4 @@
 - tawk.to
 - Emailjs
 - lucide-react
-
+- react-query
