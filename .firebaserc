@@ -1,7 +1,8 @@
 {
   "projects": {
-    "default": "meetup-9da89",
-    "meetup": "meetup-9da89"
+    "default": "meetup-d48c4",
+    "meetup": "meetup-9da89",
+    "staging": "meetup-d48c4"
   },
   "targets": {},
   "etags": {},

@@ -1,5 +1,4 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import { GoogleAIFileManager } from "@google/generative-ai/server";
 import React, { useState, useEffect, useRef } from "react";
 import { IoClose, IoReload } from "react-icons/io5";
 import { BsFillSendFill } from "react-icons/bs";
@@ -17,7 +16,6 @@ const ChatBot = ({ onClose }) => {
 
   // Initialize Google Generative AI and File Manager
   const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMENI_API_KEY);
-  const fileManager = new GoogleAIFileManager(import.meta.env.VITE_GEMENI_API_KEY);
   const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
   // Add an initial greeting when component mounts
@@ -29,28 +27,6 @@ const ChatBot = ({ onClose }) => {
     };
     setChatHistory([initialGreeting]);
   }, [user]);
-
-  // Handle file upload for media summarization
-  const handleFileUpload = async (e) => {
-    const uploadedFile = e.target.files[0];
-    setFile(uploadedFile);
-
-    // Upload the file using GoogleAIFileManager
-    const uploadResponse = await fileManager.uploadFile(uploadedFile, {
-      mimeType: uploadedFile.type,
-      displayName: uploadedFile.name,
-    });
-
-    // Generate content using the uploaded file
-    if (uploadedFile.type.startsWith("image/")) {
-      await summarizeImage(uploadResponse.file); // Call summarizeImage for images
-    } else if (uploadedFile.type === "application/pdf") {
-      await summarizeFile(uploadResponse.file); // Call summarizeFile for PDFs
-    } else {
-      // Handle unsupported file types
-      console.error("Unsupported file type:", uploadedFile.type);
-    }
-  };
 
   // Function to summarize uploaded PDFs using Gemini model
   const summarizeFile = async (fileData) => {
