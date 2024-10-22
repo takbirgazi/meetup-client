@@ -60,6 +60,9 @@ export const MyUILayout = () => {
   const { useCallCallingState } = useCallStateHooks();
   const callingState = useCallCallingState();
 
+  const leaveCall = async () => {
+    await navigate("/room")
+  }
   if (callingState !== CallingState.JOINED) {
     return (
       <div className="bg-[#101827] flex flex-row justify-center items-center h-screen">
@@ -73,7 +76,7 @@ export const MyUILayout = () => {
   return (
     <StreamTheme className='bg-[#111827] min-h-screen h-auto mx-auto py-5 w-full text-gray-100'>
       <SpeakerLayout participantsBarPosition="bottom" participantsBarLimit="dynamic" />
-      <CallControls onLeave={() => navigate("/room")} />
+      <CallControls onLeave={leaveCall} />
     </StreamTheme>
   );
 };

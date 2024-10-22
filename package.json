@@ -47,6 +47,8 @@
     "react-sketch-canvas": "^6.2.0",
     "rippleui": "^1.12.1",
     "sort-by": "^1.2.0",
+    "stream-chat": "^8.40.9",
+    "stream-chat-react": "^12.2.2",
     "sweetalert2": "^11.14.0",
     "swiper": "^11.1.14",
     "tesseract.js": "^5.1.1",
