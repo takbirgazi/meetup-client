@@ -9,6 +9,7 @@ import {
   useCallStateHooks,
 } from '@stream-io/video-react-sdk';
 import '@stream-io/video-react-sdk/dist/css/styles.css';
+import { Tldraw } from 'tldraw'; // Import Tldraw
 import useAuth from '../../hooks/useAuth';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
@@ -24,6 +25,8 @@ export default function Meeting() {
   const [meetingId, setMeetingId] = useState(params.id);
   const [prtName, setPrtName] = useState(participant?.displayName);
   const [partImage, setPartImage] = useState(participant?.photoURL);
+
+  const [showWhiteboard, setShowWhiteboard] = useState(false); // State to manage whiteboard visibility
 
   const user = {
     id: userId,
@@ -45,17 +48,30 @@ export default function Meeting() {
   }, [params.id, participant]);
 
   return (
-    <div className='bg-gray-900 min-h-screen h-auto flex items-center justify-center'>
+    <div className='bg-gray-900 min-h-screen max-h-screen flex items-center justify-center'>
       <StreamVideo client={client}>
         <StreamCall call={call}>
-          <MyUILayout />
+          <MyUILayout showWhiteboard={showWhiteboard} setShowWhiteboard={setShowWhiteboard} />
+          {showWhiteboard && (
+            <div className="fixed inset-0 z-50 bg-white">
+              <Tldraw
+                forceMobile
+              />
+              <button
+                onClick={() => setShowWhiteboard(false)}
+                className="absolute top-2 right-2 bg-red-500 text-white px-4 py-2 rounded"
+              >
+                Close Whiteboard
+              </button>
+            </div>
+          )}
         </StreamCall>
       </StreamVideo>
     </div>
   );
 }
 
-export const MyUILayout = () => {
+export const MyUILayout = ({ showWhiteboard, setShowWhiteboard }) => {
   const navigate = useNavigate();
   const { useCallCallingState } = useCallStateHooks();
   const callingState = useCallCallingState();
@@ -74,6 +90,14 @@ export const MyUILayout = () => {
     <StreamTheme className='bg-[#111827] min-h-screen h-auto mx-auto py-5 w-full text-gray-100'>
       <SpeakerLayout participantsBarPosition="bottom" participantsBarLimit="dynamic" />
       <CallControls onLeave={() => navigate("/room")} />
+
+      {/* Button to Show Whiteboard */}
+      <button
+        onClick={() => setShowWhiteboard(!showWhiteboard)}
+        className="bg-blue-500 text-white px-4 py-2 rounded mt-4"
+      >
+        {showWhiteboard ? 'Hide Whiteboard' : 'Show Whiteboard'}
+      </button>
     </StreamTheme>
   );
 };
