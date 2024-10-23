@@ -8,7 +8,6 @@
 
 - Tailwind CSS
 
-<!-- packages -->
 
 **NPM has been used**
 
@@ -22,11 +21,9 @@
 - react-hook-form
 - axios
 - react-hot-toast
-- @livekit/components-react @livekit/components-styles livekit-client --save
 - swiper
 - keen-slider
 - @zegocloud/zego-uikit-prebuilt
-- @stream-io/video-react-sdk
 - tawk.to
 - Emailjs
 - lucide-react
