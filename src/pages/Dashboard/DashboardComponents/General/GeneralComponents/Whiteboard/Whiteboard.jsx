@@ -1,10 +1,9 @@
-import React, { useRef } from 'react';
-import { Tldraw } from 'tldraw';
+import React, { useLayoutEffect, useRef } from 'react';
+import {  Tldraw } from 'tldraw';
 import 'tldraw/tldraw.css';
 import { FaExpand, FaTrashAlt } from 'react-icons/fa';
 
 const Whiteboard = () => {
-    const tldrawRef = useRef(null); // Ref for Tldraw instance
 
     // Function to toggle fullscreen
     const toggleFullscreen = () => {
@@ -24,8 +23,9 @@ const Whiteboard = () => {
 
             <div className="flex-grow mb-6" style={{ minHeight: '600px' }}>
                 <Tldraw
-                    ref={tldrawRef}
-                    style={{ width: '100%', height: '100%', minHeight: '600px' }}
+                    persistenceKey='example'
+                    className='w-full h-full min-h-[600px]'
+                    forceMobile
                 />
             </div>
 
