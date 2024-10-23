@@ -7,6 +7,7 @@ import {
   StreamVideo,
   StreamVideoClient,
   useCallStateHooks,
+  CallParticipantsList
 } from '@stream-io/video-react-sdk';
 import '@stream-io/video-react-sdk/dist/css/styles.css';
 import { Tldraw } from 'tldraw';
@@ -16,6 +17,7 @@ import { useEffect, useState, useRef } from 'react';
 import { FaChalkboard } from 'react-icons/fa6';
 import { TbChalkboardOff } from "react-icons/tb";
 import { BiFullscreen, BiExitFullscreen } from "react-icons/bi";
+import { HiUserGroup } from "react-icons/hi2";
 import 'tldraw/tldraw.css'
 import { useSyncDemo } from '@tldraw/sync'
 import { CounterShapeTool, CounterShapeUtil } from './CounterShape'
@@ -70,9 +72,11 @@ export default function Meeting() {
     <div className='bg-gray-900 min-h-screen max-h-screen flex items-center justify-center'>
       <StreamVideo client={clientRef.current}>
         <StreamCall call={callRef.current}>
-
+          <div id='participant' className={`hidden bg-gray-500 p-4 rounded z-10 max-w-56 absolute top-6 right-2 max-h-96 overflow-x-hidden overflow-y-auto`}>
+            <CallParticipantsList />
+          </div>
           <MyUILayout showWhiteboard={showWhiteboard} setShowWhiteboard={setShowWhiteboard} />
-          
+
         </StreamCall>
       </StreamVideo>
 
@@ -107,7 +111,10 @@ export const MyUILayout = ({ showWhiteboard, setShowWhiteboard }) => {
   const navigate = useNavigate();
   const { useCallCallingState } = useCallStateHooks();
   const callingState = useCallCallingState();
-
+  const participantToggle = () => {
+    const participant = document.getElementById("participant")
+    participant.classList.toggle("hidden");
+  }
   const leaveCall = async () => {
     await navigate("/room");
   };
@@ -137,6 +144,7 @@ export const MyUILayout = ({ showWhiteboard, setShowWhiteboard }) => {
           : <FaChalkboard title='Open Whiteboard' size={24} />
         }
       </button>
+      <div onClick={participantToggle} title='All Participants' className="absolute flex items-center justify-center h-10 w-10 overflow-hidden right-5 bottom-24 border hover:bg-gray-600 p-2 rounded-full mt-4 cursor-pointer"> <HiUserGroup /> </div>
     </StreamTheme>
   );
 };
