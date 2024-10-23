@@ -1,5 +1,10 @@
 {
   "projects": {
-    "default": "tech-thunders-meet"
-  }
+    "default": "meetup-d48c4",
+    "meetup": "meetup-9da89",
+    "staging": "meetup-d48c4"
+  },
+  "targets": {},
+  "etags": {},
+  "dataconnectEmulatorConfig": {}
 }

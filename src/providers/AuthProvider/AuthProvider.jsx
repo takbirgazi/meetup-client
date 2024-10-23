@@ -7,7 +7,9 @@ import {
     signInWithEmailAndPassword,
     signInWithPopup,
     signOut,
+    updatePassword,
     updateProfile,
+    EmailAuthProvider,
 } from "firebase/auth";
 import React, { createContext, useEffect, useState } from "react";
 import useAxiosCommon from "../../hooks/useAxiosCommon";
@@ -16,7 +18,6 @@ import app from "../FirebaseProivder/FirebaseProvider";
 export const AuthContext = createContext(null);
 const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
-    // const [token, setToken] = useState(null);
     const [loading, setLoading] = useState(true);
     const googleProvider = new GoogleAuthProvider();
     const githubProvider = new GithubAuthProvider();
@@ -41,6 +42,19 @@ const AuthProvider = ({ children }) => {
         });
     };
 
+    const passwordUpdate = async (password) => {
+        setLoading(true);
+        try {
+            // const credential = await promptForCredentials();
+            // await reauthenticateWithCredential(auth.currentUser, credential);
+            await updatePassword(auth.currentUser, password);
+        } catch (error) {
+            console.error("Error updating password: ", error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     const googleSignIn = () => {
         setLoading(true);
         return signInWithPopup(auth, googleProvider);
@@ -60,22 +74,20 @@ const AuthProvider = ({ children }) => {
         const unSubscribe = onAuthStateChanged(auth, currentUser => {
             setUser(currentUser);
             setLoading(false);
-            // console.log('current user is : ', currentUser);
             if (currentUser) {
                 axios.post('/jwt', { email: currentUser?.email }, { withCredentials: true })
                     .then(res => {
-                        // console.log(res.data)
                         localStorage.setItem('access-token', res.data.token);
-                    }
-                    )
-                    .catch(error => console.log(error.message))
+                    })
+                    .catch(error => console.log(error.message));
+            } else {
+                localStorage.removeItem('access-token');
             }
-        })
+        });
         return () => {
             unSubscribe();
-        }
-    }, [])
-
+        };
+    }, []);
 
     const authInfo = {
         user,
@@ -83,13 +95,17 @@ const AuthProvider = ({ children }) => {
         setLoading,
         createAccount,
         profileUpdate,
+        passwordUpdate,
         logIn,
         googleSignIn,
         githubSignIn,
         logOut,
     };
+    
     return (
-        <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>
+        <AuthContext.Provider value={authInfo}>
+            {children}
+        </AuthContext.Provider>
     );
 };
 

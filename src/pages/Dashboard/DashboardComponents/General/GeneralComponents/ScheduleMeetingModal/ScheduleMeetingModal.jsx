@@ -11,13 +11,13 @@ const ScheduleMeetingModal = () => {
     return (
         <>
             <input className="modal-state" id="modal-2" type="checkbox" />
-            <div className="modal w-screen">
+            <div className="modal w-screen z-[500]">
                 <label className="modal-overlay" htmlFor="modal-2"></label>
-                <div className="modal-content min-h-72 flex flex-col gap-5 max-w-3xl bg-white text-black rounded-lg p-12">
+                <div className="modal-content min-h-72 flex flex-col gap-5 max-w-3xl bg-gradient-to-r from-gray-600 to-gray-700 text-gray-300 rounded-lg p-12">
                     <div className="flex flex-col min-h-60 justify-center relative">
                         <label
                             htmlFor="modal-2"
-                            className="btn btn-sm rounded-2xl btn-outline-error absolute right-0 -top-6"
+                            className="btn btn-sm rounded-2xl btn-ghost absolute right-0 -top-6"
                         >
                             ✕
                         </label>

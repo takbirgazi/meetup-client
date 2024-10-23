@@ -1,6 +1,3 @@
-
-
-
 import { useState } from "react";
 import { WiDirectionRight, WiDirectionUpRight } from "react-icons/wi";
 import FaqData from "./FaqData";
@@ -18,7 +15,7 @@ const Faq = () => {
         <div id='faq' className="section flex flex-col lg:flex-row my-28 mx-[6%] justify-between">
             <ScrollRestoration/>
             <div className="w-full lg:w-[50%] mb-8 lg:mb-0">
-                <h4 className="text-[#0095ff] text-2xl pb-8 font-medium">QUESTIONS & ANSWERS</h4>
+                <h4 className="text-[#0095ff] text-xl pb-8 font-medium">QUESTIONS & ANSWERS</h4>
                 <h1 className="text-4xl md:text-5xl pb-4 font-semibold">
                     Frequently <span className="bg-[#fec458] px-3 rounded-tr-3xl">asked</span>
                 </h1>
@@ -35,7 +32,7 @@ const Faq = () => {
                             </span>
                         </button>
                     </NavLink>
-                    <img src={img2} className="w-20 h-20 my-4" />
+                    <img src={img2} className="w-16 h-16 my-4" />
                 </div>
             </div>
             <div className="w-full lg:w-[50%]">

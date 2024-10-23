@@ -9,20 +9,8 @@ const PrivateRoute = ({ children }) => {
     // Show loading spinner while authentication is still in progress
     if (loading) {
         return (
-            <div className="flex flex-row justify-center items-center h-screen">
-                <svg className="spinner-ring spinner-primary spinner-sm" viewBox="25 25 50 50" strokeWidth="5">
-                    <circle cx="50" cy="50" r="20" />
-                </svg>
-
-                <svg className="spinner-ring spinner-success spinner-md" viewBox="25 25 50 50" strokeWidth="5">
-                    <circle cx="50" cy="50" r="20" />
-                </svg>
-
-                <svg className="spinner-ring spinner-warning spinner-lg" viewBox="25 25 50 50" strokeWidth="5">
-                    <circle cx="50" cy="50" r="20" />
-                </svg>
-
-                <svg className="spinner-ring spinner-error spinner-xl" viewBox="25 25 50 50" strokeWidth="5">
+            <div className="bg-[#101827] flex flex-row justify-center items-center h-screen">
+                <svg className="spinner-ring spinner-primary spinner-xl" viewBox="25 25 50 50" strokeWidth="5">
                     <circle cx="50" cy="50" r="20" />
                 </svg>
             </div>

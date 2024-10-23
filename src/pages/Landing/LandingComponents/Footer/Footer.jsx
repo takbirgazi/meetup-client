@@ -3,9 +3,9 @@ import logo from "../../../../assets/MeetUp.png";
 
 const Footer = () => {
   return (
-    <footer className=" bg-gray-800">
-      <div className="footer text-white p-10 flex flex-col md:flex-row justify-between items-start container mx-auto">
-        <aside className="flex flex-col items-start mb-6 md:mb-0">
+    <footer className=" bg-gray-800 text-center md:text-start">
+      <div className="footer text-white p-10 flex flex-col items-center md:flex-row justify-between container mx-auto ">
+        <div className="w-full md:w-[40%] flex flex-col items-center md:items-start mb-6 md:mb-0">
           
           <img src={logo} className="h-10 w-auto mb-2" />
           <p>
@@ -13,10 +13,11 @@ const Footer = () => {
             <br />
             Connecting people, anywhere, anytime.
           </p>
-        </aside>
+        </div>
 
-        <nav className="flex flex-col mb-6 md:mb-0">
-          <h6 className="footer-title font-semibold text-lg">Features</h6>
+        <div className="flex w-full md:w-[60%] justify-around">
+        <nav className="flex flex-col mb-6 md:mb-0 ">
+          <h6 className="footer-title font-semibold text-lg ">Features</h6>
           <a className="link link-hover text-gray-300 hover:text-blue-400 transition">High-Quality Video</a>
           <a className="link link-hover text-gray-300 hover:text-blue-400 transition">Screen Sharing</a>
           <a className="link link-hover text-gray-300 hover:text-blue-400 transition">Group Calls</a>
@@ -30,14 +31,15 @@ const Footer = () => {
           <a className="link link-hover text-gray-300 hover:text-blue-400 transition">FAQ</a>
           <a className="link link-hover text-gray-300 hover:text-blue-400 transition">Feedback</a>
         </nav>
+        </div>
 
-        <nav className="flex flex-col mb-6 md:mb-0">
+        {/* <nav className="flex flex-col mb-6 md:mb-0">
           <h6 className="footer-title font-semibold text-lg">Community</h6>
           <a className="link link-hover text-gray-300 hover:text-blue-400 transition">Blog</a>
           <a className="link link-hover text-gray-300 hover:text-blue-400 transition">Forum</a>
           <a className="link link-hover text-gray-300 hover:text-blue-400 transition">Events</a>
           <a className="link link-hover text-gray-300 hover:text-blue-400 transition">Partnerships</a>
-        </nav>
+        </nav> */}
       </div>
     </footer>
   );
