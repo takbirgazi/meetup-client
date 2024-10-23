@@ -1,7 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import Dashboard from "../pages/Dashboard/Dashboard";
 import ChangePassword from "../pages/Dashboard/DashboardComponents/ChangePassword/ChangePassword";
-import General from "../pages/Dashboard/DashboardComponents/General/General";
 import ToDoApp from "../pages/Dashboard/DashboardComponents/General/GeneralComponents/ToDoList/ToDoApp";
 import Meetings from "../pages/Dashboard/DashboardComponents/Meetings/Meetings";
 import Profile from "../pages/Dashboard/DashboardComponents/Profile/Profile";
@@ -63,13 +62,17 @@ const router = createBrowserRouter([
           </PrivateRoute>
         ),
         children: [
+          // {
+          //   path: "",
+          //   element: <General />,
+          // },
           {
             path: "",
-            element: <General />,
+            element: <Meetings />,
           },
           {
-            path: "meetings",
-            element: <Meetings />,
+            path: "todo",
+            element: <ToDoApp />,
           },
           {
             path: "support",
