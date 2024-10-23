@@ -2,7 +2,7 @@
 
 **Installation Guide**
 
-* npm install
+* npm  install
 * Create .env.local file and insert the variables and values
     * VITE_apiKey
     * VITE_authDomain
