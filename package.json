@@ -14,13 +14,13 @@
     "@heroicons/react": "^2.1.5",
     "@livekit/components-react": "^2.6.5",
     "@livekit/components-styles": "^1.1.2",
-    "@stream-io/video-react-sdk": "^1.6.6",
+    "@stream-io/video-react-sdk": "^1.7.2",
     "@tanstack/react-query": "^5.59.15",
     "@tawk.to/tawk-messenger-react": "^2.0.2",
     "@tldraw/sync": "^3.3.2",
     "@tsparticles/react": "^3.0.0",
     "@tsparticles/slim": "^3.5.0",
-    "@zegocloud/zego-uikit-prebuilt": "^2.11.0",
+    "@zegocloud/zego-uikit-prebuilt": "^2.11.1",
     "axios": "^1.7.7",
     "emailjs-com": "^3.2.0",
     "firebase": "^10.14.1",
@@ -54,7 +54,9 @@
     "swiper": "^11.1.14",
     "tesseract.js": "^5.1.1",
     "tldraw": "^3.3.1",
-    "uuid": "^10.0.0"
+    "uuid": "^10.0.0",
+    "zego-superboard-web": "^2.15.3",
+    "zego-zim-web": "^2.17.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",
