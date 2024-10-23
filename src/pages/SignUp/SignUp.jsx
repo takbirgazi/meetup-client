@@ -272,7 +272,7 @@ const SignUp = () => {
                 <div className="form-field justify-between">
                   <input
                     type="submit"
-                    className="btn btn-primary w-full"
+                    className="btn  bg-gradient-to-r from-[#ffbfff] to-[#a2deff] w-full"
                     value={"Sign Up"}
                   />
                 </div>

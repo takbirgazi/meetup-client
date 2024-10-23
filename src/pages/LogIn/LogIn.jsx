@@ -96,11 +96,11 @@ const Login = () => {
           navigate(location?.state?.from?.pathname || "/room")
         )
       }
-      <div className="bg-gray-900 h-screen" >
+      <div className="bg-gray-900" >
         <ScrollRestoration />
         {/* <TitleBanner title={"User Sign In"} route={"Home / Login"} /> */}
-        <div className="w-full min-h-[calc(100vh-4.1rem)] flex items-center justify-center">
-          <div className="mx-auto flex w-full bg-gray-800 max-w-lg flex-col rounded-xl border-2 border-gray-600 p-4 sm:p-16 items-center justify-center">
+        <div className="w-full flex items-center justify-center">
+          <div className="flex w-full bg-gray-800 max-w-lg flex-col rounded-xl border-2 border-gray-600 my-6 sm:p-16 items-center justify-center">
             <NavLink to="/">
               <img className="w-40 pb-4" src={logo} alt="logo" />
             </NavLink>
@@ -168,7 +168,7 @@ const Login = () => {
                 </button>
               </div>
             </div>
-            <div className="divider my-6 text-xs text-gray-300">
+            <div className="divider my-2 text-xs text-gray-300">
               or continue with
             </div>
 
@@ -211,11 +211,11 @@ const Login = () => {
                   </label>
                 </div>
               </div>
-              <div className="form-field pt-5">
+              <div className="form-field pt-2">
                 <div className="form-control justify-between">
                   <input
                     type="submit"
-                    className="btn btn-primary w-full"
+                    className="btn  w-full  bg-gradient-to-r from-[#ffbfff] to-[#a2deff]"
                     value={"Sign in"}
                   />
                 </div>
@@ -227,7 +227,7 @@ const Login = () => {
                     Don't have an account?{" "}
                     <Link
                       to={"/signUp"}
-                      className="link link-underline-hover link-primary"
+                      className="link link-underline-hover text-blue-500"
                     >
                       Sign Up
                     </Link>

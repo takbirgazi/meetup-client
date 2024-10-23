@@ -15,7 +15,7 @@ const Landing = () => {
     // console.log(user);
   return (
     <div className='bg-gradient-to-r from-gray-50 to-gray-200'>
-      <div className="md:h-screen bg-gray-900 w-full flex items-center justify-center">
+      <div className="lg:h-screen bg-gray-900 w-full flex items-center justify-center">
         <div className="container mx-auto">
           <NavBar />
           <Banner />
