@@ -27,8 +27,8 @@ const customShapes = [CounterShapeUtil]
 const customTools = [CounterShapeTool]
 
 const apiKey = 'mmhfdzb5evj2';
-const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL3Byb250by5nZXRzdHJlYW0uaW8iLCJzdWIiOiJ1c2VyL0hhbl9Tb2xvIiwidXNlcl9pZCI6Ikhhbl9Tb2xvIiwidmFsaWRpdHlfaW5fc2Vjb25kcyI6NjA0ODAwLCJpYXQiOjE3MjkwODQ1NDMsImV4cCI6MTcyOTY4OTM0M30.w2UKhy3vuyWV_H_3oRZZ3p3W1onx2a9UMOGEk_lkv5I';
-const userId = 'Han_Solo';
+const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL3Byb250by5nZXRzdHJlYW0uaW8iLCJzdWIiOiJ1c2VyL0dpbGFkX1BlbGxhZW9uIiwidXNlcl9pZCI6IkdpbGFkX1BlbGxhZW9uIiwidmFsaWRpdHlfaW5fc2Vjb25kcyI6NjA0ODAwLCJpYXQiOjE3Mjk2OTQwNjYsImV4cCI6MTczMDI5ODg2Nn0.KASomWxhaykYEsTYw0imdQs95E6caRakcQ1Wsi7Mtwg';
+const userId = 'Gilad_Pellaeon';
 
 export default function Meeting() {
   const { user: participant } = useAuth();
