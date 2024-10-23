@@ -70,7 +70,9 @@ export default function Meeting() {
     <div className='bg-gray-900 min-h-screen max-h-screen flex items-center justify-center'>
       <StreamVideo client={clientRef.current}>
         <StreamCall call={callRef.current}>
+
           <MyUILayout showWhiteboard={showWhiteboard} setShowWhiteboard={setShowWhiteboard} />
+          
         </StreamCall>
       </StreamVideo>
 
