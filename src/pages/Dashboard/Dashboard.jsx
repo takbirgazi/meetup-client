@@ -6,6 +6,9 @@ import { IoIosLogOut } from 'react-icons/io';
 import logo from "../../assets/MeetUpLogo.png";
 import { useState } from 'react';
 import ChatBot from './DashboardComponents/General/GeneralComponents/ChatBot/ChatBot';
+import closeChat from './../../assets/images/bottom-right.png'
+import openChat from './../../assets/images/chatbot.png'
+
 const Dashboard = () => {
 
     const [isChatBotOpen, setIsChatBotOpen] = useState(false);
@@ -110,7 +113,7 @@ const Dashboard = () => {
             <div className="sm:w-full sm:max-w-[18rem] ">
                 <input type="checkbox" id="sidebar-mobile-fixed" className="sidebar-state" />
                 <label htmlFor="sidebar-mobile-fixed" className="sidebar-overlay"></label>
-                <aside className="sidebar sidebar-fixed-left sidebar-mobile h-full justify-start max-sm:fixed max-sm:-translate-x-full bg-[#101827]  shadow-2xl shadow-[#1d283c] ">
+                <aside className="z-[500] sidebar sidebar-fixed-left sidebar-mobile h-full justify-start max-sm:fixed max-sm:-translate-x-full bg-[#101827]  shadow-2xl shadow-[#1d283c] ">
                     <Link
                         to={'/'}
                         className=''
@@ -175,9 +178,9 @@ const Dashboard = () => {
                         >
                             {
                                 isChatBotOpen ? (
-                                    <img src="/src/assets/images/bottom-right.png" alt="Closec chat" className='w-10 h-10' />
+                                    <img src={closeChat} alt="Closec chat" className='w-10 h-10' />
                                 ) : (
-                                    <img src="/src/assets/images/chatBot.png" alt="Chat with AI" className="w-14 h-14" />
+                                    <img src={openChat} alt="Chat with AI" className="w-14 h-14" />
                                 )
                             }
 
