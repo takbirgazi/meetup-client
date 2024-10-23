@@ -29,13 +29,13 @@ const Specialty = () => {
     ]
 
     return (
-        <div id="features" className="section p-5 flex flex-col items-center justify-center gap-16">
+        <div id="features" className="section py-5 flex flex-col items-center justify-center gap-16">
             <ScrollRestoration/>
             <div className="flex flex-col gap-5 w-10/12">
-                <p className="text-center font-bold text-xl text-[#0095ff]">Features</p>
+                <p className="text-center font-bold text-2xl text-[#0095ff]">Features</p>
                 <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-950">Get amazing benefits</h2>
             </div>
-            <div className="w-11/12 md:w-10/12 grid gap-5 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+            <div className="w-11/12 grid gap-5 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
                 {
                     featureCardData.map(cardData => <SpecialtyCard key={cardData.id} cardDataInfo={cardData} />)
                 }
