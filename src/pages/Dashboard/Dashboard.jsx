@@ -7,7 +7,7 @@ import logo from "../../assets/MeetUpLogo.png";
 import { useState } from 'react';
 import ChatBot from './DashboardComponents/General/GeneralComponents/ChatBot/ChatBot';
 import closeChat from './../../assets/images/bottom-right.png'
-import openChat from './../../assets/images/chatbot.png'
+import openChat from './../../assets/images/chatBot.png'
 
 const Dashboard = () => {
 
