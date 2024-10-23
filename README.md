@@ -1,15 +1,24 @@
-# Tech Thunders
+# MeetUP - Video Calling Web Application
 
-**Instruction for use**
+**Installation Guide**
 
-- npm install
+* npm install
+* Create .env.local file and insert the variable and values
+    * VITE_apiKey
+    * VITE_authDomain
+    * VITE_projectId
+    * VITE_storageBucket
+    * VITE_messagingSenderId
+    * VITE_appId
+    * VITE_API_URL
+    * VITE_GEMENI_API_KEY
 
 **Framework has been used**
 
 - Tailwind CSS
 
 
-**NPM has been used**
+**NPM as been used**
 
 - react-helmet-async
 - prop-types
