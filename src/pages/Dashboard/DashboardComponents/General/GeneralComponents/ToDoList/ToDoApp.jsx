@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { FaArrowLeft, FaTrash, FaEdit, FaSave } from "react-icons/fa"; // FaEdit and FaSave for edit and save icons
+import { FaEdit, FaSave, FaTrash } from "react-icons/fa"; // FaEdit and FaSave for edit and save icons
 import { useNavigate } from "react-router-dom";
 import useAuth from "../../../../../../hooks/useAuth";
 import useAxiosCommon from "../../../../../../hooks/useAxiosCommon";
@@ -7,8 +7,8 @@ import useAxiosCommon from "../../../../../../hooks/useAxiosCommon";
 const ToDoApp = () => {
   const [tasks, setTasks] = useState([]);
   const [newTask, setNewTask] = useState("");
-  const [editIndex, setEditIndex] = useState(null); 
-  const [editTaskText, setEditTaskText] = useState(""); 
+  const [editIndex, setEditIndex] = useState(null);
+  const [editTaskText, setEditTaskText] = useState("");
   const navigate = useNavigate();
   const axiosCommon = useAxiosCommon();
   const { user } = useAuth();
@@ -62,8 +62,8 @@ const ToDoApp = () => {
 
   // Handle entering edit mode for a task
   const handleEditTask = (index) => {
-    setEditIndex(index); 
-    setEditTaskText(tasks[index].text); 
+    setEditIndex(index);
+    setEditTaskText(tasks[index].text);
   };
 
   // Handle saving the edited task
@@ -73,28 +73,27 @@ const ToDoApp = () => {
     const updatedTasks = [...tasks];
     updatedTasks[index] = updatedTask;
     setTasks(updatedTasks);
-    setEditIndex(null); 
+    setEditIndex(null);
   };
 
- 
   const completedTasks = tasks.filter(
     (task) => task.completed && task.email === user.email
   ).length;
   const myTasks = tasks.filter((task) => task.email === user.email);
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center relative">
+    <div className=" text-white flex flex-col items-center relative">
       {/* Back Button */}
-      <button
+      {/* <button
         className="absolute top-4 left-4 p-2 rounded-full hover:bg-gray-700 transition"
         onClick={() => navigate("/dashboard")}
         title="Back"
       >
         <FaArrowLeft className="text-white text-2xl" />
-      </button>
+      </button> */}
 
       {/* Task Summary */}
-      <div className="w-72 mt-14 bg-gray-800 p-4 rounded-lg mb-8 flex flex-col items-center py-10">
+      <div className="w-72 mt-14  p-4 rounded-lg mb-8 flex flex-col items-center py-10">
         <h2 className="text-xl font-semibold mb-1">Task Done</h2>
         <p className="text-gray-400 mb-4">Keep it up</p>
         <div className="w-20 h-20 bg-gradient-to-r from-[#ffbfff] to-[#a2deff] text-black rounded-full flex items-center justify-center text-3xl">
