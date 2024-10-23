@@ -10,7 +10,7 @@ import {
 } from '@stream-io/video-react-sdk';
 import '@stream-io/video-react-sdk/dist/css/styles.css';
 import useAuth from '../../hooks/useAuth';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
 const apiKey = 'mmhfdzb5evj2';
@@ -20,7 +20,7 @@ const userId = 'Han_Solo';
 export default function Meeting() {
   const { user: participant } = useAuth();
   const params = useParams();
-
+  
   const [meetingId, setMeetingId] = useState(params.id);
   const [prtName, setPrtName] = useState(participant?.displayName);
   const [partImage, setPartImage] = useState(participant?.photoURL);
@@ -45,24 +45,18 @@ export default function Meeting() {
   }, [params.id, participant]);
 
   return (
-    <div className='bg-gray-900 min-h-screen h-auto flex items-center justify-center'>
-      <StreamVideo client={client}>
-        <StreamCall call={call}>
-          <MyUILayout />
-        </StreamCall>
-      </StreamVideo>
-    </div>
+    <StreamVideo client={client}>
+      <StreamCall call={call}>
+        <MyUILayout />
+      </StreamCall>
+    </StreamVideo>
   );
 }
 
 export const MyUILayout = () => {
-  const navigate = useNavigate();
   const { useCallCallingState } = useCallStateHooks();
   const callingState = useCallCallingState();
 
-  const leaveCall = async () => {
-    await navigate("/room")
-  }
   if (callingState !== CallingState.JOINED) {
     return (
       <div className="bg-[#101827] flex flex-row justify-center items-center h-screen">
@@ -74,9 +68,9 @@ export const MyUILayout = () => {
   }
 
   return (
-    <StreamTheme className='bg-[#111827] min-h-screen h-auto mx-auto py-5 w-full text-gray-100'>
-      <SpeakerLayout participantsBarPosition="bottom" participantsBarLimit="dynamic" />
-      <CallControls onLeave={leaveCall} />
+    <StreamTheme className='bg-[#111827] min-h-screen h-auto mx-auto py-5'>
+      <SpeakerLayout participantsBarPosition="bottom" />
+      <CallControls />
     </StreamTheme>
   );
 };
