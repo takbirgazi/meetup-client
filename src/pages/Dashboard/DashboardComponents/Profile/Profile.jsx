@@ -64,10 +64,10 @@ const Profile = () => {
   }
 
   return (
-    <div className="min-h-screen py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-purple-900 via-blue-900 to-black">
+    <div className="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-3xl mx-auto">
         {/* Glassmorphism card */}
-        <div className="backdrop-blur-lg bg-white/10 rounded-2xl shadow-2xl border border-white/20 p-8 relative overflow-hidden">
+        <div className="backdrop-blur-lg bg-black/20 rounded-2xl shadow-2xl border border-white/20 p-8 relative overflow-hidden">
           {/* Background decorative elements */}
           <div className="absolute -top-10 -right-10 w-40 h-40 bg-purple-500 rounded-full filter blur-3xl opacity-20"></div>
           <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-blue-500 rounded-full filter blur-3xl opacity-20"></div>
@@ -88,7 +88,7 @@ const Profile = () => {
             </div>
 
             <div className="flex flex-col lg:flex-row gap-8">
-              <div className="flex flex-col items-center space-y-4">
+              <div className="flex flex-col items-center space-y-2">
                 <div className="relative group">
                   <img
                     className="w-40 h-40 rounded-full object-cover border-4 border-white/20 group-hover:border-white/40 transition-all duration-300"
@@ -100,9 +100,9 @@ const Profile = () => {
               </div>
 
               <div className="flex-1 space-y-6">
-                <div className="space-y-4">
+                <div className="space-y-1">
                   <div>
-                    <label className="block text-white/60 text-sm font-medium mb-2">
+                    <label className="block text-white text-sm font-medium mb-2">
                       Username
                     </label>
                     {editMode ? (
@@ -121,7 +121,7 @@ const Profile = () => {
                   </div>
 
                   <div>
-                    <label className="block text-white/60 text-sm font-medium mb-2">
+                    <label className="block text-white text-sm font-medium mb-2">
                       Email
                     </label>
                     {editMode ? (
@@ -139,8 +139,8 @@ const Profile = () => {
                   </div>
 
                   {editMode ? (
-                    <div className="space-y-4">
-                      <label className="block text-white/60 text-sm font-medium mb-2">
+                    <div className="space-y-1">
+                      <label className="block text-white text-sm font-medium ">
                         Profile Photo
                       </label>
                       <input
@@ -151,8 +151,8 @@ const Profile = () => {
                         className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-purple-500/40 focus:border-transparent transition-all duration-300"
                         placeholder="Enter photo URL"
                       />
-                      <div className="text-white/60 text-center text-sm my-2">
-                        OR
+                      <div className="text-white text-center text-sm py-4">
+                        ----------- OR ------------
                       </div>
                       <input
                         type="file"
@@ -174,7 +174,7 @@ const Profile = () => {
 
                   {editMode && (
                     <button
-                      className="w-full mt-6 px-6 py-3 bg-gradient-to-r from-purple-500/80 to-blue-500/80 hover:from-purple-500/90 hover:to-blue-500/90 text-white font-medium rounded-lg transition-all duration-300 backdrop-blur-sm"
+                      className="w-full mt-6 px-6 py-3 bg-gradient-to-r from-pink-500 to-blue-500 hover:from-purple-500/90 hover:to-blue-500/90 text-white font-medium rounded-lg transition-all duration-300 backdrop-blur-sm"
                       onClick={handleSave}
                     >
                       Save Changes

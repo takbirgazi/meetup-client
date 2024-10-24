@@ -27,7 +27,7 @@ const Dashboard = () => {
   };
 
   const menuActive =
-    "bg-gradient-to-r from-indigo-500 to-purple-600 text-white";
+    "bg-gradient-to-r from-pink-500 to-blue-600 text-white ";
   const menuItem = "menu-item ml-6";
 
   const mainMenuItems = (
@@ -226,12 +226,13 @@ const Dashboard = () => {
           `}</style>
 
           <Link to={"/"} className="hover:opacity-80 transition-opacity">
-            <section className="sidebar-title items-center p-4 flex">
+            
+            <div className="sidebar-title p-4 flex items-center justify-center">
               <img src={logo} className="h-10 w-auto mr-2" alt="Logo" />
-              <div className="flex flex-col text-white text-2xl font-semibold">
-                <p>MeatUp</p>
-              </div>
-            </section>
+              <p className=" text-white text-2xl font-semibold">MeatUp</p>
+              
+            </div>
+          
           </Link>
 
           <section className="sidebar-content">
