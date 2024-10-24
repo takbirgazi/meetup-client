@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IoIosLogOut } from "react-icons/io";
 import { IoHome } from "react-icons/io5";
 import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
@@ -14,6 +14,13 @@ const Dashboard = () => {
   const location = useLocation();
   const { user, logOut } = useAuth();
 
+  useEffect(() => {
+    const chatButton = document.getElementById("tidio-chat");
+    if (chatButton) {
+      chatButton.style.display = "block";
+    }
+  }, []);
+
   const backgroundStyle = {
     backgroundImage: `url(${background})`,
     backgroundSize: "cover",
@@ -27,7 +34,7 @@ const Dashboard = () => {
   };
 
   const menuActive =
-    "bg-gradient-to-r from-indigo-500 to-purple-600 text-white";
+    "bg-gradient-to-r from-pink-500 to-blue-600 text-white ";
   const menuItem = "menu-item ml-6";
 
   const mainMenuItems = (
@@ -148,8 +155,7 @@ const Dashboard = () => {
             <NavLink
               to={`/dashboard/profile`}
               className={({ isActive }) =>
-                `${menuItem} ${
-                  isActive ? menuActive : "text-white/90"
+                `${menuItem} ${isActive ? menuActive : "text-white/90"
                 } hover:bg-black/40 my-2 max-w-[85%] transition-all duration-300 rounded-lg`
               }
             >
@@ -158,8 +164,7 @@ const Dashboard = () => {
             <NavLink
               to={`/dashboard/change-password`}
               className={({ isActive }) =>
-                `${menuItem} ${
-                  isActive ? menuActive : "text-white/90"
+                `${menuItem} ${isActive ? menuActive : "text-white/90"
                 } hover:bg-black/40 my-2 max-w-[85%] transition-all duration-300 rounded-lg`
               }
             >
@@ -226,12 +231,13 @@ const Dashboard = () => {
           `}</style>
 
           <Link to={"/"} className="hover:opacity-80 transition-opacity">
-            <section className="sidebar-title items-center p-4 flex">
+            
+            <div className="sidebar-title p-4 flex items-center justify-center">
               <img src={logo} className="h-10 w-auto mr-2" alt="Logo" />
-              <div className="flex flex-col text-white text-2xl font-semibold">
-                <p>MeatUp</p>
-              </div>
-            </section>
+              <p className=" text-white text-2xl font-semibold">MeatUp</p>
+              
+            </div>
+          
           </Link>
 
           <section className="sidebar-content">
