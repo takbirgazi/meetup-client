@@ -46,6 +46,17 @@ const Meeting = () => {
     requestPermissions();
   }, []);
 
+  useEffect(() => {
+    return () => {
+      // Remove the Tidio chat widget
+      const chatWidget = document.querySelector('#tidio-chat');
+      console.log(chatWidget);
+      if (chatWidget) {
+        chatWidget.remove();
+      }
+    };
+  }, []);
+
   const myMeeting = async (element) => {
     const appID = 576861095;
     const serverSecret = "45b9de5982738b2c06c0fb5a456a7445";
