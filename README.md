@@ -33,7 +33,7 @@
 - swiper
 - keen-slider
 - @zegocloud/zego-uikit-prebuilt
-- tawk.to
+- Tidio
 - Emailjs
 - lucide-react
 - react-query

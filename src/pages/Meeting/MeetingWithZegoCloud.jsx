@@ -92,44 +92,23 @@ const Meeting = () => {
       recordingEnabled: isHost,
       hostControl: isHost
         ? {
-            muteAll: true,
-            lockRoom: true,
-            endRoom: true,
-          }
+          muteAll: true,
+          lockRoom: true,
+          endRoom: true,
+        }
         : {},
-      screenSharingConfig: {
-        resolution: ScreenSharingResolution, // Set the resolution you want
-        width: 1280, // Example width
-        height: 720, // Example height
-        frameRate: 30, // Example frame rate
-        maxBitRate: 2000, // Example max bit rate in kbps
-      },
-      onRoomStateUpdate: (state) => {
-        if (state === "DISCONNECTED") {
-          console.log("Disconnected, trying to reconnect...");
-        }
-      },
-      onUserListUpdate: (userList) => {
-        if (userList.length > 2) {
-          zp.setLayoutMode(ZegoUIKitPrebuilt.LayoutMode.Tiled);
-        } else {
-          zp.setLayoutMode(ZegoUIKitPrebuilt.LayoutMode.Spotlight);
-        }
-      },
-      onCameraStateUpdate: (cameraState) => {
-        if (!cameraState.isOpen) {
-          console.error("Camera permission issue detected.");
-        }
-      },
-      // Add additional configurations as needed
-      // For example:
-      showTextChat: true, // Enable chat
-      showOnlyAudioUser: true, // Show audio-only participants
-      autoHideFooter: true, // Auto-hide footer on mobile
+      maxUsersToShowVideo: 6,
     };
+    // interactive whiteboard
 
     zp.joinRoom(meetingConfig);
     zp.addPlugins({ ZegoSuperBoardManager });
+    // Join the room with the configured options
+    zp.on('videoStatusUpdate', (userID, videoState) => {
+      if (videoState === 'stopped') {
+        zp.startPlaying(userID); // Attempt to restart the video
+      }
+    });
   };
 
   if (isLoading) {
