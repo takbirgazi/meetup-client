@@ -1,9 +1,9 @@
 import React, { useState } from "react";
+import { MdDashboard, MdLogout } from "react-icons/md"; // Import the icons
+import { RxHamburgerMenu } from "react-icons/rx";
 import { Link } from "react-router-dom";
 import logo from "../../../../assets/MeetUp.png";
 import useAuth from "../../../../hooks/useAuth";
-import { RxHamburgerMenu } from "react-icons/rx";
-import { MdDashboard, MdLogout } from "react-icons/md"; // Import the icons
 
 const NavBar = () => {
   const { user, logOut } = useAuth();
@@ -63,7 +63,7 @@ const NavBar = () => {
 
   return (
     <div className="">
-      <div className="navbar px-4 bg-[#101827] shadow-lg shadow-[#1d283c] navbar-sticky m-2 mx-auto backdrop-blur-2xl flex items-center">
+      <div className="navbar px-4 bg-[#101827] shadow-lg shadow-[#2c236cd7] navbar-sticky m-0 mx-auto backdrop-blur-2xl flex items-center">
         <div className="navbar-start">
           <a href="#">
             <img className="w-auto h-10" src={logo} alt="" />
