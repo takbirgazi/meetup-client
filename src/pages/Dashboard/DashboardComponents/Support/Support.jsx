@@ -68,13 +68,14 @@ const Support = () => {
   return (
     <div id="support" className=" flex items-center justify-center">
       <div className="px-6">
-
         <div className="text-center">
           <h2 className="text-3xl font-extrabold text-white sm:text-4xl mt-[8%]">
             Need Help? We're Here to Support You
           </h2>
           <p className="pt-4 text-md text-gray-200">
-            If you're facing any issues or have questions about using MeetUp, feel free to reach out to us. Our team is here to help with technical problems, setup, and more.
+            If you're facing any issues or have questions about using MeetUp,
+            feel free to reach out to us. Our team is here to help with
+            technical problems, setup, and more.
           </p>
         </div>
 
@@ -83,13 +84,21 @@ const Support = () => {
             <div className="flex items-center justify-center py-5">
               <MdEmail className="h-12 w-12 border-2 border-transparent p-1 rounded-full text-white" />
             </div>
-            <h3 className="text-2xl font-semibold text-white">
-              Email Support
-            </h3>
+            <h3 className="text-2xl font-semibold text-white">Email Support</h3>
             <p className="mt-4 text-gray-200">
-              You can send us an email at <a href="mailto:support@meetup.com" className="text-indigo-400 hover:text-indigo-500">meetup24bd@gmail.com</a> and we'll get back to you as soon as possible.
+              You can send us an email at{" "}
+              <a
+                href="mailto:support@meetup.com"
+                className="text-indigo-400 hover:text-indigo-500"
+              >
+                meetup24bd@gmail.com
+              </a>{" "}
+              and we'll get back to you as soon as possible.
             </p>
-            <button onClick={openModal} className="mt-6 px-4 py-2 bg-gradient-to-r from-[#ffbfff] to-[#a2deff] rounded ">
+            <button
+              onClick={openModal}
+              className="mt-6 px-4 py-2 bg-gradient-to-r from-[#ffbfff] to-[#a2deff] rounded "
+            >
               Send Email
             </button>
           </div>
@@ -98,11 +107,10 @@ const Support = () => {
             <div className="flex items-center justify-center py-5">
               <IoChatbubbleEllipsesSharp className="h-12 w-12 border-2 border-transparent p-1 rounded-full text-white" />
             </div>
-            <h3 className="text-2xl font-semibold text-white">
-              Live Chat
-            </h3>
+            <h3 className="text-2xl font-semibold text-white">Live Chat</h3>
             <p className="mt-4 text-gray-200">
-              Need immediate help? Start a live chat with our support team and get your questions answered in real-time.
+              Need immediate help? Start a live chat with our support team and
+              get your questions answered in real-time.
             </p>
           </div>
         </div>
@@ -122,10 +130,15 @@ const Support = () => {
               className="absolute top-4 right-4 text-gray-600 cursor-pointer hover:text-gray-900"
               size={24}
             />
-            <h2 className="text-2xl font-semibold text-gray-900 mb-4">Send an Email</h2>
+            <h2 className="text-2xl font-semibold text-gray-900 mb-4">
+              Send an Email
+            </h2>
             <form onSubmit={handleSubmit}>
               <div className="mb-4">
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-medium text-gray-700"
+                >
                   Your Email
                 </label>
                 <input
@@ -140,7 +153,10 @@ const Support = () => {
                 />
               </div>
               <div className="mb-4">
-                <label htmlFor="subject" className="block text-sm font-medium text-gray-700">
+                <label
+                  htmlFor="subject"
+                  className="block text-sm font-medium text-gray-700"
+                >
                   Subject
                 </label>
                 <input
@@ -155,7 +171,10 @@ const Support = () => {
                 />
               </div>
               <div className="mb-4">
-                <label htmlFor="message" className="block text-sm font-medium text-gray-700">
+                <label
+                  htmlFor="message"
+                  className="block text-sm font-medium text-gray-700"
+                >
                   Message
                 </label>
                 <textarea
