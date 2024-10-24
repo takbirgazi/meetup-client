@@ -1,4 +1,4 @@
-import { ZegoUIKitPrebuilt } from "@zegocloud/zego-uikit-prebuilt";
+import { ZegoUIKitPrebuilt } from "@zegocloud/zego-uikit-prebuilt"; // Make sure to import the necessary constants
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { ZegoSuperBoardManager } from "zego-superboard-web";
@@ -17,12 +17,9 @@ const Meeting = () => {
   useEffect(() => {
     const fetchMeetingDetails = async () => {
       try {
-        // Fetch meeting details from the server using axiosSecure
         const response = await axiosSecure(`/meeting/${meetingId}`);
         const meetingData = response.data;
-        console.log("Meeting details:", meetingData);
 
-        // Check if current user's email matches the host's email
         setIsHost(meetingData.hostEmail === participantName?.email);
         setIsLoading(false);
       } catch (error) {
@@ -36,8 +33,20 @@ const Meeting = () => {
     }
   }, [meetingId, participantName?.email]);
 
+  // Request camera and microphone permissions
+  async function requestPermissions() {
+    try {
+      await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+    } catch (error) {
+      console.error("Permissions denied:", error);
+    }
+  }
+
+  useEffect(() => {
+    requestPermissions();
+  }, []);
+
   const myMeeting = async (element) => {
-    // generate Kit Token
     const appID = 576861095;
     const serverSecret = "45b9de5982738b2c06c0fb5a456a7445";
     const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(
@@ -48,27 +57,24 @@ const Meeting = () => {
       participantName?.displayName
     );
 
-    // Create instance object from Kit Token.
     const zp = ZegoUIKitPrebuilt.create(kitToken);
 
-    // Configure meeting options based on host status
     const meetingConfig = {
       container: element,
       sharedLinks: [
         {
           name: participantName?.displayName,
-          url:
-            window.location.protocol +
-            "//" +
-            window.location.host +
-            window.location.pathname,
+          url: window.location.protocol + "//" + window.location.host + window.location.pathname,
         },
       ],
       scenario: {
-        mode: ZegoUIKitPrebuilt.VideoConference,
+        mode: ZegoUIKitPrebuilt.VideoConference, // Use the constant for scenario mode
       },
       onLeaveRoom: () => {
         navigate("/room");
+      },
+      onJoinRoom: () => {
+        console.log("Joined room");
       },
       showPreJoinView: true,
       showLeavingView: true,
@@ -94,18 +100,39 @@ const Meeting = () => {
           endRoom: true,
         }
         : {},
-      maxUsersToShowVideo: 6,
+      screenSharingConfig: {
+        resolution: ZegoUIKitPrebuilt.ScreenSharingResolution_Auto, // Set the resolution you want
+      },
+      videoResolutionList: [
+        ZegoUIKitPrebuilt.VideoResolution_360P,
+        ZegoUIKitPrebuilt.VideoResolution_180P,
+        ZegoUIKitPrebuilt.VideoResolution_480P,
+        ZegoUIKitPrebuilt.VideoResolution_720P,
+      ],
+      videoResolutionDefault: ZegoUIKitPrebuilt.VideoResolution_720P,
+      onRoomStateUpdate: (state) => {
+        if (state === "DISCONNECTED") {
+          console.log("Disconnected, trying to reconnect...");
+        }
+      },
+      onUserListUpdate: (userList) => {
+        if (userList.length > 2) {
+          zp.setLayoutMode(ZegoUIKitPrebuilt.LayoutMode.Tiled);
+        } else {
+          zp.setLayoutMode(ZegoUIKitPrebuilt.LayoutMode.Spotlight);
+        }
+      },
+      onCameraStateUpdate: (cameraState) => {
+        if (!cameraState.isOpen) {
+          console.error("Camera permission issue detected.");
+        }
+      },
+      showTextChat: true,
+      autoHideFooter: true,
     };
-    // interactive whiteboard
 
     zp.joinRoom(meetingConfig);
     zp.addPlugins({ ZegoSuperBoardManager });
-    // Join the room with the configured options
-    zp.on('videoStatusUpdate', (userID, videoState) => {
-      if (videoState === 'stopped') {
-        zp.startPlaying(userID); // Attempt to restart the video
-      }
-    });
   };
 
   if (isLoading) {
