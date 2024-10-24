@@ -409,7 +409,7 @@ const Home = () => {
                 onChange={(e) => setMeetingInput(e.target.value)}
               />
               <button
-                className="btn bg-gradient-to-r from-[#ffbfff] to-[#a2deff]"
+                className="btn bg-gradient-to-r from-pink-500 to-blue-500 text-white"
                 onClick={handleJoinMeeting}
               >
                 Join
