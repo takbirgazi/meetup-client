@@ -89,17 +89,23 @@ const Meeting = () => {
       recordingEnabled: isHost,
       hostControl: isHost
         ? {
-            muteAll: true,
-            lockRoom: true,
-            endRoom: true,
-          }
+          muteAll: true,
+          lockRoom: true,
+          endRoom: true,
+        }
         : {},
+      maxUsersToShowVideo: 6,
     };
     // interactive whiteboard
 
     zp.joinRoom(meetingConfig);
     zp.addPlugins({ ZegoSuperBoardManager });
     // Join the room with the configured options
+    zp.on('videoStatusUpdate', (userID, videoState) => {
+      if (videoState === 'stopped') {
+        zp.startPlaying(userID); // Attempt to restart the video
+      }
+    });
   };
 
   if (isLoading) {
