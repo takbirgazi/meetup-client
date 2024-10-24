@@ -1,5 +1,5 @@
 import Banner from "./LandingComponents/Banner/Banner";
-import React from 'react';
+import React, { useEffect } from 'react';
 import ScrollToTop from 'react-scroll-to-top';
 import Faq from "./LandingComponents/FaqSection/Faq";
 import Footer from "./LandingComponents/Footer/Footer";
@@ -11,8 +11,16 @@ import WhyChooseUs from "./LandingComponents/WhyChooseUs/WhyChooseUs";
 import useAuth from "../../hooks/useAuth";
 
 const Landing = () => {
-    const {user, logOut} = useAuth();
-    // console.log(user);
+  const { user, logOut } = useAuth()
+
+  // Show the button during loading
+  useEffect(() => {
+    const chatButton = document.getElementById("tidio-chat");
+    if (chatButton) {
+      chatButton.style.display = "block";
+    }
+  }, []);
+  // console.log(user);
   return (
     <div className='bg-gradient-to-r from-gray-50 to-gray-200'>
       <div className="lg:h-screen bg-gray-900 w-full flex items-center justify-center">

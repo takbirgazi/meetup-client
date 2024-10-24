@@ -46,16 +46,13 @@ const Meeting = () => {
     requestPermissions();
   }, []);
 
+  // Hiding the button during loading
   useEffect(() => {
-    return () => {
-      // Remove the Tidio chat widget
-      const chatWidget = document.querySelector('#tidio-chat');
-      console.log(chatWidget);
-      if (chatWidget) {
-        chatWidget.remove();
-      }
-    };
-  }, []);
+    const chatButton = document.getElementById("tidio-chat");
+    if (chatButton) {
+      chatButton.style.display = "none";
+    }
+  }, [isLoading]);
 
   const myMeeting = async (element) => {
     const appID = 576861095;
