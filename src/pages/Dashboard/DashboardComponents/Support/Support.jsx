@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import emailjs from "emailjs-com";
 import toast from "react-hot-toast";
 import { AiOutlineClose } from "react-icons/ai";
@@ -39,9 +39,7 @@ const Support = () => {
       .send(serviceId, templateId, formData, userId)
       .then(() => {
         toast.success("Email sent successfully!");
-        // Clear the form
         setFormData({ subject: "", message: "", email: "" });
-
         closeModal();
       })
       .catch((error) => {
@@ -50,22 +48,18 @@ const Support = () => {
       });
   };
 
-  // Inject Tawk.to Script using useEffect
-//   useEffect(() => {
-//     const script = document.createElement("script");
-//     script.src = "https://embed.tawk.to/670ee6f44304e3196ad21f8a/1ia93cb1n";
-//     script.async = true;
-//     script.charset = "UTF-8";
-//     script.setAttribute("crossorigin", "*");
+  // Inject Tidio Chat Script using useEffect
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = "//code.tidio.co/a6vab3qwefqger4viz3zhpg3jt5rxzp2.js";
+    script.async = true;
+    document.body.appendChild(script);
 
-//     document.body.appendChild(script);
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
 
-//     return () => {
-//       document.body.removeChild(script);
-//     };
-//   }, []);
-
-  
   return (
     <div id="support" className=" flex items-center justify-center">
       <div className="px-6">
@@ -125,7 +119,6 @@ const Support = () => {
           overlayClassName="fixed inset-0"
         >
           <div className="relative bg-white p-8 rounded-lg shadow-lg max-w-md w-full mx-4 sm:mx-auto">
-            {/* Cross Icon to close modal */}
             <AiOutlineClose
               onClick={closeModal}
               className="absolute top-4 right-4 text-gray-600 cursor-pointer hover:text-gray-900"
@@ -199,12 +192,9 @@ const Support = () => {
           </div>
         </Modal>
       </div>
-      
     </div>
   );
 };
 
 export default Support;
-
-
 
