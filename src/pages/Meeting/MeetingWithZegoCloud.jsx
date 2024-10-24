@@ -46,6 +46,14 @@ const Meeting = () => {
     requestPermissions();
   }, []);
 
+  // Hiding the button during loading
+  useEffect(() => {
+    const chatButton = document.getElementById("tidio-chat");
+    if (chatButton) {
+      chatButton.style.display = "none";
+    }
+  }, [isLoading]);
+
   const myMeeting = async (element) => {
     const appID = 576861095;
     const serverSecret = "45b9de5982738b2c06c0fb5a456a7445";

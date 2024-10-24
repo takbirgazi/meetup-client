@@ -4,6 +4,7 @@ import { IoClose, IoReload } from "react-icons/io5";
 import { BsFillSendFill } from "react-icons/bs";
 import useAuth from "../../../../../../hooks/useAuth";
 import { FaMicrophone } from "react-icons/fa";
+import chatBot from "../../../../../../assets/images/chatBot.png";
 
 const ChatBot = ({ onClose }) => {
   const [userInput, setUserInput] = useState("");
@@ -168,7 +169,7 @@ const ChatBot = ({ onClose }) => {
     <div className="chat-bot-container flex flex-col bg-slate-700 min-h-[400px] max-h-[500px] left-8 md:left-0 border border-primary p-4 rounded-lg relative">
       {/* Header */}
       <div className="flex justify-between items-center mb-3">
-        <img src="/src/assets/images/chatBot.png" alt="ChatBot" className="w-14 h-14" title="Chatbot"/>
+        <img src={chatBot} alt="ChatBot" className="w-14 h-14" title="Chatbot"/>
         <div className="flex justify-center items-center space-x-1">
           <button onClick={clearChatHistory} className="btn btn-sm btn-ghost">
             <IoReload className="text-white hover:bg-gray-300 text-xl bg-blue-500 rounded-full p-1" />

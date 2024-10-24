@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IoIosLogOut } from "react-icons/io";
 import { IoHome } from "react-icons/io5";
 import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
@@ -13,6 +13,13 @@ const Dashboard = () => {
   const [isChatBotOpen, setIsChatBotOpen] = useState(false);
   const location = useLocation();
   const { user, logOut } = useAuth();
+
+  useEffect(() => {
+    const chatButton = document.getElementById("tidio-chat");
+    if (chatButton) {
+      chatButton.style.display = "block";
+    }
+  }, []);
 
   const backgroundStyle = {
     backgroundImage: `url(${background})`,
@@ -148,8 +155,7 @@ const Dashboard = () => {
             <NavLink
               to={`/dashboard/profile`}
               className={({ isActive }) =>
-                `${menuItem} ${
-                  isActive ? menuActive : "text-white/90"
+                `${menuItem} ${isActive ? menuActive : "text-white/90"
                 } hover:bg-black/40 my-2 max-w-[85%] transition-all duration-300 rounded-lg`
               }
             >
@@ -158,8 +164,7 @@ const Dashboard = () => {
             <NavLink
               to={`/dashboard/change-password`}
               className={({ isActive }) =>
-                `${menuItem} ${
-                  isActive ? menuActive : "text-white/90"
+                `${menuItem} ${isActive ? menuActive : "text-white/90"
                 } hover:bg-black/40 my-2 max-w-[85%] transition-all duration-300 rounded-lg`
               }
             >
