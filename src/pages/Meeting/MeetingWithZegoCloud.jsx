@@ -1,4 +1,4 @@
-import { ZegoUIKitPrebuilt, ScenarioModel, ScreenSharingResolution } from "@zegocloud/zego-uikit-prebuilt"; // Make sure to import the necessary constants
+import { ZegoUIKitPrebuilt } from "@zegocloud/zego-uikit-prebuilt"; // Make sure to import the necessary constants
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { ZegoSuperBoardManager } from "zego-superboard-web";
@@ -73,6 +73,9 @@ const Meeting = () => {
       onLeaveRoom: () => {
         navigate("/room");
       },
+      onJoinRoom: () => {
+        console.log("Joined room");
+      },
       showPreJoinView: true,
       showLeavingView: true,
       showUserList: true,
@@ -97,18 +100,39 @@ const Meeting = () => {
           endRoom: true,
         }
         : {},
-      maxUsersToShowVideo: 6,
+      screenSharingConfig: {
+        resolution: ZegoUIKitPrebuilt.ScreenSharingResolution_Auto, // Set the resolution you want
+      },
+      videoResolutionList: [
+        ZegoUIKitPrebuilt.VideoResolution_360P,
+        ZegoUIKitPrebuilt.VideoResolution_180P,
+        ZegoUIKitPrebuilt.VideoResolution_480P,
+        ZegoUIKitPrebuilt.VideoResolution_720P,
+      ],
+      videoResolutionDefault: ZegoUIKitPrebuilt.VideoResolution_720P,
+      onRoomStateUpdate: (state) => {
+        if (state === "DISCONNECTED") {
+          console.log("Disconnected, trying to reconnect...");
+        }
+      },
+      onUserListUpdate: (userList) => {
+        if (userList.length > 2) {
+          zp.setLayoutMode(ZegoUIKitPrebuilt.LayoutMode.Tiled);
+        } else {
+          zp.setLayoutMode(ZegoUIKitPrebuilt.LayoutMode.Spotlight);
+        }
+      },
+      onCameraStateUpdate: (cameraState) => {
+        if (!cameraState.isOpen) {
+          console.error("Camera permission issue detected.");
+        }
+      },
+      showTextChat: true,
+      autoHideFooter: true,
     };
-    // interactive whiteboard
 
     zp.joinRoom(meetingConfig);
     zp.addPlugins({ ZegoSuperBoardManager });
-    // Join the room with the configured options
-    zp.on('videoStatusUpdate', (userID, videoState) => {
-      if (videoState === 'stopped') {
-        zp.startPlaying(userID); // Attempt to restart the video
-      }
-    });
   };
 
   if (isLoading) {
