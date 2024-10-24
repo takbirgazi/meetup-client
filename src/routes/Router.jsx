@@ -9,7 +9,6 @@ import Support from "../pages/Dashboard/DashboardComponents/Support/Support";
 import Landing from "../pages/Landing/Landing";
 import Contact from "../pages/Landing/LandingComponents/FaqSection/ContactUs/Contact";
 import LogIn from "../pages/LogIn/LogIn";
-// import Meeting from "../pages/Meeting/MeetingWithStremio"; // Meeting With Stremio
 import Meeting from "../pages/Meeting/MeetingWithZegoCloud";
 import SignUp from "../pages/SignUp/SignUp";
 import PrivateRoute from "../routes/PrivateRoute";
@@ -17,8 +16,6 @@ import "./../App.css";
 import Root from "./../layout/Root";
 import ErrorPage from "./../pages/ErrorPage/ErrorPage";
 import Home from "./../pages/Home/Home";
-// import Meeting from "../pages/Meeting/MeetingWithLiveKit";
-// import MyPreJoin from "../components/MyPrejoin/MyPrejoin";
 
 const router = createBrowserRouter([
   {
@@ -38,22 +35,14 @@ const router = createBrowserRouter([
         path: "/signUp",
         element: <SignUp />,
       },
-      // {
-      //     path: "/room/:id", // meeting with LiveKit
-      //     element: <MyPreJoin><Meeting /></MyPreJoin>
-      // },
       {
-        path: "/room/:id", // Meeting with ZegoCloud
+        path: "/room/:id",
         element: (
           <PrivateRoute>
             <Meeting />
           </PrivateRoute>
         ),
       },
-      // {
-      //     path: "/room/:id", // Meeting With Stremio
-      //     element: <Meeting />
-      // },
       {
         path: "/room",
         element: (

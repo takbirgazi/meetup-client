@@ -1,16 +1,24 @@
-# Tech Thunders
+# MeetUP - Video Calling Web Application
 
-**Instruction for use**
+**Installation Guide**
 
-- npm install
+* npm install
+* Create .env.local file and insert the variables and values
+    * VITE_apiKey
+    * VITE_authDomain
+    * VITE_projectId
+    * VITE_storageBucket
+    * VITE_messagingSenderId
+    * VITE_appId
+    * VITE_API_URL
+    * VITE_GEMENI_API_KEY
 
 **Framework has been used**
 
 - Tailwind CSS
 
-<!-- packages -->
 
-**NPM has been used**
+**NPM as been used**
 
 - react-helmet-async
 - prop-types
@@ -22,11 +30,9 @@
 - react-hook-form
 - axios
 - react-hot-toast
-- @livekit/components-react @livekit/components-styles livekit-client --save
 - swiper
 - keen-slider
 - @zegocloud/zego-uikit-prebuilt
-- @stream-io/video-react-sdk
 - tawk.to
 - Emailjs
 - lucide-react
