@@ -1,5 +1,5 @@
+import React from "react";
 import emailjs from "emailjs-com";
-import React, { useEffect } from "react";
 import toast from "react-hot-toast";
 import { AiOutlineClose } from "react-icons/ai";
 import { IoChatbubbleEllipsesSharp } from "react-icons/io5";
@@ -51,24 +51,24 @@ const Support = () => {
   };
 
   // Inject Tawk.to Script using useEffect
-  useEffect(() => {
-    const script = document.createElement("script");
-    script.src = "https://embed.tawk.to/670ee6f44304e3196ad21f8a/1ia93cb1n";
-    script.async = true;
-    script.charset = "UTF-8";
-    script.setAttribute("crossorigin", "*");
+//   useEffect(() => {
+//     const script = document.createElement("script");
+//     script.src = "https://embed.tawk.to/670ee6f44304e3196ad21f8a/1ia93cb1n";
+//     script.async = true;
+//     script.charset = "UTF-8";
+//     script.setAttribute("crossorigin", "*");
 
-    document.body.appendChild(script);
+//     document.body.appendChild(script);
 
-    return () => {
-      document.body.removeChild(script);
-    };
-  }, []);
+//     return () => {
+//       document.body.removeChild(script);
+//     };
+//   }, []);
 
+  
   return (
     <div id="support" className=" flex items-center justify-center">
       <div className="px-6">
-
         <div className="text-center">
           <h2 className="text-3xl font-extrabold text-white sm:text-4xl mt-[8%]">
             Need Help? We're Here to Support You
@@ -179,8 +179,12 @@ const Support = () => {
           </div>
         </Modal>
       </div>
+      
     </div>
   );
 };
 
 export default Support;
+
+
+
