@@ -1,5 +1,6 @@
+
+import React, { useEffect } from "react";
 import emailjs from "emailjs-com";
-import React from "react";
 import toast from "react-hot-toast";
 import { AiOutlineClose } from "react-icons/ai";
 import { IoChatbubbleEllipsesSharp } from "react-icons/io5";
@@ -30,7 +31,6 @@ const Support = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // EmailJS configuration
     const serviceId = "service_2g4bo8b";
     const templateId = "template_rt7xuay";
     const userId = "I9IaDBN3uMEbEOTlS";
@@ -39,7 +39,6 @@ const Support = () => {
       .send(serviceId, templateId, formData, userId)
       .then(() => {
         toast.success("Email sent successfully!");
-        // Clear the form
         setFormData({ subject: "", message: "", email: "" });
         closeModal();
       })
@@ -49,166 +48,165 @@ const Support = () => {
       });
   };
 
-  // Inject Tawk.to Script using useEffect
-  //   useEffect(() => {
-  //     const script = document.createElement("script");
-  //     script.src = "https://embed.tawk.to/670ee6f44304e3196ad21f8a/1ia93cb1n";
-  //     script.async = true;
-  //     script.charset = "UTF-8";
-  //     script.setAttribute("crossorigin", "*");
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = "//code.tidio.co/a6vab3qwefqger4viz3zhpg3jt5rxzp2.js";
+    script.async = true;
+    document.body.appendChild(script);
 
-  //     document.body.appendChild(script);
-
-  //     return () => {
-  //       document.body.removeChild(script);
-  //     };
-  //   }, []);
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
 
   return (
-    <div
-      id="support"
-      className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 p-6"
-    >
-      <div className="relative w-full max-w-6xl">
-        {/* Background blur circles */}
-        <div className="absolute top-20 left-20 w-72 h-72 bg-pink-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob"></div>
-        <div className="absolute top-40 right-20 w-72 h-72 bg-blue-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-2000"></div>
-        <div className="absolute -bottom-8 left-40 w-72 h-72 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-4000"></div>
+    <div id="support" className="flex items-center justify-center min-h-screen p-6">
+      <style>{`
+        @keyframes cardEntrance {
+          0% {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          100% {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
 
-        <div className="relative">
-          <div className="text-center">
-            <h2 className="text-4xl font-extrabold text-white sm:text-5xl mt-[8%] bg-clip-text text-transparent bg-gradient-to-r from-pink-300 to-blue-300">
-              Need Help? We're Here to Support You
-            </h2>
-            <p className="pt-6 text-lg text-gray-300 max-w-2xl mx-auto">
-              If you're facing any issues or have questions about using MeetUp,
-              feel free to reach out to us. Our team is here to help with
-              technical problems, setup, and more.
+        .glass-effect {
+          background: rgba(255, 255, 255, 0.1);
+          backdrop-filter: blur(10px);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+          animation: cardEntrance 0.8s ease-out forwards;
+          padding: 20px;
+        }
+
+        .input-field {
+          border: 1px solid rgba(255, 255, 255, 0.5);
+          border-radius: 8px;
+          padding: 10px;
+          color: black;
+          background-color: rgba(255, 255, 255, 0.8); /* Light background for input fields */
+        }
+
+        .modal-content {
+          background-color: rgba(255, 255, 255, 0.9); /* Lighter modal background */
+          border-radius: 12px; /* Rounded corners for the modal */
+        }
+      `}</style>
+
+      <div className="px-6">
+        <div className="text-center">
+          <h2 className="text-3xl font-extrabold text-white sm:text-4xl mt-[8%]">
+            Need Help? We're Here to Support You
+          </h2>
+          <p className="pt-4 text-md text-gray-200">
+            If you're facing any issues or have questions about using MeetUp, feel free to reach out to us.
+          </p>
+        </div>
+
+        <div className="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="flex-1 glass-effect rounded-lg text-center">
+            <div className="flex items-center justify-center py-5">
+              <MdEmail className="h-12 w-12 text-white" />
+            </div>
+            <h3 className="text-2xl font-semibold text-white">Email Support</h3>
+            <p className="mt-4 text-gray-200">
+              You can send us an email at{" "}
+              <a href="mailto:support@meetup.com" className="text-indigo-400 hover:text-indigo-500">
+                meetup24bd@gmail.com
+              </a>{" "}
+              and we'll get back to you as soon as possible.
             </p>
+            <button
+              onClick={openModal}
+              className="mt-6 px-4 py-2 bg-gradient-to-r from-pink-500 to-blue-500 rounded-lg shadow-lg text-white"
+            >
+              Send Email
+            </button>
           </div>
 
-          <div className="mt-12 grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <div className="backdrop-blur-lg bg-white/10 rounded-2xl p-8 border border-white/20 shadow-xl hover:transform hover:scale-105 transition-all duration-300">
-              <div className="flex items-center justify-center py-6">
-                <MdEmail className="h-16 w-16 text-pink-300 animate-pulse" />
+          <div className="flex-1 glass-effect rounded-lg text-center">
+            <div className="flex items-center justify-center py-5">
+              <IoChatbubbleEllipsesSharp className="h-12 w-12 text-white" />
+            </div>
+            <h3 className="text-2xl font-semibold text-white">Live Chat</h3>
+            <p className="mt-4 text-gray-200">
+              Need immediate help? Start a live chat with our support team and get your questions answered in real-time.
+            </p>
+          </div>
+        </div>
+
+        <Modal
+          isOpen={isModalOpen}
+          onRequestClose={closeModal}
+          contentLabel="Send Email Modal"
+          className="fixed inset-0 flex items-center justify-center"
+          overlayClassName="fixed inset-0 bg-gray-600 bg-opacity-75"
+        >
+          <div className="relative glass-effect modal-content p-8 rounded-lg shadow-lg max-w-md w-full mx-4 sm:mx-auto">
+            <AiOutlineClose
+              onClick={closeModal}
+              className="absolute top-4 right-4 text-gray-600 cursor-pointer hover:text-gray-900"
+              size={24}
+            />
+            <h2 className="text-2xl font-semibold text-gray-900 mb-4">Send an Email</h2>
+            <form onSubmit={handleSubmit}>
+              <div className="mb-4">
+                <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                  Your Email
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  className="input-field mt-1 block w-full"
+                  placeholder="Enter Your Email"
+                  required
+                />
               </div>
-              <h3 className="text-2xl font-semibold text-white mb-4">
-                Email Support
-              </h3>
-              <p className="text-gray-300 text-lg">
-                You can send us an email at{" "}
-                <a
-                  href="mailto:meetup24bd@gmail.com"
-                  className="text-pink-300 hover:text-pink-400 transition-colors"
-                >
-                  meetup24bd@gmail.com
-                </a>{" "}
-                and we'll get back to you as soon as possible.
-              </p>
+              <div className="mb-4">
+                <label htmlFor="subject" className="block text-sm font-medium text-gray-700">
+                  Subject
+                </label>
+                <input
+                  type="text"
+                  id="subject"
+                  name="subject"
+                  value={formData.subject}
+                  onChange={handleInputChange}
+                  className="input-field mt-1 block w-full"
+                  placeholder="Enter Subject"
+                  required
+                />
+              </div>
+              <div className="mb-4">
+                <label htmlFor="message" className="block text-sm font-medium text-gray-700">
+                  Message
+                </label>
+                <textarea
+                  id="message"
+                  name="message"
+                  value={formData.message}
+                  onChange={handleInputChange}
+                  className="input-field mt-1 block w-full"
+                  rows="4"
+                  placeholder="Write Here..."
+                  required
+                />
+              </div>
               <button
-                onClick={openModal}
-                className="mt-8 px-6 py-3 bg-gradient-to-r from-pink-400 to-blue-400 rounded-lg text-white font-medium hover:opacity-90 transition-opacity shadow-lg hover:shadow-pink-500/25"
+                type="submit"
+                className="w-full bg-gradient-to-r from-pink-500 to-blue-500 py-2 rounded font-medium text-white"
               >
                 Send Email
               </button>
-            </div>
-
-            <div className="backdrop-blur-lg bg-white/10 rounded-2xl p-8 border border-white/20 shadow-xl hover:transform hover:scale-105 transition-all duration-300">
-              <div className="flex items-center justify-center py-6">
-                <IoChatbubbleEllipsesSharp className="h-16 w-16 text-blue-300 animate-pulse" />
-              </div>
-              <h3 className="text-2xl font-semibold text-white mb-4">
-                Live Chat
-              </h3>
-              <p className="text-gray-300 text-lg">
-                Need immediate help? Start a live chat with our support team and
-                get your questions answered in real-time.
-              </p>
-            </div>
+            </form>
           </div>
-
-          {/* Modal for Email Form */}
-          <Modal
-            isOpen={isModalOpen}
-            onRequestClose={closeModal}
-            contentLabel="Send Email Modal"
-            className="fixed inset-0 flex items-center justify-center"
-            overlayClassName="fixed inset-0 bg-black/60 backdrop-blur-sm"
-          >
-            <div className="relative bg-white/90 backdrop-blur-xl p-8 rounded-2xl shadow-2xl max-w-md w-full mx-4 sm:mx-auto border border-white/20">
-              <AiOutlineClose
-                onClick={closeModal}
-                className="absolute top-4 right-4 text-gray-600 cursor-pointer hover:text-gray-900 transition-colors"
-                size={24}
-              />
-              <h2 className="text-2xl font-semibold text-gray-900 mb-6">
-                Send an Email
-              </h2>
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div>
-                  <label
-                    htmlFor="email"
-                    className="block text-sm font-medium text-gray-700 mb-2"
-                  >
-                    Your Email
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleInputChange}
-                    className="w-full p-3 bg-white/50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-pink-400 focus:border-transparent transition-all"
-                    placeholder="Enter Your Email"
-                    required
-                  />
-                </div>
-                <div>
-                  <label
-                    htmlFor="subject"
-                    className="block text-sm font-medium text-gray-700 mb-2"
-                  >
-                    Subject
-                  </label>
-                  <input
-                    type="text"
-                    id="subject"
-                    name="subject"
-                    value={formData.subject}
-                    onChange={handleInputChange}
-                    className="w-full p-3 bg-white/50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-pink-400 focus:border-transparent transition-all"
-                    placeholder="Enter Subject"
-                    required
-                  />
-                </div>
-                <div>
-                  <label
-                    htmlFor="message"
-                    className="block text-sm font-medium text-gray-700 mb-2"
-                  >
-                    Message
-                  </label>
-                  <textarea
-                    id="message"
-                    name="message"
-                    value={formData.message}
-                    onChange={handleInputChange}
-                    className="w-full p-3 bg-white/50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-pink-400 focus:border-transparent transition-all"
-                    rows="4"
-                    placeholder="Write Here..."
-                    required
-                  />
-                </div>
-                <button
-                  type="submit"
-                  className="w-full py-3 bg-gradient-to-r from-pink-400 to-blue-400 text-white rounded-lg font-medium hover:opacity-90 transition-opacity shadow-lg hover:shadow-pink-500/25"
-                >
-                  Send Email
-                </button>
-              </form>
-            </div>
-          </Modal>
-        </div>
+        </Modal>
       </div>
     </div>
   );

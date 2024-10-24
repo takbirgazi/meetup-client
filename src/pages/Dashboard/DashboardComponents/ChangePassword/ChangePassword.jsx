@@ -76,7 +76,7 @@ const ChangePassword = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-900 via-blue-900 to-black">
+      <div className="min-h-screen flex items-center justify-center ">
         <l-hourglass
           size="40"
           bg-opacity="0.3"
@@ -88,10 +88,10 @@ const ChangePassword = () => {
   }
 
   return (
-    <div className="min-h-screen py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-purple-900 via-blue-900 to-black">
+    <div className="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md mx-auto">
         {/* Glassmorphism card */}
-        <div className="backdrop-blur-lg bg-white/10 rounded-2xl shadow-2xl border border-white/20 p-8 relative overflow-hidden">
+        <div className="backdrop-blur-lg bg-black/20 rounded-2xl shadow-2xl border border-white/20 p-8 relative overflow-hidden">
           {/* Background decorative elements */}
           <div className="absolute -top-10 -right-10 w-32 h-32 bg-purple-500 rounded-full filter blur-3xl opacity-20"></div>
           <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-blue-500 rounded-full filter blur-3xl opacity-20"></div>
@@ -130,7 +130,7 @@ const ChangePassword = () => {
               <div>
                 <label
                   htmlFor="newPassword"
-                  className="block text-white/60 text-sm font-medium mb-2"
+                  className="block text-white text-sm font-medium mb-2"
                 >
                   {hasPassword ? "New Password" : "Password"}
                 </label>
@@ -157,7 +157,7 @@ const ChangePassword = () => {
               <div>
                 <label
                   htmlFor="confirmPassword"
-                  className="block text-white/60 text-sm font-medium mb-2"
+                  className="block text-white text-sm font-medium mb-2"
                 >
                   Confirm {hasPassword ? "New Password" : "Password"}
                 </label>
@@ -183,7 +183,7 @@ const ChangePassword = () => {
 
               <button
                 type="submit"
-                className="w-full px-6 py-3 bg-gradient-to-r from-purple-500/80 to-blue-500/80 hover:from-purple-500/90 hover:to-blue-500/90 text-white font-medium rounded-lg transition-all duration-300 backdrop-blur-sm"
+                className="w-full px-6 py-3 bg-gradient-to-r from-pink-500 to-blue-500 hover:from-purple-500/90 hover:to-blue-500/90 text-white font-medium rounded-lg transition-all duration-300 backdrop-blur-sm"
               >
                 {hasPassword ? "Change Password" : "Set Password"}
               </button>

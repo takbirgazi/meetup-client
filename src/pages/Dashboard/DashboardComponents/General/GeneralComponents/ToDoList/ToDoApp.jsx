@@ -78,16 +78,16 @@ const ToDoApp = () => {
   return (
     <div className="text-white flex flex-col items-center relative min-h-screen p-6">
       {/* Task Summary Card */}
-      <div className="w-72 mt-8 p-6 rounded-2xl mb-8 flex flex-col items-center backdrop-blur-lg bg-white/10 border border-white/20 shadow-lg">
+      <div className="w-72 lg:w-[700px] mt-8 p-6 rounded-2xl mb-8 flex flex-col items-center backdrop-blur-lg bg-white/10 border border-white/20 shadow-lg">
         <h2 className="text-2xl font-semibold mb-1">Task Progress</h2>
         <p className="text-gray-300 mb-6">Keep it up!</p>
-        <div className="w-24 h-24 bg-gradient-to-r from-pink-400/80 to-blue-400/80 text-white rounded-full flex items-center justify-center text-3xl font-bold backdrop-blur-sm border border-white/30 shadow-lg">
+        <div className="w-24 h-24 bg-gradient-to-r from-pink-500 to-blue-500 text-white rounded-full flex items-center justify-center text-3xl font-bold backdrop-blur-sm border border-white/30 shadow-lg">
           {completedTasks}/{myTasks.length}
         </div>
       </div>
 
       {/* Add Task Section */}
-      <div className="w-[90%] lg:w-full max-w-md mb-8">
+      <div className="w-[90%] lg:w-[60%] mb-8">
         <div className="backdrop-blur-lg bg-white/10 rounded-2xl p-2 border border-white/20 shadow-lg">
           <div className="flex">
             <input
@@ -99,7 +99,7 @@ const ToDoApp = () => {
               onChange={(e) => setNewTask(e.target.value)}
             />
             <button
-              className="bg-gradient-to-r from-pink-400/80 to-blue-400/80 text-white px-6 rounded-r-xl flex items-center justify-center font-semibold text-xl hover:from-pink-500/80 hover:to-blue-500/80 transition-all duration-300"
+              className="bg-gradient-to-r from-pink-500 to-blue-500 text-white px-6 rounded-r-xl flex items-center justify-center font-semibold text-xl hover:from-pink-500/80 hover:to-blue-500/80 transition-all duration-300"
               onClick={handleAddTask}
             >
               +
@@ -109,7 +109,7 @@ const ToDoApp = () => {
       </div>
 
       {/* Task List */}
-      <div className="w-[90%] lg:w-full max-w-md space-y-4">
+      <div className="w-[90%] lg:w-[60%] space-y-4">
         {myTasks.map((task, index) => (
           <div
             key={index}
