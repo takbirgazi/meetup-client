@@ -1,11 +1,18 @@
+import { Eye, EyeOff } from "lucide-react";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { FaEyeSlash, FaRegEye } from "react-icons/fa";
-import { Link, NavLink, ScrollRestoration, useLocation, useNavigate } from "react-router-dom";
-import useAuth from "../../hooks/useAuth";
-import logo from "../../assets/MeetUp.png"
-import useAxiosCommon from "../../hooks/useAxiosCommon";
 import toast from "react-hot-toast";
+import {
+  Link,
+  NavLink,
+  ScrollRestoration,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
+import logo from "../../assets/MeetUp.png";
+import useAuth from "../../hooks/useAuth";
+import useAxiosCommon from "../../hooks/useAxiosCommon";
+import background from "./../../assets/background5.jpg";
 
 const SignUp = () => {
   const { user, loading, createAccount, profileUpdate } = useAuth();
@@ -22,11 +29,7 @@ const SignUp = () => {
   } = useForm();
 
   const onSubmit = async (data) => {
-    // e.preventDefault();
-
     const { first_name, last_name, username, mail, password } = data;
-
-    // e.target.reset();
 
     const userInfo = {
       first_name,
@@ -42,14 +45,12 @@ const SignUp = () => {
       .then((res) => {
         profileUpdate(username, null)
           .then((data) => {
-            // console.log("username updated.")
             axios
               .post("/addUser", userInfo)
               .then((res) => {
                 if (res.data.insertedId) {
                   toast.success("Your Account Registered Successfully!");
                   navigate(location?.state?.from?.pathname || "/room");
-                  e.target.reset();
                 }
               })
               .catch((error) => console.log(error.message));
@@ -61,237 +62,234 @@ const SignUp = () => {
 
   return (
     <>
-      {
-        loading ? (
-          <div className="fixed top-0 left-0 z-50 w-screen h-screen bg-black bg-opacity-50 flex items-center justify-center">
-            <div className="loader"></div>
-          </div>
-        ) : (
-          user && (
-            navigate(location?.state?.from?.pathname || "/room")
-          )
-        )
-      }
-      <div className="py-10 bg-gray-900">
+      <style>{`
+        .glass-effect {
+          background: rgba(0, 0, 0, 0.4);
+          backdrop-filter: blur(10px);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        }
+        
+        .form-input {
+          background-color: rgba(255, 255, 255, 0.1);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          border-radius: 0.5rem;
+          padding: 0.5rem 1rem;
+          color: white;
+          placeholder-color: rgba(255, 255, 255, 0.4);
+          outline: none;
+          transition: all 0.3s ease;
+        }
+        
+        .form-input:focus {
+         border-color: transparent;
+          box-shadow: 0 0 0 2px rgba(128, 90, 213, 0.4);
+        }
+      `}</style>
+
+      {loading ? (
+        <div className="fixed top-0 left-0 z-50 w-screen h-screen bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="loader"></div>
+        </div>
+      ) : (
+        user && navigate(location?.state?.from?.pathname || "/room")
+      )}
+
+      <div
+        className="min-h-screen flex items-center justify-center p-4"
+        style={{
+          backgroundImage: `url(${background})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+        }}
+      >
         <ScrollRestoration />
-        <div className="w-full min-h-[calc(100vh-4.1rem)]  flex items-center justify-center">
-          <form
-            onSubmit={handleSubmit(onSubmit)}
-            className="text-white mx-auto flex w-full max-w-lg flex-col rounded-xl border-2 border-gray-600 bg-gray-800 p-4 sm:p-14 justify-center items-center"
-          >
+
+        <div className="w-full max-w-lg glass-effect rounded-xl p-8 space-y-6">
+          <div className="flex flex-col items-center space-y-4">
             <NavLink to="/">
-              <img className="w-40 pb-4" src={logo} alt="logo" />
+              <img className="w-40" src={logo} alt="logo" />
             </NavLink>
-            <h2 className="text-xl pb-8 text-center font-semibold text-gray-200">
+            <h2 className="text-xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-blue-500">
               Create An Account
             </h2>
-            <div className="form-group">
-              <div className="w-full flex justify-between">
-                <div className="form-field w-[48%]">
-                  <label className="form-label text-gray-300">First Name *</label>
-                  <input
-                    name="first_name"
-                    placeholder="John"
-                    className="input "
-                    {...register("first_name", {
-                      required: "First Name is required",
-                    })}
-                  />
-                  {errors.first_name && (
-                    <p className="text-red-500 text-xs">
-                      {errors.first_name.message}
-                    </p>
-                  )}
-                </div>
-                <div className="form-field w-[48%]">
-                  <label className="form-label text-gray-300">Last Name *</label>
-                  <input
-                    name="last_name"
-                    placeholder="Doe"
-                    className="input"
-                    {...register("last_name", {
-                      required: "Last Name is required",
-                    })}
-                  />
-                  {errors.last_name && (
-                    <p className="text-red-500 text-xs">
-                      {errors.last_name.message}
-                    </p>
-                  )}
-                </div>
-              </div>
-              <div className="form-field w-full">
-                <label className="form-label text-gray-100 w-full">Username *</label>
-                <input
-                  type="text"
-                  name="username"
-                  placeholder="demo_name"
-                  className="input max-w-full"
-                  {...register("username", {
-                    required: "Username is required",
-                  })}
-                />
-                {errors.username && (
-                  <p className="text-red-500 text-xs">
-                    {errors.username.message}
-                  </p>
-                )}
-              </div>
-              <div className="form-field">
-                <label className="form-label text-gray-300">Email *</label>
-                <input
-                  type="email"
-                  name="mail"
-                  placeholder="customer@demo.com"
-                  className="input max-w-full"
-                  {...register("mail", {
-                    required: "Email is required",
-                  })}
-                />
-                {errors.mail && (
-                  <p className="text-red-500 text-xs">{errors.mail.message}</p>
-                )}
-              </div>
-              <div className="form-field">
-                <label className="form-label text-gray-300">
-                  <span className="label-text">Password *</span>
+          </div>
+
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-1">
+                  First Name
                 </label>
-                <div className="relative">
-                  <input
-                    type={viewPass ? "text" : "password"}
-                    name="password"
-                    placeholder="password"
-                    className="input max-w-full"
-                    {...register("password", {
-                      required: "Password is required",
-                      pattern: {
-                        value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
-                        message: "Password must contain at least one letter and one number",
-                      },
-                      minLength: {
-                        value: 8,
-                        message: 'Password should be at least 8 characters long',
-                      }
-                    })}
-                  />
-                  <FaRegEye
-                    size={18}
-                    onClick={() => setViewPass(!viewPass)}
-                    className={
-                      viewPass ? "hidden" : "opacity-75 absolute top-4 right-4"
-                    }
-                  />
-                  <FaEyeSlash
-                    size={20}
-                    onClick={() => setViewPass(!viewPass)}
-                    className={
-                      viewPass ? "opacity-75 absolute top-4 right-4" : "hidden"
-                    }
-                  />
-                </div>
-                {errors.password && (
-                  <p className="text-red-500 text-xs">
-                    {errors.password.message}
-                  </p>
-                )}
-              </div>
-              <div className="form-field">
-                <label className="form-label text-gray-300">
-                  <span className="label-text">Confirm Password *</span>
-                </label>
-                <div className="relative">
-                  <input
-                    type={viewConfPass ? "text" : "password"}
-                    name="conf_password"
-                    placeholder="confirm password"
-                    className="input max-w-full"
-                    {...register("conf_password", {
-                      required: "Confirm Password is required",
-                      validate: (value) =>
-                        value === watch("password") || "Passwords do not match",
-                    })}
-                  />
-                  <FaRegEye
-                    size={18}
-                    onClick={() => setViewConfPass(!viewConfPass)}
-                    className={
-                      viewConfPass
-                        ? "hidden"
-                        : "opacity-75 absolute top-4 right-4"
-                    }
-                  />
-                  <FaEyeSlash
-                    size={20}
-                    onClick={() => setViewConfPass(!viewConfPass)}
-                    className={
-                      viewConfPass
-                        ? "opacity-75 absolute top-4 right-4"
-                        : "hidden"
-                    }
-                  />
-                </div>
-                {errors.conf_password && (
-                  <p className="text-red-500 text-xs">
-                    {errors.conf_password.message}
-                  </p>
-                )}
-              </div>
-              <div className="flex items-center justify-start gap-2 pt-4">
                 <input
-                  type="checkbox"
-                  name="privacy"
-                  className="checkbox checkbox-sm"
-                  {...register("privacy", { required: true })}
+                  {...register("first_name", { required: "Required" })}
+                  placeholder="First Name"
+                  className="form-input w-full px-3 py-2 rounded-lg focus:outline-none"
                 />
-                <h4 className="text-sm font-semibold">
-                  {"I've read and accept the Privacy Policy"}
-                </h4>
-              </div>
-              {errors.privacy && (
-                <p className="text-red-500 text-xs">
-                  You must accept the Privacy Policy
-                </p>
-              )}
-              <p className="text-xs">
-                By signing up, you agree to our{" "}
-                <a
-                  href="#"
-                  className="font-semibold hover:underline hover:text-yellow-600"
-                >
-                  Terms of Services.
-                </a>{" "}
-                Learn how we collect and use your data in our{" "}
-                <a
-                  href="#"
-                  className="font-semibold hover:underline hover:text-yellow-600"
-                >
-                  Privacy Policy.
-                </a>
-              </p>
-              <div className="form-field pt-5">
-                <div className="form-field justify-between">
-                  <input
-                    type="submit"
-                    className="btn  bg-gradient-to-r from-[#ffbfff] to-[#a2deff] w-full"
-                    value={"Sign Up"}
-                  />
-                </div>
+                {errors.first_name && (
+                  <p className="mt-1 text-pink-500 text-xs">
+                    {errors.first_name.message}
+                  </p>
+                )}
               </div>
 
-              <div className="form-field">
-                <div className="form-control">
-                  <div className="text-sm cursor-auto text-gray-200" >
-                    Already have an account?{" "}
-                    <Link
-                      to={"/logIn"}
-                      className="link link-underline-hover link-primary"
-                    >
-                      Sign In
-                    </Link>
-                  </div>
-                </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-1">
+                  Last Name
+                </label>
+                <input
+                  {...register("last_name", { required: "Required" })}
+                  placeholder="Last Name"
+                  className="form-input w-full px-3 py-2 rounded-lg focus:outline-none"
+                />
+                {errors.last_name && (
+                  <p className="mt-1 text-pink-500 text-xs">
+                    {errors.last_name.message}
+                  </p>
+                )}
               </div>
             </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-1">
+                Username
+              </label>
+              <input
+                {...register("username", { required: "Username required" })}
+                placeholder="Enter your username"
+                className="form-input w-full px-3 py-2 rounded-lg focus:outline-none"
+              />
+              {errors.username && (
+                <p className="mt-1 text-pink-500 text-xs">
+                  {errors.username.message}
+                </p>
+              )}
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-1">
+                Email
+              </label>
+              <input
+                {...register("mail", { required: "Email required" })}
+                type="email"
+                placeholder="Enter your email"
+                className="form-input w-full px-3 py-2 rounded-lg focus:outline-none"
+              />
+              {errors.mail && (
+                <p className="mt-1 text-pink-500 text-xs">
+                  {errors.mail.message}
+                </p>
+              )}
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-1">
+                Password
+              </label>
+              <div className="relative">
+                <input
+                  {...register("password", {
+                    required: "Password required",
+                    pattern: {
+                      value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
+                      message: "Must contain letter and number",
+                    },
+                    minLength: {
+                      value: 8,
+                      message: "Min 8 characters",
+                    },
+                  })}
+                  type={viewPass ? "text" : "password"}
+                  placeholder="Enter your password"
+                  className="form-input w-full pr-9 py-2 rounded-lg focus:outline-none"
+                />
+                <button
+                  type="button"
+                  onClick={() => setViewPass(!viewPass)}
+                  className="absolute right-3 top-2.5 text-gray-400 hover:text-gray-200"
+                >
+                  {viewPass ? (
+                    <EyeOff className="h-4 w-4" />
+                  ) : (
+                    <Eye className="h-4 w-4" />
+                  )}
+                </button>
+              </div>
+              {errors.password && (
+                <p className="mt-1 text-pink-500 text-xs">
+                  {errors.password.message}
+                </p>
+              )}
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-1">
+                Confirm Password
+              </label>
+              <div className="relative">
+                <input
+                  {...register("conf_password", {
+                    required: "Confirm password required",
+                    validate: (value) =>
+                      value === watch("password") || "Passwords don't match",
+                  })}
+                  type={viewConfPass ? "text" : "password"}
+                  placeholder="Confirm your password"
+                  className="form-input w-full pr-9 py-2 rounded-lg focus:outline-none"
+                />
+                <button
+                  type="button"
+                  onClick={() => setViewConfPass(!viewConfPass)}
+                  className="absolute right-3 top-2.5 text-gray-400 hover:text-gray-200"
+                >
+                  {viewConfPass ? (
+                    <EyeOff className="h-4 w-4" />
+                  ) : (
+                    <Eye className="h-4 w-4" />
+                  )}
+                </button>
+              </div>
+              {errors.conf_password && (
+                <p className="mt-1 text-pink-500 text-xs">
+                  {errors.conf_password.message}
+                </p>
+              )}
+            </div>
+
+            <div className="flex items-center gap-2">
+              <input
+                type="checkbox"
+                {...register("privacy", { required: true })}
+                className="form-input h-4 w-4 rounded"
+              />
+              <span className="text-sm text-gray-300">
+                I've read and accept the Privacy Policy
+              </span>
+            </div>
+            {errors.privacy && (
+              <p className="text-pink-500 text-xs">
+                Privacy Policy acceptance required
+              </p>
+            )}
+
+            <button
+              type="submit"
+              className="w-full px-4 py-2.5 rounded-lg bg-gradient-to-r from-pink-500 to-blue-500 text-white font-medium hover:opacity-90 transition-opacity"
+            >
+              Sign up
+            </button>
+
+            <p className="text-center text-sm text-gray-300">
+              Already have an account?{" "}
+              <Link
+                to="/logIn"
+                className="text-pink-500 hover:text-pink-400 font-medium"
+              >
+                Sign in
+              </Link>
+            </p>
           </form>
         </div>
       </div>
