@@ -1,45 +1,43 @@
 import { useState } from "react";
 import { IoIosLogOut } from "react-icons/io";
-import { MdOutlineMeetingRoom } from "react-icons/md";
-import { Link, NavLink, Outlet } from "react-router-dom";
+import { IoHome } from "react-icons/io5";
+import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
 import logo from "../../assets/MeetUpLogo.png";
 import useAuth from "../../hooks/useAuth";
+import background from "./../../assets/background5.jpg";
 import closeChat from "./../../assets/images/bottom-right.png";
 import openChat from "./../../assets/images/chatBot.png";
 import ChatBot from "./DashboardComponents/General/GeneralComponents/ChatBot/ChatBot";
 
 const Dashboard = () => {
   const [isChatBotOpen, setIsChatBotOpen] = useState(false);
+  const location = useLocation();
+  const { user, logOut } = useAuth();
 
-  // Toggle ChatBot visibility
+  const backgroundStyle = {
+    backgroundImage: `url(${background})`,
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    backgroundRepeat: "no-repeat",
+    backgroundAttachment: "fixed",
+  };
+
   const toggleChatBot = () => {
     setIsChatBotOpen(!isChatBotOpen);
   };
 
-  const { user, logOut } = useAuth();
-
-  const menuActive = `menu-active bg-black`;
+  const menuActive =
+    "bg-gradient-to-r from-indigo-500 to-purple-600 text-white";
   const menuItem = "menu-item ml-6";
 
   const mainMenuItems = (
     <>
-      {/* <NavLink to={`/dashboard`} end className={({ isActive }) => isActive ? menuActive : ''}>
-                <li className="menu-item text-white hover:bg-gray-950">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 opacity-75" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                    </svg>
-                    <span>General</span>
-                </li>
-            </NavLink> */}
-
       <NavLink
-        NavLink
         to={`/dashboard`}
         end
-        className={({ isActive }) => (isActive ? menuActive : "")}
+        className={({ isActive }) => `rounded-lg ${isActive ? menuActive : ""}`}
       >
-        <li className="menu-item text-white hover:bg-gray-950">
+        <li className="menu-item text-white/90 hover:bg-black/40 transition-all duration-300 rounded-lg">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-5 w-5 opacity-75"
@@ -57,12 +55,12 @@ const Dashboard = () => {
           <span>Meetings</span>
         </li>
       </NavLink>
-      {/* todo app here */}
+
       <NavLink
         to={`/dashboard/todo`}
-        className={({ isActive }) => (isActive ? menuActive : "")}
+        className={({ isActive }) => `rounded-lg ${isActive ? menuActive : ""}`}
       >
-        <li className="menu-item text-white hover:bg-gray-950">
+        <li className="menu-item text-white/90 hover:bg-black/40 transition-all duration-300 rounded-lg">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-5 w-5 opacity-75"
@@ -84,9 +82,9 @@ const Dashboard = () => {
 
       <NavLink
         to={`/dashboard/support`}
-        className={({ isActive }) => (isActive ? menuActive : "")}
+        className={({ isActive }) => `rounded-lg ${isActive ? menuActive : ""}`}
       >
-        <li className="menu-item text-white hover:bg-gray-950">
+        <li className="menu-item text-white/90 hover:bg-black/40 transition-all duration-300 rounded-lg">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-5 w-5 opacity-75"
@@ -108,10 +106,10 @@ const Dashboard = () => {
       <li>
         <input type="checkbox" id="menu-1" className="menu-toggle" />
         <label
-          className="menu-item justify-between hover:bg-gray-950"
+          className="menu-item justify-between hover:bg-black/40 transition-all duration-300 rounded-lg text-white/90"
           htmlFor="menu-1"
         >
-          <div className="flex gap-2 text-white">
+          <div className="flex gap-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-5 w-5 opacity-75"
@@ -129,7 +127,7 @@ const Dashboard = () => {
             <span>Account</span>
           </div>
 
-          <span className="menu-icon text-white">
+          <span className="menu-icon">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-5 w-5"
@@ -145,14 +143,14 @@ const Dashboard = () => {
           </span>
         </label>
 
-        <div className="menu-item-collapse bg-gray-950 rounded-xl text-gray-100">
+        <div className="menu-item-collapse bg-black/40 backdrop-blur-lg rounded-xl">
           <div className="min-h-0">
             <NavLink
               to={`/dashboard/profile`}
               className={({ isActive }) =>
                 `${menuItem} ${
-                  isActive ? menuActive : "text-gray-200"
-                }  hover:text-gray-950 my-2 max-w-[85%]`
+                  isActive ? menuActive : "text-white/90"
+                } hover:bg-black/40 my-2 max-w-[85%] transition-all duration-300 rounded-lg`
               }
             >
               Profile
@@ -161,21 +159,29 @@ const Dashboard = () => {
               to={`/dashboard/change-password`}
               className={({ isActive }) =>
                 `${menuItem} ${
-                  isActive ? menuActive : "text-gray-200"
-                } hover:text-gray-950 my-2 max-w-[85%]`
+                  isActive ? menuActive : "text-white/90"
+                } hover:bg-black/40 my-2 max-w-[85%] transition-all duration-300 rounded-lg`
               }
             >
               Password
             </NavLink>
-            {/* log out */}
           </div>
         </div>
       </li>
-      {/* log out here */}
+      <NavLink to={"/room"}>
+        <li>
+          <div className="menu-item text-white/90 hover:bg-black/40 transition-all duration-300 rounded-lg">
+            <IoHome className="text-xl" />
+
+            <span>Room</span>
+          </div>
+        </li>
+      </NavLink>
+
       <NavLink to={"/"} onClick={logOut}>
         <li>
-          <div className="menu-item text-white hover:bg-gray-950">
-            <IoIosLogOut className="text-red-600 text-xl" />
+          <div className="menu-item text-white/90 hover:bg-black/40 transition-all duration-300 rounded-lg">
+            <IoIosLogOut className="text-red-400 text-xl" />
             <span>Logout</span>
           </div>
         </li>
@@ -183,35 +189,12 @@ const Dashboard = () => {
     </>
   );
 
-  const settingsMenuItems = (
-    <>
-      <div className="dropdown-menu-right-top dropdown-menu mb-5 text-white bg-white">
-        <NavLink
-          to={`/room`}
-          className={({ isActive }) => (isActive ? menuActive : "")}
-        >
-          <div className="menu-item">
-            <MdOutlineMeetingRoom className="text-blue-700 font-medium" />
-            <span className="text-black font-medium">Room</span>
-          </div>
-        </NavLink>
-        <NavLink
-          to={"/"}
-          onClick={logOut}
-          className={({ isActive }) => (isActive ? menuActive : "")}
-        >
-          <div className="menu-item">
-            <IoIosLogOut className="text-red-600" />
-            <span className="text-black font-medium">Logout</span>
-          </div>
-        </NavLink>
-      </div>
-    </>
-  );
-
   return (
-    <div className="flex flex-row sm:gap-10 bg-gradient-to-r from-[#101827] to-[#4e5668] min-h-screen">
-      <div className="sm:w-full sm:max-w-[18rem] ">
+    <div
+      className="flex flex-row sm:gap-10 min-h-screen"
+      style={backgroundStyle}
+    >
+      <div className="sm:w-full sm:max-w-[18rem]">
         <input
           type="checkbox"
           id="sidebar-mobile-fixed"
@@ -221,17 +204,37 @@ const Dashboard = () => {
           htmlFor="sidebar-mobile-fixed"
           className="sidebar-overlay"
         ></label>
-        <aside className="z-[500] sidebar sidebar-fixed-left sidebar-mobile h-full justify-start max-sm:fixed max-sm:-translate-x-full bg-[#101827]  shadow-2xl shadow-[#1d283c] ">
-          <Link to={"/"} className="">
-            <section className="sidebar-title items-center p-4 flex">
-              <img src={logo} className="h-10 w-auto mr-2" />
+        <aside className="backdrop-blur-xl bg-black/40 sidebar sidebar-fixed-left sidebar-mobile h-full justify-start max-sm:fixed max-sm:-translate-x-full border border-white/10 shadow-2xl shadow-black/40">
+          <style>{`
+            .menu-item {
+              margin: 0.5rem;
+              border: 1px solid rgba(255, 255, 255, 0.1);
+            }
+            
+            .menu-item-collapse {
+              margin: 0.5rem;
+              border: 1px solid rgba(255, 255, 255, 0.1);
+            }
 
-              <div className="flex flex-col text-white text-2xl">
+            .menu-toggle:checked + .menu-item .menu-icon {
+              transform: rotate(-180deg);
+            }
+
+            .menu-toggle:checked + .menu-item + .menu-item-collapse {
+              max-height: 100vh;
+            }
+          `}</style>
+
+          <Link to={"/"} className="hover:opacity-80 transition-opacity">
+            <section className="sidebar-title items-center p-4 flex">
+              <img src={logo} className="h-10 w-auto mr-2" alt="Logo" />
+              <div className="flex flex-col text-white text-2xl font-semibold">
                 <p>MeatUp</p>
               </div>
             </section>
           </Link>
-          <section className="sidebar-content text-white">
+
+          <section className="sidebar-content">
             <nav className="menu rounded-md">
               <section className="menu-section px-4">
                 <ul className="menu-items">{mainMenuItems}</ul>
@@ -240,11 +243,12 @@ const Dashboard = () => {
           </section>
         </aside>
       </div>
-      <div className="flex w-full flex-col p-4">
+
+      <div className="flex w-full justify-center">
         <div className="w-fit">
           <label
             htmlFor="sidebar-mobile-fixed"
-            className="btn btn-outline border-[#1E3E62] text-[#1E3E62] sm:hidden"
+            className="btn btn-outline border-white/20 text-white/90 sm:hidden hover:bg-black/40"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -262,32 +266,29 @@ const Dashboard = () => {
             </svg>
           </label>
         </div>
-        <div className="">
+
+        <div className="w-full">
           <Outlet />
-          {/* AI Chat Integration Button */}
-          {/* ChatBot Popover */}
           <div className="popover fixed bottom-28 right-4 z-[99999]">
             <label
-              className="popover-trigger my-2 cursor-pointer hover:shadow-xl hover:shadow-blue-400 rounded-full"
+              className="popover-trigger my-2 cursor-pointer hover:shadow-xl hover:shadow-blue-400 rounded-full transition-all duration-300"
               tabIndex="0"
-              onClick={toggleChatBot} // Trigger chatbox open/close
+              onClick={toggleChatBot}
             >
               {isChatBotOpen ? (
-                <img src={closeChat} alt="Closec chat" className="w-10 h-10" />
+                <img src={closeChat} alt="Close chat" className="w-10 h-10" />
               ) : (
                 <img src={openChat} alt="Chat with AI" className="w-14 h-14" />
               )}
             </label>
             {isChatBotOpen && (
-              // Position the popover-content above the button
               <div
-                className="popover-content popover-top-left absolute w-screen max-w-md bottom-full mb-4 md:mr-5 bg-black border-2 border-slate-700"
+                className="popover-content popover-top-left absolute w-screen max-w-md bottom-full mb-4 md:mr-5 bg-black/90 backdrop-blur-lg border-2 border-white/20 rounded-xl"
                 tabIndex="0"
               >
                 <div className="popover-arrow bg-blue-400"></div>
                 <div className="overflow-hidden rounded-lg">
-                  <ChatBot onClose={toggleChatBot} />{" "}
-                  {/* Render the ChatBot component */}
+                  <ChatBot onClose={toggleChatBot} />
                 </div>
               </div>
             )}
