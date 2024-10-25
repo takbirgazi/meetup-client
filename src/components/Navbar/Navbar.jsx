@@ -1,14 +1,16 @@
+import React, { useState } from "react";
 import moment from "moment";
 import toast from "react-hot-toast";
 import { MdDashboard, MdLogout } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
-import avatar from "../../assets/cat.png";
+import avatar from "../../assets/cat.png"; // Default avatar if user photo not available
 import logo from "../../assets/MeetUp.png";
 import useAuth from "../../hooks/useAuth";
 
 const Navbar = () => {
   const { user, logOut } = useAuth();
   const navigate = useNavigate();
+  const [dropdownOpen, setDropdownOpen] = useState(false); // Dropdown state
 
   const handleLogout = () => {
     logOut()
@@ -22,73 +24,59 @@ const Navbar = () => {
       });
   };
 
+  // Toggle dropdown
+  const toggleDropdown = () => {
+    setDropdownOpen(!dropdownOpen);
+  };
+
   return (
-    <div className="navbar bg-[#101827] h-[65px] shadow-lg shadow-[#1d283c] mx-auto z-50">
+    <div className="navbar bg-[#101827] h-[65px] py-2 shadow-lg shadow-[#2c236cd7] mx-auto z-50">
       <div className="navbar-start">
         <Link to="/" className="navbar-item font-bold text-white text-xl">
-          <img src={logo} className="h-10 w-auto" />
+          <img src={logo} className="h-10 w-auto" alt="MeetUp Logo" />
         </Link>
       </div>
-      <div className="navbar-end">
+
+      <div className="navbar-end flex items-center">
         {/* Current Time */}
         <div className="text-white font-semibold hidden md:block text-[18px] mr-2">
           {moment().format("h:mm A - ")}
           {moment().format("ll")}
         </div>
 
-        {/* <IoSettingsOutline className="mx-2 md:mx-4 text-white text-2xl" /> */}
-
         {user ? (
-          <div className="avatar avatar-ring avatar-md">
-            <div className="dropdown-container">
-              <div className="dropdown">
-                <label
-                  className="btn btn-ghost flex cursor-pointer px-0"
-                  tabIndex="0"
-                >
-                  {/* {user?.photoURL ? (
-                    <img src={user?.photoURL} alt="avatar" />
-                  ) : (
-                    <img src={avatar} alt="avatar" />
-                  )} */}
-                  {user?.photoURL ? (
-                    <img
-                      src={user?.photoURL}
-                      alt="User Avatar"
-                      onError={(e) => {
-                        e.target.onerror = null;
-                        e.target.src = "https://i.ibb.co.com/swx9yyV/cat.png"; // Fallback image
-                      }}
-                      className="rounded-full"
-                    />
-                  ) : (
-                    <img
-                      src={avatar} // Fallback image
-                      alt="Default Avatar "
-                      className="rounded-full"
-                    />
-                  )}
-                </label>
+          <div className="relative">
+            {/* Avatar */}
+            <div
+              className="avatar cursor-pointer"
+              onClick={toggleDropdown} // Toggle dropdown on click
+            >
+              <img
+                src={user?.photoURL || avatar} // Fallback to default avatar
+                alt="avatar"
+                className="h-10 w-10 rounded-full"
+              />
+            </div>
 
-                <div className="dropdown-menu dropdown-menu-bottom-left">
-                  <Link to={"/dashboard"}>
-                    <p className="dropdown-item text-sm flex-row items-center gap-2">
-                      {" "}
-                      {/* <IoMdPerson /> {user?.displayName} */} <MdDashboard />{" "}
-                      Dashboard
-                    </p>
-                  </Link>
-
-                  <div
-                    onClick={handleLogout}
-                    tabIndex="-1"
-                    className="dropdown-item text-sm flex-row items-center gap-2"
-                  >
-                    <MdLogout /> Logout
-                  </div>
-                </div>
+            {/* Dropdown Menu */}
+            {dropdownOpen && (
+              <div className="absolute right-0 mt-2 py-2 w-40 bg-white shadow-xl rounded-lg z-20">
+              <Link to={"/dashboard"}>
+                <p className="dropdown-item text-sm flex-row items-center gap-2">
+                  {" "}
+                  {/* <IoMdPerson /> {user?.displayName} */}{" "}
+                  <MdDashboard /> Dashboard
+                </p>
+              </Link>
+              <div
+                onClick={handleLogout}
+                tabIndex="-1"
+                className="dropdown-item text-sm flex-row items-center gap-2"
+              >
+                <MdLogout /> Logout
               </div>
             </div>
+            )}
           </div>
         ) : (
           <Link

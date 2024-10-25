@@ -1,14 +1,14 @@
-import { Toaster } from "react-hot-toast";
+// Root.jsx
+import React from "react";
 import { Outlet } from "react-router-dom";
 
 const Root = () => {
+
   return (
-    <main>
-      <div>
-        <Outlet />
-      </div>
-      <Toaster position="bottom-center" reverseOrder={true} />
-    </main>
+    <div>
+      {/* Other layout components */}
+      <Outlet />
+    </div>
   );
 };
 

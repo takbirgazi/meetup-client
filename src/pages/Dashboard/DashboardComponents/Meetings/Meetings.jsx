@@ -1,103 +1,215 @@
-import { useState } from 'react';
+import { useQuery } from "@tanstack/react-query";
+import { Calendar, Clock, Users } from "lucide-react";
+import React, { useState } from "react";
+import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 
 const Meetings = () => {
-    const [activeTab, setActiveTab] = useState('all');
+  const [activeTab, setActiveTab] = useState("all");
+  const axiosSecure = useAxiosSecure();
 
-    // Sample data for each table (you can fetch this from your backend)
-    const allMeetings = [
-        { id: 1, name: 'Team Sync', host: 'Alice', date: '2024-10-12', time: '10:00 AM', duration: '30 mins', participants: 5 },
-        { id: 2, name: 'Project Review', host: 'Bob', date: '2024-10-13', time: '2:00 PM', duration: '1 hour', participants: 3 },
-        { id: 3, name: 'Strategy Meeting', host: 'Chris', date: '2024-10-14', time: '11:00 AM', duration: '45 mins', participants: 8 },
-        { id: 4, name: 'Client Call', host: 'Debbie', date: '2024-10-15', time: '9:00 AM', duration: '1 hour', participants: 2 },
-        { id: 5, name: 'Monthly All Hands', host: 'Eve', date: '2024-10-16', time: '12:00 PM', duration: '2 hours', participants: 25 },
-    ];
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString("en-GB", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    });
+  };
 
-    const instantMeetings = [
-        { id: 6, name: 'Quick Huddle', host: 'Charlie', date: '2024-10-14', time: '9:00 AM', duration: '15 mins', participants: 2 },
-        { id: 7, name: 'Design Discussion', host: 'Frank', date: '2024-10-14', time: '3:00 PM', duration: '20 mins', participants: 4 },
-        { id: 8, name: 'Technical Sync', host: 'Grace', date: '2024-10-14', time: '4:00 PM', duration: '25 mins', participants: 3 },
-    ];
-
-    const scheduledMeetings = [
-        { id: 9, name: 'Budget Planning', host: 'Hannah', date: '2024-10-20', time: '11:00 AM', duration: '1 hour', participants: 5 },
-        { id: 10, name: 'Marketing Kickoff', host: 'Ivy', date: '2024-10-22', time: '1:00 PM', duration: '1.5 hours', participants: 6 },
-        { id: 11, name: 'Quarterly Review', host: 'Jack', date: '2024-10-25', time: '10:00 AM', duration: '2 hours', participants: 12 },
-        { id: 12, name: 'Leadership Forum', host: 'Kate', date: '2024-10-27', time: '9:30 AM', duration: '3 hours', participants: 20 },
-        { id: 13, name: 'Sales Forecasting', host: 'Leo', date: '2024-10-29', time: '2:00 PM', duration: '1 hour', participants: 7 },
-    ];
-
-    const renderTable = (data) => {
-        return (
-            <table className="w-full border-collapse border border-gray-100 mt-4 text-gray-200">
-                <thead>
-                    <tr className="bg-[#101827] text-white">
-                        <th className="border border-gray-300 p-2 text-gray-200">Name</th>
-                        <th className="border border-gray-300 p-2 text-gray-200">Host</th>
-                        <th className="border border-gray-300 p-2 text-gray-200">Date</th>
-                        <th className="border border-gray-300 p-2 text-gray-200">Time</th>
-                        <th className="border border-gray-300 p-2 text-gray-200">Duration</th>
-                        <th className="border border-gray-300 p-2 text-gray-200">Participants</th>
-                        <th className="border border-gray-300 p-2 text-gray-200">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {data.map((meeting) => (
-                        <tr key={meeting.id}>
-                            <td className="border border-gray-300 p-2 text-gray-200">{meeting.name}</td>
-                            <td className="border border-gray-300 p-2 text-gray-200">{meeting.host}</td>
-                            <td className="border border-gray-300 p-2 text-gray-200">{meeting.date}</td>
-                            <td className="border border-gray-300 p-2 text-gray-200">{meeting.time}</td>
-                            <td className="border border-gray-300 p-2 text-gray-200">{meeting.duration}</td>
-                            <td className="border border-gray-300 p-2 text-gray-200">{meeting.participants}</td>
-                            <td className="border border-gray-300 p-2 text-gray-200">
-                                <button className="text-blue-500 hover:underline">Join</button>
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
+  const {
+    data: meetingsData,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ["meetings"],
+    queryFn: async () => {
+      const response = await axiosSecure("/meetings");
+      if (response.status === 200 && Array.isArray(response.data)) {
+        return response.data.sort(
+          (a, b) => new Date(b.date) - new Date(a.date)
         );
-    };
+      }
+      return [];
+    },
+    refetchInterval: 30000,
+    refetchOnWindowFocus: true,
+    staleTime: 10000,
+  });
 
-    return (
-        <div>
-            <div className="tabs">
-                <input
-                    type="radio"
-                    id="tab-4"
-                    name="tab-2"
-                    className="tab-toggle"
-                    onClick={() => setActiveTab('all')}
-                    defaultChecked
-                />
-                <label htmlFor="tab-4" className="tab tab-bordered px-6 text-gray-200">All Meetings</label>
+  const meetings = meetingsData || [];
+  const currentMeetings = meetings.filter(
+    (meeting) => meeting.status === "current"
+  );
+  const scheduledMeetings = meetings.filter(
+    (meeting) => meeting.status === "scheduled"
+  );
 
-                <input
-                    type="radio"
-                    id="tab-5"
-                    name="tab-2"
-                    className="tab-toggle"
-                    onClick={() => setActiveTab('instant')}
-                />
-                <label htmlFor="tab-5" className="tab tab-bordered px-6 text-gray-200">Instant Meetings</label>
+  const getBadgeCount = () => {
+    switch (activeTab) {
+      case "all":
+        return meetings.length;
+      case "current":
+        return currentMeetings.length;
+      case "scheduled":
+        return scheduledMeetings.length;
+      default:
+        return 0;
+    }
+  };
 
-                <input
-                    type="radio"
-                    id="tab-6"
-                    name="tab-2"
-                    className="tab-toggle"
-                    onClick={() => setActiveTab('scheduled')}
-                />
-                <label htmlFor="tab-6" className="tab tab-bordered px-6 text-gray-200 hover:text-gray-100">Scheduled Meetings</label>
+  const renderTable = (meetings) => (
+    <div className="w-full backdrop-blur-xl bg-black/40 border border-white/10 shadow-xl rounded-xl overflow-hidden">
+      <style>{`
+        @keyframes tableEntrance {
+          0% {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          100% {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        
+        @keyframes rowEntrance {
+          0% {
+            opacity: 0;
+            transform: translateX(-20px);
+          }
+          100% {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+
+        .table-row-hover {
+          position: relative;
+          isolation: isolate;
+        }
+
+        .table-row-hover::after {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.03), transparent);
+          opacity: 0;
+          transition: opacity 0.3s ease;
+          z-index: -1;
+        }
+
+        .table-row-hover:hover::after {
+          opacity: 1;
+        }
+
+        .glass-effect {
+          background: rgba(0, 0, 0, 0.4);
+          backdrop-filter: blur(10px);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        }
+      `}</style>
+
+      <div className="min-w-full divide-y divide-white/10">
+        <div className="bg-black/50 backdrop-blur-lg border-b border-white/10">
+          <div className="grid grid-cols-3 gap-2 px-6 py-4">
+            <div className="flex items-center gap-3 text-white/90">
+              <Calendar className="w-4 h-4 text-pink-400" />
+              <span className="text-xs font-medium uppercase tracking-wider">
+                Date
+              </span>
             </div>
-
-            <div className="tab-content mt-4">
-                {activeTab === 'all' && renderTable(allMeetings)}
-                {activeTab === 'instant' && renderTable(instantMeetings)}
-                {activeTab === 'scheduled' && renderTable(scheduledMeetings)}
+            <div className="flex items-center gap-3 text-white/90">
+              <Clock className="w-4 h-4 text-pink-400" />
+              <span className="text-xs font-medium uppercase tracking-wider">
+                Time
+              </span>
             </div>
+            <div className="flex items-center gap-3 text-white/90">
+              <Users className="w-4 h-4 text-pink-400" />
+              <span className="text-xs font-medium uppercase tracking-wider">
+                Host
+              </span>
+            </div>
+          </div>
         </div>
-    );
+        <div className="divide-y divide-white/10 bg-transparent">
+          {isLoading ? (
+            [...Array(3)].map((_, index) => (
+              <div
+                key={index}
+                className="grid grid-cols-3 gap-2 px-6 py-4 animate-pulse"
+              >
+                <div className="h-4 bg-white/10 rounded" />
+                <div className="h-4 bg-white/10 rounded" />
+                <div className="h-4 bg-white/10 rounded" />
+              </div>
+            ))
+          ) : error ? (
+            <div className="px-6 py-4 text-red-400">
+              Error loading meetings. Please try again later.
+            </div>
+          ) : (
+            meetings.map((meeting, index) => (
+              <div
+                key={meeting.id}
+                className="table-row-hover grid grid-cols-3 gap-2 px-6 py-4 transition-colors hover:bg-white/5"
+                style={{
+                  animation: `rowEntrance 0.5s ease-out forwards`,
+                  animationDelay: `${index * 100}ms`,
+                }}
+              >
+                <div className="text-sm text-white/90 truncate">
+                  {formatDate(meeting.date)}
+                </div>
+                <div className="text-sm text-white/90 truncate">
+                  {meeting.date.split(", ")[1]}
+                </div>
+                <div className="text-sm text-white/90 font-medium truncate">
+                  {meeting.hostName}
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+      </div>
+    </div>
+  );
+
+  return (
+    <div className="p-6 lg:p-8 min-h-screen">
+      <div className="w-full mb-8 backdrop-blur-md bg-black/40 border border-white/10 shadow-xl rounded-xl">
+        <div className="p-4">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+            <div className="flex flex-wrap gap-2">
+              {["all", "current", "scheduled"].map((tab) => (
+                <button
+                  key={tab}
+                  onClick={() => setActiveTab(tab)}
+                  className={`px-6 py-2.5 rounded-lg transition-all duration-300 backdrop-blur-md ${
+                    activeTab === tab
+                      ? "bg-gradient-to-r from-pink-500 to-blue-500 text-white shadow-lg shadow-blue-500/20"
+                      : "bg-black/40 text-white/90 hover:bg-white/10 border border-white/10"
+                  }`}
+                >
+                  <span className="whitespace-nowrap text-sm font-medium">
+                    {tab.charAt(0).toUpperCase() + tab.slice(1)} Meetings
+                  </span>
+                </button>
+              ))}
+            </div>
+            <span className="px-4 py-2 rounded-lg bg-gradient-to-r from-pink-500/20 to-blue-500/20 text-white/90 border border-white/10 backdrop-blur-md text-sm font-medium">
+              {getBadgeCount()}{" "}
+              {activeTab.charAt(0).toUpperCase() + activeTab.slice(1)} Meetings
+            </span>
+          </div>
+        </div>
+      </div>
+
+      {activeTab === "all" && renderTable(meetings)}
+      {activeTab === "current" && renderTable(currentMeetings)}
+      {activeTab === "scheduled" && renderTable(scheduledMeetings)}
+    </div>
+  );
 };
 
 export default Meetings;

@@ -1,9 +1,11 @@
 # MeetUP - Video Calling Web Application
 
+[Explore With MeetUP](https://meetup-d48c4.web.app)
+
 **Installation Guide**
 
 * npm install
-* Create .env.local file and insert the variable and values
+* Create .env.local file and insert the variables and values
     * VITE_apiKey
     * VITE_authDomain
     * VITE_projectId
@@ -33,7 +35,7 @@
 - swiper
 - keen-slider
 - @zegocloud/zego-uikit-prebuilt
-- tawk.to
+- Tidio
 - Emailjs
 - lucide-react
 - react-query

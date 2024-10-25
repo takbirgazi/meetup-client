@@ -13,9 +13,10 @@ import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import MiniScheduleTable from "../../components/MiniScheduleTable/MiniScheduleTable";
 import Navbar from "../../components/Navbar/Navbar";
-import options from "../../components/ParticleOptions/ParticleOptions";
+// import options from "../../components/ParticleOptions/ParticleOptions";
 import useAuth from "../../hooks/useAuth";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
+import background from "../../assets/background5.jpg";
 
 const MEETINGS_QUERY_KEY = "meetings";
 const REFETCH_INTERVAL = 30000; // 30 seconds
@@ -310,122 +311,96 @@ const Home = () => {
   }
 
   return (
-    <div className="min-h-screen min-w-screen relative">
-      <Helmet>
-        <title>Home - MeetUp</title>
-      </Helmet>
+    <div
+  className="min-h-screen min-w-screen relative bg-cover bg-center"
+  style={{
+    backgroundImage: `url(${background})`,
+  }}
+>
+  <Helmet>
+    <title>Home - MeetUp</title>
+  </Helmet>
 
-      <div className="flex flex-col items-center justify-center">
-        <Navbar />
-        {init && (
-          <Particles
-            id="tsparticles"
-            options={options}
-            loaded={particlesLoaded}
-            className="absolute top-0 left-0 w-full h-full"
-          />
-        )}
-        <div className="min-h-screen relative flex flex-col md:flex-row justify-evenly items-center w-full max-w-screen-xl mx-auto p-4">
-          <div className="flex flex-col items-center md:w-1/2 w-full p-4">
-            <div className="text-center space-y-1 text-balance">
-              <h1 className="text-3xl text-white">
-                Video Calls and Meetings for Everyone
-              </h1>
-              <h4 className="text-lg text-gray-300">
-                Connect, collaborate, and celebrate from anywhere with
-              </h4>
+  {/* Black overlay with opacity */}
+  <div className="absolute inset-0 bg-black opacity-70"></div>
+
+  <div className="relative flex flex-col items-center justify-center z-10">
+    <Navbar />
+    
+    <div className="min-h-screen relative flex flex-col md:flex-row justify-evenly items-center w-full max-w-screen-xl mx-auto p-4">
+      <div className="flex flex-col items-center md:w-1/2 w-full p-4">
+        <div className="text-center space-y-1 text-balance">
+          <h1 className="text-3xl text-white">Video Calls and Meetings for Everyone</h1>
+          <h4 className="text-lg text-gray-300">
+            Connect, collaborate, and celebrate from anywhere with
+          </h4>
+        </div>
+        
+        <div className="flex flex-wrap w-full justify-center items-center md:gap-3 gap-1 mt-4">
+          <div className="dropdown">
+            <button className="btn my-2" tabIndex="0">New Meeting</button>
+            
+            <div className="dropdown-menu w-44 dropdown-menu-bottom-right">
+              <button onClick={handleInstantMeet} className="dropdown-item text-sm flex-row items-center gap-2">
+                <TiPlusOutline />
+                Instant meeting
+              </button>
+              <label tabIndex="-1" className="dropdown-item text-sm flex-row items-center gap-2" htmlFor="modal-2" onClick={handleScheduleForLater}>
+                <FaRegCalendarCheck />
+                Schedule for later
+              </label>
             </div>
-            <div className="flex flex-wrap w-full justify-center items-center md:gap-3 gap-1 mt-4">
-              <div className="dropdown">
-                <button className="btn my-2" tabIndex="0">
-                  New Meeting
-                </button>
-                <div className="dropdown-menu w-44 dropdown-menu-bottom-right">
-                  <button
-                    onClick={handleInstantMeet}
-                    className="dropdown-item text-sm flex-row items-center gap-2"
-                  >
-                    <TiPlusOutline />
-                    Instant meeting
-                  </button>
-                  <label
-                    tabIndex="-1"
-                    className="dropdown-item text-sm flex-row items-center gap-2"
-                    htmlFor="modal-2"
-                    onClick={handleScheduleForLater}
-                  >
-                    <FaRegCalendarCheck />
-                    Schedule for later
-                  </label>
-                </div>
-                <input className="modal-state" id="modal-2" type="checkbox" />
-                <div className="modal w-screen">
-                  <label className="modal-overlay" htmlFor="modal-2"></label>
-                  <div className="modal-content min-h-72 flex flex-col gap-5 max-w-3xl bg-gray-200 text-black rounded-lg p-4 md:p-12">
-                    <div className="flex flex-col min-h-60 justify-center">
-                      <label
-                        htmlFor="modal-2"
-                        className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
-                      >
-                        ✕
-                      </label>
-                      <h1 className="md:text-3xl text-2xl text-center font-semibold">
-                        Schedule Meeting for Later
-                      </h1>
-                      <form
-                        onSubmit={handleSubmit(onSubmit)}
-                        className="flex flex-col gap-3"
-                      >
-                        <div className="text-center space-y-4 my-6">
-                          <input
-                            id="date"
-                            type="datetime-local"
-                            className="input text-black bg-white border border-gray-300 rounded p-2 w-full"
-                            {...register("date", { required: true })}
-                          />
-                          {errors.date && (
-                            <p className="text-red-500">
-                              This field is required
-                            </p>
-                          )}
-                        </div>
-                        <div className="flex gap-3">
-                          <button
-                            type="submit"
-                            className="btn text-black btn-block bg-gradient-to-r from-[#ffbfff] to-[#a2deff]"
-                          >
-                            Submit
-                          </button>
-                        </div>
-                      </form>
+            <input className="modal-state" id="modal-2" type="checkbox" />
+            <div className="modal w-screen">
+              <label className="modal-overlay" htmlFor="modal-2"></label>
+              <div className="modal-content min-h-72 flex flex-col gap-5 max-w-3xl bg-gray-200 text-black rounded-lg p-4 md:p-12">
+                <div className="flex flex-col min-h-60 justify-center">
+                  <label htmlFor="modal-2" className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</label>
+                  <h1 className="md:text-3xl text-2xl text-center font-semibold">
+                    Schedule Meeting for Later
+                  </h1>
+                  
+                  <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3">
+                    <div className="text-center space-y-4 my-6">
+                      <input id="date" type="datetime-local" className="input text-black bg-white border border-gray-300 rounded p-2 w-full" {...register("date", { required: true })} />
+                      {errors.date && <p className="text-red-500">This field is required</p>}
                     </div>
-                  </div>
+                    <div className="flex gap-3">
+                      <button type="submit" className="btn btn-block bg-gradient-to-r from-pink-500 to-blue-500 text-white">
+                        Submit
+                      </button>
+                    </div>
+                  </form>
                 </div>
               </div>
-              <input
-                className="input w-auto"
-                placeholder="Enter Meet Code or Link..."
-                value={meetingInput}
-                onChange={(e) => setMeetingInput(e.target.value)}
-              />
-              <button
-                className="btn bg-gradient-to-r from-[#ffbfff] to-[#a2deff]"
-                onClick={handleJoinMeeting}
-              >
-                Join
-              </button>
             </div>
           </div>
-          <div className="flex flex-col items-center gap-4 mt-4 md:mt-0 md:w-1/2 w-full p-4">
-            <MiniScheduleTable
-              meetings={memoizedMeetings}
-              loading={isLoading}
-            />
-          </div>
+
+          <input
+            className="input w-auto"
+            placeholder="Enter Meet Code or Link..."
+            value={meetingInput}
+            onChange={(e) => setMeetingInput(e.target.value)}
+          />
+          <button
+            className="btn bg-gradient-to-r from-pink-500 to-blue-500 text-white"
+            onClick={handleJoinMeeting}
+          >
+            Join
+          </button>
         </div>
       </div>
+
+      <div className="flex flex-col items-center gap-4 mt-4 md:mt-0 md:w-1/2 w-full p-4">
+        <MiniScheduleTable meetings={memoizedMeetings} loading={isLoading} />
+      </div>
     </div>
+  </div>
+</div>
+
   );
 };
 
 export default Home;
+
+
