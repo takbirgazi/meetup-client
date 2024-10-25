@@ -6,14 +6,9 @@ import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
 import logo from "../../assets/MeetUpLogo.png";
 import useAuth from "../../hooks/useAuth";
 import background from "./../../assets/background5.jpg";
-import closeChat from "./../../assets/images/bottom-right.png";
-import openChat from "./../../assets/images/chatBot.png";
-import ChatBot from "./DashboardComponents/General/GeneralComponents/ChatBot/ChatBot";
 
 const Dashboard = () => {
-  const [isChatBotOpen, setIsChatBotOpen] = useState(false);
-  const location = useLocation();
-  const { user, logOut } = useAuth();
+  const { logOut } = useAuth();
 
   useEffect(() => {
     const chatButton = document.getElementById("tidio-chat");
@@ -23,16 +18,14 @@ const Dashboard = () => {
   }, []);
 
   const backgroundStyle = {
-    backgroundImage: `url(${background})`,
+    backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0.6, 0.8)), url(${background})`,
     backgroundSize: "cover",
     backgroundPosition: "center",
-    backgroundRepeat: "no-repeat",
     backgroundAttachment: "fixed",
+    backgroundRepeat: "no-repeat",
   };
 
-  const toggleChatBot = () => {
-    setIsChatBotOpen(!isChatBotOpen);
-  };
+
 
   const menuActive = "bg-gradient-to-r from-pink-500 to-blue-600 text-white ";
   const menuItem = "menu-item ml-6";
@@ -142,8 +135,7 @@ const Dashboard = () => {
             <NavLink
               to={`/dashboard/profile`}
               className={({ isActive }) =>
-                `${menuItem} ${
-                  isActive ? menuActive : "text-white/90"
+                `${menuItem} ${isActive ? menuActive : "text-white/90"
                 } hover:bg-black/40 my-2 max-w-[85%] transition-all duration-300 rounded-lg`
               }
             >
@@ -152,8 +144,7 @@ const Dashboard = () => {
             <NavLink
               to={`/dashboard/change-password`}
               className={({ isActive }) =>
-                `${menuItem} ${
-                  isActive ? menuActive : "text-white/90"
+                `${menuItem} ${isActive ? menuActive : "text-white/90"
                 } hover:bg-black/40 my-2 max-w-[85%] transition-all duration-300 rounded-lg`
               }
             >
@@ -261,30 +252,6 @@ const Dashboard = () => {
 
         <div className="w-full">
           <Outlet />
-          <div className="popover fixed bottom-28 right-4 z-[99999]">
-            <label
-              className="popover-trigger my-2 cursor-pointer hover:shadow-xl hover:shadow-blue-400 rounded-full transition-all duration-300"
-              tabIndex="0"
-              onClick={toggleChatBot}
-            >
-              {isChatBotOpen ? (
-                <img src={closeChat} alt="Close chat" className="w-10 h-10" />
-              ) : (
-                <img src={openChat} alt="Chat with AI" className="w-14 h-14" />
-              )}
-            </label>
-            {isChatBotOpen && (
-              <div
-                className="popover-content popover-top-left absolute w-screen max-w-md bottom-full mb-4 md:mr-5 bg-black/90 backdrop-blur-lg border-2 border-white/20 rounded-xl"
-                tabIndex="0"
-              >
-                <div className="popover-arrow bg-blue-400"></div>
-                <div className="overflow-hidden rounded-lg">
-                  <ChatBot onClose={toggleChatBot} />
-                </div>
-              </div>
-            )}
-          </div>
         </div>
       </div>
     </div>
