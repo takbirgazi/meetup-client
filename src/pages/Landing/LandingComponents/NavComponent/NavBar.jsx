@@ -151,9 +151,10 @@ const NavBar = () => {
                 >
                   Log In
                 </Link>
+
                 <Link
                   to="/signup"
-                  className="btn btn-outline-primary hover:bg-gradient-to-r from-pink-500 to-blue-500 text-white font-semibold w-28"
+                  className="btn btn-outline-secondary border-2  hover:bg-gradient-to-r from-pink-500 to-blue-500 text-white font-semibold w-28"
                 >
                   Sign Up
                 </Link>

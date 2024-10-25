@@ -94,7 +94,8 @@ const SignUp = () => {
       ) : (
         user && navigate(location?.state?.from?.pathname || "/room")
       )}
-
+      {/* Black overlay with opacity */}
+      <div className="absolute inset-0 bg-black opacity-60"></div>
       <div
         className="min-h-screen flex items-center justify-center p-4"
         style={{
