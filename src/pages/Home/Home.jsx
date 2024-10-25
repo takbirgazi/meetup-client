@@ -392,7 +392,7 @@ const Home = () => {
                         <div className="flex gap-3">
                           <button
                             type="submit"
-                            className="btn text-black btn-block bg-gradient-to-r bg-gradient-to-r from-pink-500 to-blue-500 text-white"
+                            className="btn btn-block bg-gradient-to-r from-pink-500 to-blue-500 text-white"
                           >
                             Submit
                           </button>

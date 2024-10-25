@@ -23,7 +23,7 @@ const Dashboard = () => {
   }, []);
 
   const backgroundStyle = {
-    backgroundImage: `url(${background})`,
+    backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(${background})`,
     backgroundSize: "cover",
     backgroundPosition: "center",
     backgroundRepeat: "no-repeat",
