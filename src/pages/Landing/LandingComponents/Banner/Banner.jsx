@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import banner from "../../../../assets/images/LandingPageImages/banner.png";
+import background from "../../../../assets/background5.jpg";
 const Banner = () => {
   return (
     <div className=" w-[95%] mx-auto md:flex gap-10 lg:gap-20">
@@ -33,3 +34,5 @@ const Banner = () => {
 };
 
 export default Banner;
+
+
