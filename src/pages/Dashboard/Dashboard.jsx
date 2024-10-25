@@ -18,7 +18,7 @@ const Dashboard = () => {
   }, []);
 
   const backgroundStyle = {
-    backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0.6, 0.8)), url(${background})`,
+    backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(${background})`,
     backgroundSize: "cover",
     backgroundPosition: "center",
     backgroundAttachment: "fixed",
