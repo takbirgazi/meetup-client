@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { IoHome } from "react-icons/io5";
 import { MdDashboard, MdLogout } from "react-icons/md"; // Import the icons
 import { RxHamburgerMenu } from "react-icons/rx";
 import { Link } from "react-router-dom";
@@ -118,7 +119,12 @@ const NavBar = () => {
                     <img src={user?.photoURL} alt="avatar" />
                   </div>
                   {isDropdownOpen && (
-                    <div className="absolute right-0 mt-2 py-2 w-40 bg-white shadow-xl rounded-lg z-20">
+                    <div className="absolute right-0 mt-2 py-2 w-40 bg-white shadow-xl rounded-lg z-20 ">
+                      <Link to={"/room"}>
+                        <p className="dropdown-item text-sm flex-row items-center gap-2">
+                          <IoHome /> Explore Meeting
+                        </p>
+                      </Link>
                       <Link to={"/dashboard"}>
                         <p className="dropdown-item text-sm flex-row items-center gap-2">
                           {" "}
@@ -141,13 +147,13 @@ const NavBar = () => {
               <div className="navbar-end flex items-center mt-2 -mx-2 sm:mt-0 space-x-3">
                 <Link
                   to="/login"
-                  className="btn btn-solid-primary font-semibold w-28"
+                  className="btn btn-solid-primary bg-gradient-to-r from-pink-500 to-blue-500 text-white font-semibold w-28"
                 >
                   Log In
                 </Link>
                 <Link
                   to="/signup"
-                  className="btn btn-outline-primary font-semibold w-28"
+                  className="btn btn-outline-primary hover:bg-gradient-to-r from-pink-500 to-blue-500 text-white font-semibold w-28"
                 >
                   Sign Up
                 </Link>

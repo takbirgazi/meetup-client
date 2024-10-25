@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { IoIosLogOut } from "react-icons/io";
 import { IoHome } from "react-icons/io5";
+import { MdTask } from "react-icons/md";
 import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
 import logo from "../../assets/MeetUpLogo.png";
 import useAuth from "../../hooks/useAuth";
@@ -33,8 +34,7 @@ const Dashboard = () => {
     setIsChatBotOpen(!isChatBotOpen);
   };
 
-  const menuActive =
-    "bg-gradient-to-r from-pink-500 to-blue-600 text-white ";
+  const menuActive = "bg-gradient-to-r from-pink-500 to-blue-600 text-white ";
   const menuItem = "menu-item ml-6";
 
   const mainMenuItems = (
@@ -68,21 +68,8 @@ const Dashboard = () => {
         className={({ isActive }) => `rounded-lg ${isActive ? menuActive : ""}`}
       >
         <li className="menu-item text-white/90 hover:bg-black/40 transition-all duration-300 rounded-lg">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5 opacity-75"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth="2"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M12 14l9-5-9-5-9 5 9 5z"
-            />
-            <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14" />
-          </svg>
+          <MdTask className="text-xl" />
+
           <span>Todo</span>
         </li>
       </NavLink>
@@ -155,7 +142,8 @@ const Dashboard = () => {
             <NavLink
               to={`/dashboard/profile`}
               className={({ isActive }) =>
-                `${menuItem} ${isActive ? menuActive : "text-white/90"
+                `${menuItem} ${
+                  isActive ? menuActive : "text-white/90"
                 } hover:bg-black/40 my-2 max-w-[85%] transition-all duration-300 rounded-lg`
               }
             >
@@ -164,7 +152,8 @@ const Dashboard = () => {
             <NavLink
               to={`/dashboard/change-password`}
               className={({ isActive }) =>
-                `${menuItem} ${isActive ? menuActive : "text-white/90"
+                `${menuItem} ${
+                  isActive ? menuActive : "text-white/90"
                 } hover:bg-black/40 my-2 max-w-[85%] transition-all duration-300 rounded-lg`
               }
             >
@@ -231,13 +220,10 @@ const Dashboard = () => {
           `}</style>
 
           <Link to={"/"} className="hover:opacity-80 transition-opacity">
-            
             <div className="sidebar-title p-4 flex items-center justify-center">
               <img src={logo} className="h-10 w-auto mr-2" alt="Logo" />
               <p className=" text-white text-2xl font-semibold">MeatUp</p>
-              
             </div>
-          
           </Link>
 
           <section className="sidebar-content">

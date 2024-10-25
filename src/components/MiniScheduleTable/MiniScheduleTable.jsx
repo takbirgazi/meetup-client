@@ -110,7 +110,7 @@ const MeetingItem = React.memo(({ meeting, isAnimating, onExpired }) => {
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg
-              bg-gradient-to-r from-[#ffbfff] to-[#a2deff] hover:bg-blue-500  text-sm font-medium 
+              bg-gradient-to-r from-pink-500 to-blue-600 text-white hover:bg-blue-500  text-sm font-medium 
               transition-all duration-200 hover:shadow-lg hover:shadow-blue-500/25
               hover:scale-105 active:scale-95 min-w-[100px]"
           >
