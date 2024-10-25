@@ -1,11 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 import { Calendar, Clock, Users } from "lucide-react";
 import React, { useState } from "react";
+import useAuth from "../../../../hooks/useAuth";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 
 const Meetings = () => {
   const [activeTab, setActiveTab] = useState("all");
   const axiosSecure = useAxiosSecure();
+  const { user } = useAuth();
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -25,9 +27,9 @@ const Meetings = () => {
     queryFn: async () => {
       const response = await axiosSecure("/meetings");
       if (response.status === 200 && Array.isArray(response.data)) {
-        return response.data.sort(
-          (a, b) => new Date(b.date) - new Date(a.date)
-        );
+        return response.data
+          .filter((meeting) => meeting.hostEmail === user.email)
+          .sort((a, b) => new Date(b.date) - new Date(a.date));
       }
       return [];
     },
@@ -108,7 +110,6 @@ const Meetings = () => {
           box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
         }
       `}</style>
-
       <div className="min-w-full divide-y divide-white/10">
         <div className="bg-black/50 backdrop-blur-lg border-b border-white/10">
           <div className="grid grid-cols-3 gap-2 px-6 py-4">
@@ -197,13 +198,17 @@ const Meetings = () => {
                 </button>
               ))}
             </div>
-            <span className="px-4 py-2 rounded-lg bg-gradient-to-r from-pink-500/20 to-blue-500/20 text-white/90 border border-white/10 backdrop-blur-md text-sm font-medium">
-              {getBadgeCount()}{" "}
-              {activeTab.charAt(0).toUpperCase() + activeTab.slice(1)} Meetings
+            <span className="px-4 py-2 rounded-lg bg-gradient-to-r from-pink-500/20 to-blue-500/20 text-white/90 border border-white/10 backdrop-blur-md text-sm text-center font-medium">
+              {getBadgeCount()} Meetings
             </span>
           </div>
         </div>
       </div>
+
+      <p className="text-white/90 text-sm mb-2 ml-2 ">
+        <span class="dot dot-warning mr-2 animate-pulse"></span>
+        You can view all your meetings history here.{" "}
+      </p>
 
       {activeTab === "all" && renderTable(meetings)}
       {activeTab === "current" && renderTable(currentMeetings)}
