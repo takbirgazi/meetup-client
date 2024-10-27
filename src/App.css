@@ -9,3 +9,7 @@
 .str-video__avatar {
   border-radius: 50% !important;
 }
+
+.screen-100 {
+  height: calc(100vh-100px);
+}

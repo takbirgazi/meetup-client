@@ -9,6 +9,7 @@ import useAuth from "../../../../hooks/useAuth";
 const NavBar = () => {
   const { user, logOut } = useAuth();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
   const handleLogout = () => {
     logOut()
@@ -26,6 +27,15 @@ const NavBar = () => {
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
+
+  // Change Background When Scrolled
+  document.addEventListener('scroll', () => {
+    if (window.scrollY > 800) {
+      setScrolled(true);
+    } else {
+      setScrolled(false);
+    }
+  })
 
   const navLinks = (
     <>
@@ -64,7 +74,7 @@ const NavBar = () => {
 
   return (
     <div className="">
-      <div className="navbar px-4 bg-[#101827] shadow-lg shadow-[#2c236cd7] navbar-sticky m-0 mx-auto backdrop-blur-2xl flex items-center">
+      <div className={`navbar px-4 ${scrolled ? "bg-[#0d0428]" : "bg-transparent"} shadow-lg shadow-[#0d0427] navbar-sticky m-0 mx-auto backdrop-blur-2xl flex items-center`}>
         <div className="navbar-start">
           <a href="#">
             <img className="w-auto h-10" src={logo} alt="" />
@@ -151,9 +161,10 @@ const NavBar = () => {
                 >
                   Log In
                 </Link>
+
                 <Link
                   to="/signup"
-                  className="btn btn-outline-primary hover:bg-gradient-to-r from-pink-500 to-blue-500 text-white font-semibold w-28"
+                  className="btn btn-outline-secondary border-2  hover:bg-gradient-to-r from-pink-500 to-blue-500 text-white font-semibold w-28"
                 >
                   Sign Up
                 </Link>

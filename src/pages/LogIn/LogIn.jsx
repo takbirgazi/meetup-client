@@ -135,14 +135,14 @@ const Login = () => {
         }}
       >
         <ScrollRestoration />
-
+        {/* Black overlay with opacity */}
+        <div className="absolute inset-0 bg-black opacity-60"></div>
         <div className="w-full max-w-lg glass-effect rounded-xl p-8 space-y-8">
           <div className="flex flex-col items-center space-y-4">
             <NavLink to="/">
               <img className="w-40" src={logo} alt="logo" />
             </NavLink>
           </div>
-
           <div className="space-y-4">
             <p className="text-gray-300 text-sm">Sign in with</p>
             <div className="grid grid-cols-2 gap-4">
