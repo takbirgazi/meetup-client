@@ -33,7 +33,7 @@ const Room = () => {
     }
   }, [meetingId, participantName?.email]);
 
-  // Request camera and microphone permissions 
+  // Request camera and microphone permissions
   async function requestPermissions() {
     try {
       await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
