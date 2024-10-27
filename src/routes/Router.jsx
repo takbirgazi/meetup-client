@@ -14,7 +14,7 @@ import PrivateRoute from "../routes/PrivateRoute";
 import "./../App.css";
 import Root from "./../layout/Root";
 import ErrorPage from "./../pages/ErrorPage/ErrorPage";
-import Home from "./../pages/Home/Home";
+import Room from "./../pages/Room/Room";
 
 const router = createBrowserRouter([
   {
@@ -46,7 +46,7 @@ const router = createBrowserRouter([
         path: "/room",
         element: (
           <PrivateRoute>
-            <Home />
+            <Room />
           </PrivateRoute>
         ),
       },
