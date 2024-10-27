@@ -151,16 +151,23 @@ const Meeting = () => {
     );
   }
 
+  const save = () => {
+    console.log(document.getElementById("zego-whiteboard-con818995402"));
+  };
+
   return (
-    <div
-      className="myCallContainer"
-      ref={(el) => {
-        if (el) {
-          myMeeting(el);
-        }
-      }}
-      style={{ width: "100vw", height: "100vh" }}
-    />
+    <>
+      <div
+        className="myCallContainer relative"
+        ref={(el) => {
+          if (el) {
+            myMeeting(el);
+          }
+        }}
+        style={{ width: "100vw", height: "100vh" }}
+      />
+      <div onClick={save} className="absolute bottom-5 btn text-black border border-error p-2 z-[1000] "> hi</div>
+    </>
   );
 };
 
