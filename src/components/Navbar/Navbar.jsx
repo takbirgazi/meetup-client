@@ -30,7 +30,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className="navbar bg-[#101827] h-[65px] py-2 shadow-lg shadow-[#2c236cd7] mx-auto z-50">
+    <div className="navbar bg-transparent h-[65px] py-2 shadow-lg shadow-[#0d0427] mx-auto z-50">
       <div className="navbar-start">
         <Link to="/" className="navbar-item font-bold text-white text-xl">
           <img src={logo} className="h-10 w-auto" alt="MeetUp Logo" />

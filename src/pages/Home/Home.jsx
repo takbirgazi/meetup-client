@@ -327,7 +327,7 @@ const Home = () => {
   <div className="relative flex flex-col items-center justify-center z-10">
     <Navbar />
     
-    <div className="min-h-screen relative flex flex-col md:flex-row justify-evenly items-center w-full max-w-screen-xl mx-auto p-4">
+    <div className="min-h-screen-100 relative flex flex-col md:flex-row justify-evenly items-center w-full max-w-screen-xl mx-auto p-4">
       <div className="flex flex-col items-center md:w-1/2 w-full p-4">
         <div className="text-center space-y-1 text-balance">
           <h1 className="text-3xl text-white">Video Calls and Meetings for Everyone</h1>
