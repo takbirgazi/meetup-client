@@ -5,7 +5,7 @@ import { ZegoSuperBoardManager } from "zego-superboard-web";
 import useAuth from "../../hooks/useAuth";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 
-const Meeting = () => {
+const Room = () => {
   const params = useParams();
   const axiosSecure = useAxiosSecure();
   const { user: participantName } = useAuth();
@@ -33,7 +33,7 @@ const Meeting = () => {
     }
   }, [meetingId, participantName?.email]);
 
-  // Request camera and microphone permissions
+  // Request camera and microphone permissions 
   async function requestPermissions() {
     try {
       await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
@@ -164,4 +164,4 @@ const Meeting = () => {
   );
 };
 
-export default Meeting;
+export default Room;
