@@ -15,6 +15,7 @@ import "./../App.css";
 import Root from "./../layout/Root";
 import ErrorPage from "./../pages/ErrorPage/ErrorPage";
 import Room from "./../pages/Room/Room";
+import WorkSpace from "../pages/Dashboard/DashboardComponents/WorkSpace/WorkSpace";
 
 const router = createBrowserRouter([
   {
@@ -73,6 +74,10 @@ const router = createBrowserRouter([
           {
             path: "todo",
             element: <ToDoApp />,
+          },
+          {
+            path: "workspace",
+            element: <WorkSpace />
           },
           {
             path: "support",

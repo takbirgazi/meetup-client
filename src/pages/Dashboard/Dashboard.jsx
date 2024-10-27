@@ -68,6 +68,16 @@ const Dashboard = () => {
       </NavLink>
 
       <NavLink
+        to={`/dashboard/workspace`}
+        className={({ isActive }) => `rounded-lg ${isActive ? menuActive : ""}`}
+      >
+        <li className="menu-item text-white/90 hover:bg-black/40 transition-all duration-300 rounded-lg">
+          <MdTask className="text-xl" />
+          <span>Work Space</span>
+        </li>
+      </NavLink>
+
+      <NavLink
         to={`/dashboard/support`}
         className={({ isActive }) => `rounded-lg ${isActive ? menuActive : ""}`}
       >

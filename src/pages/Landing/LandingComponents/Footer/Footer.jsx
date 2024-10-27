@@ -3,7 +3,7 @@ import logo from "../../../../assets/MeetUp.png";
 
 const Footer = () => {
   return (
-    <footer className=" bg-gray-800 text-center md:text-start">
+    <footer className=" bg-[#0d0428] text-center md:text-start">
       <div className="footer text-white p-10 flex flex-col items-center md:flex-row justify-between container mx-auto ">
         <div className="w-full md:w-[40%] flex flex-col items-center md:items-start mb-6 md:mb-0">
           
