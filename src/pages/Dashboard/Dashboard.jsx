@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { IoIosLogOut } from "react-icons/io";
 import { IoHome } from "react-icons/io5";
 import { MdTask } from "react-icons/md";
+import { AiOutlineSchedule } from "react-icons/ai";
 import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
 import logo from "../../assets/MeetUpLogo.png";
 import useAuth from "../../hooks/useAuth";
@@ -72,7 +73,7 @@ const Dashboard = () => {
         className={({ isActive }) => `rounded-lg ${isActive ? menuActive : ""}`}
       >
         <li className="menu-item text-white/90 hover:bg-black/40 transition-all duration-300 rounded-lg">
-          <MdTask className="text-xl" />
+          <AiOutlineSchedule className="text-xl" />
           <span>Work Space</span>
         </li>
       </NavLink>
