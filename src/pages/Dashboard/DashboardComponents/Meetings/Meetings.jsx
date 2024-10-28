@@ -27,9 +27,17 @@ const Meetings = () => {
     queryFn: async () => {
       const response = await axiosSecure("/meetings");
       if (response.status === 200 && Array.isArray(response.data)) {
-        return response.data
-          .filter((meeting) => meeting.hostEmail === user.email)
-          .sort((a, b) => new Date(b.date) - new Date(a.date));
+        // Filter meetings for the current user as either host or participant
+        const userMeetings = response.data.filter((meeting) => 
+          meeting.hostEmail === user.email || 
+          meeting.participants.some(participant => participant.email === user.email)
+        ).sort((a, b) => new Date(b.date) - new Date(a.date));
+  
+        // Extract participants from each meeting
+        return userMeetings.map((meeting) => ({
+          ...meeting,
+          participants: [...meeting.participants],
+        }));
       }
       return [];
     },
@@ -37,6 +45,9 @@ const Meetings = () => {
     refetchOnWindowFocus: true,
     staleTime: 10000,
   });
+  
+
+  console.log(meetingsData);
 
   const meetings = meetingsData || [];
   const currentMeetings = meetings.filter(
@@ -61,58 +72,9 @@ const Meetings = () => {
 
   const renderTable = (meetings) => (
     <div className="w-full backdrop-blur-xl bg-black/40 border border-white/10 shadow-xl rounded-xl overflow-hidden">
-      <style>{`
-        @keyframes tableEntrance {
-          0% {
-            opacity: 0;
-            transform: translateY(20px);
-          }
-          100% {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-        
-        @keyframes rowEntrance {
-          0% {
-            opacity: 0;
-            transform: translateX(-20px);
-          }
-          100% {
-            opacity: 1;
-            transform: translateX(0);
-          }
-        }
-
-        .table-row-hover {
-          position: relative;
-          isolation: isolate;
-        }
-
-        .table-row-hover::after {
-          content: '';
-          position: absolute;
-          inset: 0;
-          background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.03), transparent);
-          opacity: 0;
-          transition: opacity 0.3s ease;
-          z-index: -1;
-        }
-
-        .table-row-hover:hover::after {
-          opacity: 1;
-        }
-
-        .glass-effect {
-          background: rgba(0, 0, 0, 0.4);
-          backdrop-filter: blur(10px);
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-        }
-      `}</style>
       <div className="min-w-full divide-y divide-white/10">
         <div className="bg-black/50 backdrop-blur-lg border-b border-white/10">
-          <div className="grid grid-cols-3 gap-2 px-6 py-4">
+          <div className="grid grid-cols-4 gap-2 px-6 py-4">
             <div className="flex items-center gap-3 text-white/90">
               <Calendar className="w-4 h-4 text-pink-400" />
               <span className="text-xs font-medium uppercase tracking-wider">
@@ -125,10 +87,16 @@ const Meetings = () => {
                 Time
               </span>
             </div>
-            <div className="flex items-center gap-3 text-white/90">
+            <div className="flex  items-center gap-3 text-white/90">
               <Users className="w-4 h-4 text-pink-400" />
               <span className="text-xs font-medium uppercase tracking-wider">
                 Host
+              </span>
+            </div>
+            <div className="flex items-center gap-3 text-white/90">
+              <Users className="w-4 h-4 text-pink-400" />
+              <span className="text-xs font-medium uppercase tracking-wider">
+                Participants
               </span>
             </div>
           </div>
@@ -138,8 +106,9 @@ const Meetings = () => {
             [...Array(3)].map((_, index) => (
               <div
                 key={index}
-                className="grid grid-cols-3 gap-2 px-6 py-4 animate-pulse"
+                className="grid grid-cols-4 gap-2 px-6 py-4 animate-pulse"
               >
+                <div className="h-4 bg-white/10 rounded" />
                 <div className="h-4 bg-white/10 rounded" />
                 <div className="h-4 bg-white/10 rounded" />
                 <div className="h-4 bg-white/10 rounded" />
@@ -153,7 +122,7 @@ const Meetings = () => {
             meetings.map((meeting, index) => (
               <div
                 key={meeting.id}
-                className="table-row-hover grid grid-cols-3 gap-2 px-6 py-4 transition-colors hover:bg-white/5"
+                className="table-row-hover grid grid-cols-4 gap-2 px-6 py-4 transition-colors hover:bg-white/5"
                 style={{
                   animation: `rowEntrance 0.5s ease-out forwards`,
                   animationDelay: `${index * 100}ms`,
@@ -165,8 +134,54 @@ const Meetings = () => {
                 <div className="text-sm text-white/90 truncate">
                   {meeting.date.split(", ")[1]}
                 </div>
-                <div className="text-sm text-white/90 font-medium truncate">
-                  {meeting.hostName}
+                <div className="flex ml-3 items-center">
+                  <span
+                    className="tooltip tooltip-top tooltip-primary"
+                    data-tooltip={meeting.hostName}
+                  >
+                    <div className="avatar avatar-sm avatar-ring-warning">
+                      <img
+                        src={meeting.participants[0]?.photoURL} // Use host photoURL
+                        alt={meeting.hostName}
+                        className="rounded-full w-6 h-6 object-cover" // Smaller, rounded avatar
+                      />
+                    </div>
+                  </span>
+                </div>
+                <div className="flex items-center avatar-group">
+                  {meeting.participants
+                    .filter(
+                      (participant) => participant.email !== meeting.hostEmail
+                    ) // Exclude host
+                    .slice(0, 5)
+                    .map((participant, index) => (
+                      <span
+                        key={index}
+                        className="tooltip tooltip-top tooltip-primary"
+                        data-tooltip={participant.name}
+                      >
+                        <div className="avatar avatar-sm avatar-ring">
+                          <img
+                            src={participant.photoURL}
+                            alt={participant.name}
+                            className="rounded-full w-6 h-6 object-cover" // Smaller, rounded avatar
+                          />
+                        </div>
+                      </span>
+                    ))}
+                  {meeting.participants.filter(
+                    (participant) => participant.email !== meeting.hostEmail
+                  ).length > 5 && (
+                    <div className="avatar">
+                      <div className="w-6 h-6 bg-gray-600 rounded-full text-white flex items-center justify-center">
+                        +
+                        {meeting.participants.filter(
+                          (participant) =>
+                            participant.email !== meeting.hostEmail
+                        ).length - 5}
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             ))
