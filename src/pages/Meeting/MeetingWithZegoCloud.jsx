@@ -72,7 +72,11 @@ const Room = () => {
       sharedLinks: [
         {
           name: participantName?.displayName,
-          url: window.location.protocol + "//" + window.location.host + window.location.pathname,
+          url:
+            window.location.protocol +
+            "//" +
+            window.location.host +
+            window.location.pathname,
         },
       ],
       scenario: {
@@ -81,8 +85,21 @@ const Room = () => {
       onLeaveRoom: () => {
         navigate("/room");
       },
-      onJoinRoom: () => {
-        console.log("Joined room");
+      onJoinRoom: async () => {
+        const user = participantName;
+        try {
+          const response = await axiosSecure.get(`/meeting/${meetingId}`);
+          if (response.status === 200 && response.data) {
+            await axiosSecure.patch(`/meeting/${meetingId}`, {
+              name: user?.displayName,
+              email: user?.email,
+              photoURL: user?.photoURL,
+              role: "participant",
+            });
+          }
+        } catch (error) {
+          console.error("Error joining room:", error);
+        }
       },
       showPreJoinView: true,
       showLeavingView: true,
@@ -103,10 +120,10 @@ const Room = () => {
       recordingEnabled: isHost,
       hostControl: isHost
         ? {
-          muteAll: true,
-          lockRoom: true,
-          endRoom: true,
-        }
+            muteAll: true,
+            lockRoom: true,
+            endRoom: true,
+          }
         : {},
       screenSharingConfig: {
         resolution: ZegoUIKitPrebuilt.ScreenSharingResolution_Auto, // Set the resolution you want
