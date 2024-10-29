@@ -183,7 +183,7 @@ const Room = () => {
         }}
         style={{ width: "100vw", height: "100vh" }}
       />
-      <div onClick={save} className="absolute bottom-5 btn text-black border border-error p-2 z-[1000] "> hi</div>
+      
     </>
   );
 };

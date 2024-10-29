@@ -103,7 +103,7 @@ const Profile = () => {
                 <div className="space-y-1">
                   <div>
                     <label className="block text-white text-sm font-medium mb-2">
-                      Username
+                      Username :
                     </label>
                     {editMode ? (
                       <input
@@ -122,7 +122,7 @@ const Profile = () => {
 
                   <div>
                     <label className="block text-white text-sm font-medium mb-2">
-                      Email
+                      Email :
                     </label>
                     {editMode ? (
                       <input
@@ -141,7 +141,7 @@ const Profile = () => {
                   {editMode ? (
                     <div className="space-y-1">
                       <label className="block text-white text-sm font-medium ">
-                        Profile Photo
+                        Profile Photo :
                       </label>
                       <input
                         type="text"
@@ -163,8 +163,8 @@ const Profile = () => {
                     </div>
                   ) : (
                     <div>
-                      <label className="block text-white/60 text-sm font-medium mb-2">
-                        Last Login
+                      <label className="block text-white text-sm font-medium mb-2">
+                        Last Login :
                       </label>
                       <p className="text-white/90 text-lg">
                         {new Date(user?.metadata.lastSignInTime).toUTCString()}
