@@ -102,7 +102,7 @@ const WorkSpace = () => {
                                 (
                                     <div
                                         onClick={openModal}
-                                        className={`flex-grow md:w-[25%] w-full flex items-center justify-center rounded-lg bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 p-6 transition-all duration-300`}
+                                        className={`flex-grow md:w-[25%] min-h-64 w-full flex items-center justify-center rounded-lg bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 p-6 transition-all duration-300`}
                                     >
                                         <button className="text-xl md:text-2xl lg:text-3xl text-center font-bold">
                                             + Create <br /> a space
