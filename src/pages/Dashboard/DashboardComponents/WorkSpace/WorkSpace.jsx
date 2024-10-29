@@ -1,11 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TaskCard from "./TaskCard/TaskCard"; // Adjust the import path as needed
 import { AiOutlineClose } from "react-icons/ai";
 import Modal from "react-modal";
 import { v4 as uuidv4 } from "uuid";
-import axios from "axios"; // Ensure axios is installed
 import { IoCopy } from "react-icons/io5";
 import toast from "react-hot-toast";
+import useAuth from "../../../../hooks/useAuth";
+import useAxiosSecure from "../../../../hooks/useAxiosSecure";
+import { axiosCommon } from "../../../../hooks/useAxiosCommon";
 
 Modal.setAppElement("#root"); // Set the root element for accessibility
 
@@ -14,8 +16,10 @@ const WorkSpace = () => {
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
     const [workSpaceList, setWorkSpaceList] = useState([]);
-    const [meetingLinkOption, setMeetingLinkOption] = useState("addMeetingLinkLater"); // State to track the option selected
-    const [generatedLink, setGeneratedLink] = useState(""); // State to hold generated meeting link
+    const [meetingLinkOption, setMeetingLinkOption] = useState("addMeetingLinkLater");
+    const [generatedLink, setGeneratedLink] = useState("");
+    const { user } = useAuth();
+    const axiosSecure = useAxiosSecure();
 
     const createSpaceHandler = async (event) => {
         event.preventDefault();
@@ -24,7 +28,7 @@ const WorkSpace = () => {
         const taskLink = `${window.location.origin}/room/${meetingId}`;
         const form = event.target;
         const taskTitle = form.title.value;
-        const inviteEmail = form.inviteEmail.value;
+        const inviteEmail = form.inviteEmail.value.split(/[\s,]+/).map(email => email.trim()).filter(email => email);
         const taskDate = form.meeting?.value || "";
         const taskDescription = form.description.value;
 
@@ -34,18 +38,44 @@ const WorkSpace = () => {
             inviteEmail,
             taskLink: meetingLinkOption === "createWithLink" ? taskLink : "",
             taskDate,
-            taskDescription
+            taskDescription,
+            taskHost: user?.email,
         };
+        console.log(taskData)
 
         try {
-            const response = await axios.post('/workspaces', taskData); // Adjust the URL if necessary
-            setWorkSpaceList([...workSpaceList, response.data]); // Add the new task to the state
+            const response = await axiosSecure.post('/workspaces', taskData);
+            if (response.status !== 201) {
+                console.error("Failed to create workspace:", response.data);
+                // Handle error (e.g., show an error message)
+                return;
+            }
             closeModal();
+            toast.success("Workspace created successfully");
         } catch (error) {
             console.error("Error creating workspace:", error);
             // Handle error (e.g., show an error message)
         }
     };
+
+    useEffect(() => {
+        const fetchWorkSpaceList = async () => {
+            try {
+                const response = await axiosCommon.get(`/workspaces/${user?.email}`);
+                if (response.status !== 200) {
+                    console.error("Failed to fetch workspaces:", response.data);
+                    // Handle error (e.g., show an error message)
+                    return;
+                }
+                setWorkSpaceList(response.data);
+            } catch (error) {
+                console.error("Error fetching workspaces:", error);
+                // Handle error (e.g., show an error message)
+            }
+        };
+        fetchWorkSpaceList();
+    }, [axiosCommon, user]);
+
 
     const handleMeetingLinkOptionChange = (e) => {
         setMeetingLinkOption(e.target.value);
@@ -118,11 +148,11 @@ const WorkSpace = () => {
                             <div className="mb-4">
                                 <label htmlFor="inviteEmail" className="block font-medium text-gray-700">Invite Email</label>
                                 <input
-                                    type="email"
+                                    type="text"
                                     id="inviteEmail"
                                     name="inviteEmail"
                                     className="input-field mt-1 block w-full border outline-none border-gray-700 rounded-md p-2"
-                                    placeholder="Write Invite Email"
+                                    placeholder="Write Invite Email... (Separate with comma)"
                                     required
                                 />
                             </div>
