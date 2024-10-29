@@ -238,8 +238,8 @@ const Dashboard = () => {
         </aside>
       </div>
 
-      <div className="flex w-full justify-center">
-        <div className="w-fit">
+      <div className="flex w-full justify-center relative">
+        <div className="w-fit absolute left-2 top-3 z-50">
           <label
             htmlFor="sidebar-mobile-fixed"
             className="btn btn-outline border-white/20 text-white/90 sm:hidden hover:bg-black/40"
@@ -261,7 +261,7 @@ const Dashboard = () => {
           </label>
         </div>
 
-        <div className="w-full">
+        <div className="w-full pt-5">
           <Outlet />
         </div>
       </div>
