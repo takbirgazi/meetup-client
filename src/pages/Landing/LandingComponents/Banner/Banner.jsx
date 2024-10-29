@@ -18,9 +18,9 @@ const Banner = () => {
 
         <Link
           to="/room"
-          className="inline-block rounded-lg border-1 border-transparent bg-gradient-to-r from-[#ffbfff] to-[#a2deff] p-[2px] mt-2 font-semibold text-black hover:text-white transition-all duration-300"
+          className="inline-block rounded-lg border bg-transparent p-[2px] mt-2 font-semibold text-black transition-all duration-300 hover:bg-gradient-to-r hover:from-pink-500 hover:to-blue-500 hover:text-white"
         >
-          <div className="bg-gray-900 text-white px-6 py-2 rounded-md hover:bg-gradient-to-r hover:from-pink-500 hover:to-blue-500 hover:text-white hover:shadow-lg ">
+          <div className="text-white font-bold px-6 py-2 rounded-md transition-all duration-300 hover:shadow-lg">
             Explore with a meeting
           </div>
         </Link>
@@ -34,5 +34,3 @@ const Banner = () => {
 };
 
 export default Banner;
-
-

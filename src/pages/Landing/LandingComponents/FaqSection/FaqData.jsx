@@ -30,12 +30,7 @@ const FaqData = [
       answer:
         "During a video call, click on the 'Share Screen' button located in the call controls. You can choose to share your entire screen, a specific application window, or a browser tab. This feature is perfect for presentations, collaborations, and sharing content with others.",
     },
-    {
-      question: "Does MeetUp offer recording of video calls?",
-      answer:
-        "Yes, MeetUp provides the option to record your video calls. During the call, click on the 'Record' button to start recording. The recorded video will be saved securely in your account, allowing you to access and share it later.",
-    },
-    
+   
   ];
   
   export default FaqData;
