@@ -82,43 +82,9 @@ const NavBar = () => {
         </div>
         <div className="navbar-center hidden md:flex">{navLinks}</div>
         <div className="navbar-end">
-          {/* Dropdown for mobile */}
-          <div className="dropdown-container md:hidden">
-            <div className="dropdown">
-              <label className="cursor-pointer" tabIndex="0">
-                <RxHamburgerMenu className="text-white" size={25} />
-              </label>
-              <div className="dropdown-menu dropdown-menu-bottom-left">
-                {navLinks}
-                {user ? (
-                  <div className="p-2 flex items-center justify-between gap-4">
-                    <h3>{user?.displayName}</h3>
-                    <div className="avatar">
-                      <img src={user?.photoURL} alt="avatar" />
-                    </div>
-                  </div>
-                ) : (
-                  <div className="p-2 flex items-center mt-2 -mx-2 sm:mt-0 space-x-3">
-                    <Link
-                      to="/login"
-                      className="btn btn-solid-primary font-semibold"
-                    >
-                      Log In
-                    </Link>
-                    <Link
-                      to="/signup"
-                      className="btn btn-outline-primary font-semibold"
-                    >
-                      Sign Up
-                    </Link>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
 
-          {/* Dropdown for desktop */}
-          <div className="hidden md:flex">
+          {/* Dropdown*/}
+          <div className=" md:flex">
             {user ? (
               <>
                 <div className="relative">

@@ -19,8 +19,9 @@ const Faq = () => {
                 </h1>
                 <h1 className="text-4xl md:text-5xl font-semibold">Questions</h1>
                 <p className="pt-12 font-bold text-xl">Don't get Answer?</p>
+                <p className="pt-2 text-[#0095ff] font-medium">Leave us a Message on support chat.</p>
                 <p className="pt-2  text-gray-600 font-medium">We will answer you in less than 2 Hours!!</p>
-                <p className="pt-2 pb-12 text-[#8A4188] font-medium">Leave us a Message on support chat</p>
+                
             </div>
             <div className="w-full lg:w-[50%]">
                 <div className="accordion-group accordion-group-bordered">

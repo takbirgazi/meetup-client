@@ -9,6 +9,7 @@ import { Link, NavLink, Outlet } from "react-router-dom";
 import logo from "../../assets/MeetUpLogo.png";
 import useAuth from "../../hooks/useAuth";
 import background from "./../../assets/background5.jpg";
+import { Helmet } from "react-helmet-async";
 
 const Dashboard = () => {
   const { logOut } = useAuth();
@@ -112,6 +113,9 @@ const Dashboard = () => {
 
   return (
     <div className="flex flex-row sm:gap-10 min-h-screen" style={backgroundStyle}>
+      <Helmet>
+        <title>Dashboard - MeetUp</title>
+      </Helmet>
       <div className="sm:w-full sm:max-w-[18rem]">
         <input type="checkbox" id="sidebar-mobile-fixed" className="sidebar-state" />
         <label htmlFor="sidebar-mobile-fixed" className="sidebar-overlay"></label>
