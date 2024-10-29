@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import TaskCard from "./TaskCard/TaskCard"; // Adjust the import path as needed
+import TaskCard from "./TaskCard/TaskCard"; 
 import { AiOutlineClose } from "react-icons/ai";
 import Modal from "react-modal";
 import { v4 as uuidv4 } from "uuid";
@@ -7,15 +7,14 @@ import { IoCopy } from "react-icons/io5";
 import toast from "react-hot-toast";
 import useAuth from "../../../../hooks/useAuth";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
-import { axiosCommon } from "../../../../hooks/useAxiosCommon";
+import { useQuery } from "@tanstack/react-query";
 
-Modal.setAppElement("#root"); // Set the root element for accessibility
+Modal.setAppElement("#root");
 
 const WorkSpace = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
-    const [workSpaceList, setWorkSpaceList] = useState([]);
     const [meetingLinkOption, setMeetingLinkOption] = useState("addMeetingLinkLater");
     const [generatedLink, setGeneratedLink] = useState("");
     const { user } = useAuth();
@@ -32,7 +31,7 @@ const WorkSpace = () => {
         const taskDate = form.meeting?.value || "";
         const taskDescription = form.description.value;
 
-        // If the user selected "Add meeting link later", use an empty string for taskLink
+
         const taskData = {
             taskTitle,
             inviteEmail,
@@ -41,7 +40,6 @@ const WorkSpace = () => {
             taskDescription,
             taskHost: user?.email,
         };
-        console.log(taskData)
 
         try {
             const response = await axiosSecure.post('/workspaces', taskData);
@@ -52,29 +50,20 @@ const WorkSpace = () => {
             }
             closeModal();
             toast.success("Workspace created successfully");
+            refetch();
         } catch (error) {
             console.error("Error creating workspace:", error);
             // Handle error (e.g., show an error message)
         }
     };
 
-    useEffect(() => {
-        const fetchWorkSpaceList = async () => {
-            try {
-                const response = await axiosCommon.get(`/workspaces/${user?.email}`);
-                if (response.status !== 200) {
-                    console.error("Failed to fetch workspaces:", response.data);
-                    // Handle error (e.g., show an error message)
-                    return;
-                }
-                setWorkSpaceList(response.data);
-            } catch (error) {
-                console.error("Error fetching workspaces:", error);
-                // Handle error (e.g., show an error message)
-            }
-        };
-        fetchWorkSpaceList();
-    }, [axiosCommon, user]);
+    const { data: workSpaceList = [], refetch, isLoading } = useQuery({
+        queryKey: ['workspaces', user?.email],
+        queryFn: async () => {
+            const res = await axiosSecure.get(`/workspaces/${user?.email}`);
+            return res.data;
+        }
+    });
 
 
     const handleMeetingLinkOptionChange = (e) => {
@@ -82,7 +71,7 @@ const WorkSpace = () => {
         if (e.target.value === "createWithLink") {
             const uuid = uuidv4();
             const meetingId = uuid.slice(0, 4) + "-" + uuid.slice(4, 8);
-            setGeneratedLink(`${window.location.origin}/room/${meetingId}`); // Generate the link when selected
+            setGeneratedLink(`${window.location.origin}/room/${meetingId}`);
         } else {
             setGeneratedLink(""); // Clear the link if "Add meeting link later" is selected
         }
@@ -102,14 +91,25 @@ const WorkSpace = () => {
                                 <TaskCard tasksData={task} />
                             </div>
                         ))}
-                        <div
-                            onClick={openModal}
-                            className={`flex-grow md:w-[25%] w-full flex items-center justify-center rounded-lg bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 p-6 transition-all duration-300`}
-                        >
-                            <button className="text-xl md:text-2xl lg:text-3xl text-center font-bold">
-                                + Create <br /> a space
-                            </button>
-                        </div>
+                        {
+                            isLoading ?
+                                (
+                                    <div className="flex-grow md:w-[23%] w-full flex items-center justify-center rounded-lg bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 p-6 transition-all duration-300">
+                                        <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-white"></div>
+                                    </div>
+                                )
+                                :
+                                (
+                                    <div
+                                        onClick={openModal}
+                                        className={`flex-grow md:w-[25%] w-full flex items-center justify-center rounded-lg bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 p-6 transition-all duration-300`}
+                                    >
+                                        <button className="text-xl md:text-2xl lg:text-3xl text-center font-bold">
+                                            + Create <br /> a space
+                                        </button>
+                                    </div>
+                                )
+                        }
                     </div>
                 </div>
                 <div className="w-11/12 my-8 p-5 rounded-2xl flex flex-col gap-5 items-center backdrop-blur-lg bg-white/10 border border-white/20 shadow-lg">
@@ -239,7 +239,7 @@ const WorkSpace = () => {
                     </div>
                 </Modal>
             </div>
-        </div>
+        </div >
     );
 };
 
