@@ -133,20 +133,10 @@ const WorkSpace = () => {
                 <div className="w-11/12 sm:w-full my-8 p-4 rounded-2xl flex flex-col gap-5 items-center backdrop-blur-lg bg-white/10 border border-white/20 shadow-lg">
                     <h3 className="text-xl font-semibold text-center w-full">Tasks</h3>
                     <div className="flex flex-wrap gap-4 w-full">
-                        {workSpaceList.map((task) => (
-                            <div className="flex-grow md:w-[23%] w-full" key={task._id}>
-                                <TaskCard
-                                    tasksData={task}
-                                    onDelete={() => deleteTask(task._id)}
-                                    onEdit={() => editTask(task)}
-                                    onComplete={() => completeTask(task._id)}
-                                />
-                            </div>
-                        ))}
                         {
                             isLoading ?
                                 (
-                                    <div className="flex-grow md:w-[23%] w-full flex items-center justify-center rounded-lg bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 p-6 transition-all duration-300">
+                                    <div className="flex-grow md:w-[23%] min-h-56 w-full flex items-center justify-center rounded-lg bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 p-6 transition-all duration-300">
                                         <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-white"></div>
                                     </div>
                                 )
@@ -164,9 +154,15 @@ const WorkSpace = () => {
                         }
                         {workSpaceList.map((task) => (
                             <div className="flex-grow md:w-[23%] w-full" key={task._id}>
-                                <TaskCard tasksData={task} />
+                                <TaskCard
+                                    tasksData={task}
+                                    onDelete={() => deleteTask(task._id)}
+                                    onEdit={() => editTask(task)}
+                                    onComplete={() => completeTask(task._id)}
+                                />
                             </div>
                         ))}
+
 
                     </div>
                 </div>
