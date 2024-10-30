@@ -13,13 +13,21 @@ Modal.setAppElement("#root");
 
 const WorkSpace = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const openModal = () => setIsModalOpen(true);
-    const closeModal = () => setIsModalOpen(false);
+    const [isEditMode, setIsEditMode] = useState(false); // State for tracking edit mode
+    const [editingTask, setEditingTask] = useState(null); // State for holding the task being edited
     const [meetingLinkOption, setMeetingLinkOption] = useState("addMeetingLinkLater");
     const [generatedLink, setGeneratedLink] = useState("");
     const { user } = useAuth();
     const axiosSecure = useAxiosSecure();
 
+
+    const openModal = () => setIsModalOpen(true);
+    const closeModal = () => {
+        setIsModalOpen(false);
+        setIsEditMode(false);
+        setEditingTask(null);
+    };
+    console.log(editingTask)
     const createSpaceHandler = async (event) => {
         event.preventDefault();
         const uuid = uuidv4();
@@ -42,18 +50,19 @@ const WorkSpace = () => {
         };
 
         try {
-            const response = await axiosSecure.post('/workspaces', taskData);
-            if (response.status !== 201) {
-                console.error("Failed to create workspace:", response.data);
-                // Handle error (e.g., show an error message)
-                return;
+            if (isEditMode && editingTask) {
+                // Updating an existing task
+                await axiosSecure.put(`/workspaces/${editingTask._id}`, taskData);
+                toast.success("Workspace updated successfully");
+            } else {
+                // Creating a new task
+                await axiosSecure.post('/workspaces', taskData);
+                toast.success("Workspace created successfully");
             }
             closeModal();
-            toast.success("Workspace created successfully");
             refetch();
         } catch (error) {
-            console.error("Error creating workspace:", error);
-            // Handle error (e.g., show an error message)
+            console.error("Error creating or updating workspace:", error);
         }
     };
 
@@ -64,6 +73,36 @@ const WorkSpace = () => {
             return res.data;
         }
     });
+
+
+    // Delete a workspace
+    const deleteTask = async (taskId) => {
+        try {
+            await axiosSecure.delete(`/workspaces/${taskId}`);
+            toast.success("Task deleted successfully");
+            refetch(); // Refresh the workspace list
+        } catch (error) {
+            console.error("Error deleting task:", error);
+        }
+    };
+
+    // Function to enter edit mode
+    const editTask = (task) => {
+        setIsEditMode(true);
+        setEditingTask(task);
+        setIsModalOpen(true);
+    };
+
+    // Mark task as complete (add additional logic if needed)
+    const completeTask = async (taskId) => {
+        try {
+            await axiosSecure.patch(`/workspaces/${taskId}`, { status: "completed" });
+            toast.success("Task marked as completed");
+            refetch();
+        } catch (error) {
+            console.error("Error completing task:", error);
+        }
+    };
 
 
     const handleMeetingLinkOptionChange = (e) => {
@@ -77,6 +116,14 @@ const WorkSpace = () => {
         }
     };
 
+    // Hiding the button during loading
+    useEffect(() => {
+        const chatButton = document.getElementById("tidio-chat");
+        if (chatButton) {
+            chatButton.style.display = "none";
+        }
+    }, [isLoading]);
+
     return (
         <div className="text-white flex flex-col items-center relative min-h-screen w-full p-6">
             <div className="w-full flex gap-5 flex-col py-5">
@@ -86,6 +133,16 @@ const WorkSpace = () => {
                 <div className="w-11/12 sm:w-full my-8 p-4 rounded-2xl flex flex-col gap-5 items-center backdrop-blur-lg bg-white/10 border border-white/20 shadow-lg">
                     <h3 className="text-xl font-semibold text-center w-full">Tasks</h3>
                     <div className="flex flex-wrap gap-4 w-full">
+                        {workSpaceList.map((task) => (
+                            <div className="flex-grow md:w-[23%] w-full" key={task._id}>
+                                <TaskCard
+                                    tasksData={task}
+                                    onDelete={() => deleteTask(task._id)}
+                                    onEdit={() => editTask(task)}
+                                    onComplete={() => completeTask(task._id)}
+                                />
+                            </div>
+                        ))}
                         {
                             isLoading ?
                                 (
@@ -133,7 +190,7 @@ const WorkSpace = () => {
                             className="absolute top-4 right-4 text-gray-600 cursor-pointer hover:text-gray-900"
                             size={24}
                         />
-                        <h2 className="text-2xl font-semibold text-gray-900 mb-4">Create a Space</h2>
+                        <h2 className="text-2xl font-semibold text-gray-900 mb-4">{isEditMode ? "Edit" : "Create"} a Space</h2>
                         <form onSubmit={createSpaceHandler}>
                             <div className="mb-4">
                                 <label htmlFor="title" className="block font-medium text-gray-700">Title</label>
@@ -141,9 +198,11 @@ const WorkSpace = () => {
                                     type="text"
                                     id="title"
                                     name="title"
+                                    defaultValue={editingTask?.taskTitle || ""}
                                     className="input-field mt-1 block w-full border outline-none border-gray-700 rounded-md p-2"
                                     placeholder="Write Your Title"
                                     required
+                                    readOnly={isEditMode && !editingTask?.joinLink} // Make input read-only if no join link
                                 />
                             </div>
                             <div className="mb-4">
@@ -152,9 +211,11 @@ const WorkSpace = () => {
                                     type="text"
                                     id="inviteEmail"
                                     name="inviteEmail"
+                                    defaultValue={editingTask?.inviteEmail?.join(", ") || ""}
                                     className="input-field mt-1 block w-full border outline-none border-gray-700 rounded-md p-2"
-                                    placeholder="Write Invite Email... (Separate with comma)"
+                                    placeholder="Invite Email(s), comma-separated"
                                     required
+                                    readOnly={isEditMode && !editingTask?.joinLink} // Make input read-only if no join link
                                 />
                             </div>
                             <div className="mb-4">
@@ -162,42 +223,76 @@ const WorkSpace = () => {
                                 <textarea
                                     id="description"
                                     name="description"
+                                    defaultValue={editingTask?.taskDescription || ""}
                                     className="input-field mt-1 block w-full border outline-none border-gray-700 rounded-md p-2"
                                     rows="4"
-                                    placeholder="Write Here..."
+                                    placeholder="Write Description..."
                                     required
+                                    readOnly={isEditMode && !editingTask?.joinLink} // Make input read-only if no join link
                                 />
                             </div>
-                            <div className="mb-4">
-                                <label className="block font-medium text-gray-700">Choose Meeting Option:</label>
-                                <div className="flex items-center">
-                                    <input
-                                        type="radio"
-                                        id="createWithLink"
-                                        name="meetingOption"
-                                        value="createWithLink"
-                                        checked={meetingLinkOption === "createWithLink"}
-                                        onChange={handleMeetingLinkOptionChange}
-                                        className="mr-2"
-                                        required
-                                    />
-                                    <label htmlFor="createWithLink" className="mr-4">Create space with meeting link</label>
 
-                                    <input
-                                        type="radio"
-                                        id="addMeetingLinkLater"
-                                        name="meetingOption"
-                                        value="addMeetingLinkLater"
-                                        checked={meetingLinkOption === "addMeetingLinkLater"}
-                                        onChange={handleMeetingLinkOptionChange}
-                                        className="mr-2"
-                                    />
-                                    <label htmlFor="addMeetingLinkLater">Add meeting link later</label>
+                            {!isEditMode && ( // Show radio buttons only when not in edit mode
+                                <div className="mb-4">
+                                    <label className="block font-medium text-gray-700">Meeting Link Option:</label>
+                                    <div className="flex items-center">
+                                        <input
+                                            type="radio"
+                                            id="createWithLink"
+                                            name="meetingOption"
+                                            value="createWithLink"
+                                            checked={meetingLinkOption === "createWithLink"}
+                                            onChange={handleMeetingLinkOptionChange}
+                                            className="mr-2"
+                                            required
+                                        />
+                                        <label htmlFor="createWithLink" className="mr-4">Create with Meeting Link</label>
+
+                                        <input
+                                            type="radio"
+                                            id="addMeetingLinkLater"
+                                            name="meetingOption"
+                                            value="addMeetingLinkLater"
+                                            checked={meetingLinkOption === "addMeetingLinkLater"}
+                                            onChange={handleMeetingLinkOptionChange}
+                                            className="mr-2"
+                                        />
+                                        <label htmlFor="addMeetingLinkLater">Add Link Later</label>
+                                    </div>
                                 </div>
-                            </div>
+                            )}
 
-                            {/* Display the generated link if the user chooses to create with a link */}
-                            {meetingLinkOption === "createWithLink" && (
+                            {isEditMode && !editingTask?.taskLink && ( // In edit mode, if there's no join link, show the same as create space
+                                <div className="mb-4">
+                                    <label className="block font-medium text-gray-700">Meeting Link Option:</label>
+                                    <div className="flex items-center">
+                                        <input
+                                            type="radio"
+                                            id="createWithLink"
+                                            name="meetingOption"
+                                            value="createWithLink"
+                                            checked={meetingLinkOption === "createWithLink"}
+                                            onChange={handleMeetingLinkOptionChange}
+                                            className="mr-2"
+                                            required
+                                        />
+                                        <label htmlFor="createWithLink" className="mr-4">Create with Meeting Link</label>
+
+                                        <input
+                                            type="radio"
+                                            id="addMeetingLinkLater"
+                                            name="meetingOption"
+                                            value="addMeetingLinkLater"
+                                            checked={meetingLinkOption === "addMeetingLinkLater"}
+                                            onChange={handleMeetingLinkOptionChange}
+                                            className="mr-2"
+                                        />
+                                        <label htmlFor="addMeetingLinkLater">Add Link Later</label>
+                                    </div>
+                                </div>
+                            )}
+
+                            {meetingLinkOption === "createWithLink" && ( // Show this section only in create mode
                                 <div className="mb-4">
                                     <label htmlFor="generatedLink" className="block font-medium text-gray-700">Generated Meeting Link:</label>
                                     <div className="flex items-center relative">
@@ -211,32 +306,51 @@ const WorkSpace = () => {
                                         <button
                                             type="button"
                                             onClick={() => {
-                                                navigator.clipboard.writeText(generatedLink)
+                                                navigator.clipboard.writeText(generatedLink);
                                                 toast.success("Link copied to clipboard");
                                             }}
-                                            className=" absolute right-2 ml-2 py-2 px-3 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 transition"
+                                            className="absolute right-2 ml-2 py-2 px-3 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 transition"
                                         >
-                                            <IoCopy></IoCopy>
+                                            <IoCopy />
                                         </button>
                                     </div>
                                     <div className="mb-4">
-                                        <label htmlFor="meeting" className="block font-medium text-gray-700">Schedule a meeting</label>
+                                        <label htmlFor="meeting" className="block font-medium text-gray-700">Schedule Meeting</label>
                                         <input
                                             id="meeting"
                                             type="datetime-local"
                                             name="meeting"
+                                            defaultValue={editingTask?.taskDate || ""}
                                             className="input-field mt-1 block w-full border outline-none border-gray-700 rounded-md p-2"
                                         />
                                     </div>
                                 </div>
                             )}
+
+
+                            {isEditMode && editingTask?.taskLink && ( // Show join link field in edit mode
+                                <div className="mb-4">
+                                    <label htmlFor="joinLink" className="block font-medium text-gray-700">Join Link:</label>
+                                    <input
+                                        type="text"
+                                        id="joinLink"
+                                        value={editingTask.taskLink}
+                                        onChange={(e) => setEditingTask({ ...editingTask, taskLink: e.target.value })}
+                                        className="input-solid-primary mt-1 block w-full outline-none rounded-md p-2"
+                                        readOnly
+                                    />
+                                </div>
+                            )}
+
                             <button
                                 type="submit"
                                 className="mt-4 py-2 px-4 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 transition"
                             >
-                                Create Space
+                                {isEditMode ? "Save Changes" : "Create Space"}
                             </button>
                         </form>
+
+
                     </div>
                 </Modal>
             </div>
