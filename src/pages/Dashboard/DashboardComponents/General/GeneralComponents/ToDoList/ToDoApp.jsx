@@ -1,3 +1,4 @@
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   Calendar,
   Check,
@@ -8,7 +9,7 @@ import {
   Save,
   Trash2,
 } from "lucide-react";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   Cell,
   Line,
@@ -24,14 +25,81 @@ import useAuth from "../../../../../../hooks/useAuth";
 import useAxiosCommon from "../../../../../../hooks/useAxiosCommon";
 
 const TodoApp = () => {
-  const [tasks, setTasks] = useState([]);
   const [newTask, setNewTask] = useState("");
   const [editIndex, setEditIndex] = useState(null);
   const [editTaskText, setEditTaskText] = useState("");
   const [activeTab, setActiveTab] = useState("all");
-  const [animate, setAnimate] = useState(false);
+
   const axiosCommon = useAxiosCommon();
   const { user } = useAuth();
+  const queryClient = useQueryClient();
+
+  // Query for fetching tasks
+  const {
+    data: tasks = [],
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ["tasks"],
+    queryFn: async () => {
+      const response = await axiosCommon.get("/tasks");
+      return response.data;
+    },
+    refetchInterval: 30000, // Refetch every 30 seconds for real-time updates
+  });
+
+  // Mutations
+  const addTaskMutation = useMutation({
+    mutationFn: async (newTaskText) => {
+      const response = await axiosCommon.post("/create-task", {
+        text: newTaskText,
+        completed: false,
+        email: user?.email,
+      });
+      return response.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries(["tasks"]);
+      setNewTask("");
+    },
+  });
+
+  const toggleTaskMutation = useMutation({
+    mutationFn: async ({ taskId, task }) => {
+      const response = await axiosCommon.patch(`/tasks/${taskId}`, {
+        text: task.text,
+        completed: !task.completed,
+      });
+      return response.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries(["tasks"]);
+    },
+  });
+
+  const deleteTaskMutation = useMutation({
+    mutationFn: async (taskId) => {
+      await axiosCommon.delete(`/tasks/${taskId}`);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries(["tasks"]);
+    },
+  });
+
+  const editTaskMutation = useMutation({
+    mutationFn: async ({ taskId, task, newText }) => {
+      const response = await axiosCommon.patch(`/tasks/${taskId}`, {
+        text: newText,
+        completed: task.completed,
+      });
+      return response.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries(["tasks"]);
+      setEditIndex(null);
+    },
+  });
+
   // Analytics calculations
   const totalTasks = tasks.length;
   const completedTasks = tasks.filter((t) => t.completed).length;
@@ -55,31 +123,10 @@ const TodoApp = () => {
     };
   }).reverse();
 
-  // Fetch tasks from the backend
-  useEffect(() => {
-    const fetchTasks = async () => {
-      const response = await axiosCommon.get("/tasks");
-      setTasks(response.data);
-    };
-    fetchTasks();
-  }, []);
-
-  const handleAddTask = async () => {
+  // Event Handlers
+  const handleAddTask = () => {
     if (newTask.trim()) {
-      setAnimate(true);
-      try {
-        const response = await axiosCommon.post("/create-task", {
-          text: newTask,
-          completed: false,
-          email: user.email,
-          createdAt: new Date().toISOString(),
-        });
-        setTasks([...tasks, response.data]);
-        setNewTask("");
-      } catch (error) {
-        console.error("Error adding task:", error);
-      }
-      setTimeout(() => setAnimate(false), 500);
+      addTaskMutation.mutate(newTask);
     }
   };
 
@@ -89,30 +136,14 @@ const TodoApp = () => {
     }
   };
 
-  const toggleTaskCompletion = async (taskId) => {
-    const task = tasks.find((t) => t.id === taskId);
-    try {
-      await axiosCommon.patch(`/tasks/${task.id}`, {
-        ...task,
-        completed: !task.completed,
-      });
-      setTasks(
-        tasks.map((t) =>
-          t.id === taskId ? { ...t, completed: !t.completed } : t
-        )
-      );
-    } catch (error) {
-      console.error("Error toggling task completion:", error);
-    }
+  const toggleTaskCompletion = (taskId) => {
+    const task = tasks.find((t) => t._id === taskId);
+    if (!task) return;
+    toggleTaskMutation.mutate({ taskId, task });
   };
 
-  const deleteTask = async (taskId) => {
-    try {
-      await axiosCommon.delete(`/tasks/${taskId}`);
-      setTasks(tasks.filter((task) => task.id !== taskId));
-    } catch (error) {
-      console.error("Error deleting task:", error);
-    }
+  const deleteTask = (taskId) => {
+    deleteTaskMutation.mutate(taskId);
   };
 
   const handleEditTask = (index, task) => {
@@ -120,20 +151,9 @@ const TodoApp = () => {
     setEditTaskText(task.text);
   };
 
-  const saveEditTask = async (taskId) => {
-    try {
-      await axiosCommon.patch(`/tasks/${taskId}`, {
-        text: editTaskText,
-      });
-      setTasks(
-        tasks.map((task) =>
-          task.id === taskId ? { ...task, text: editTaskText } : task
-        )
-      );
-      setEditIndex(null);
-    } catch (error) {
-      console.error("Error saving edited task:", error);
-    }
+  const saveEditTask = (taskId) => {
+    const task = tasks.find((t) => t._id === taskId);
+    editTaskMutation.mutate({ taskId, task, newText: editTaskText });
   };
 
   const filteredTasks = tasks.filter((task) => {
@@ -141,29 +161,35 @@ const TodoApp = () => {
     if (activeTab === "pending") return !task.completed;
     return true;
   });
+
   const CustomTooltip = ({ active, payload }) => {
     if (active && payload && payload.length) {
       return (
-        <div
-          style={{
-            background: "rgba(0, 0, 0, 0.8)",
-            border: "1px solid rgba(255, 255, 255, 0.2)",
-            borderRadius: "8px",
-            padding: "8px",
-            color: "white", // Set text color to white
-          }}
-        >
+        <div className="bg-black/80 border border-white/20 rounded-lg p-2 text-white">
           <p>{`${payload[0].name} : ${payload[0].value}`}</p>
         </div>
       );
     }
-
     return null;
   };
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-white">Loading tasks...</div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-transparent text-white">
       <div className="max-w-7xl mx-auto p-6 space-y-6">
+        {error && (
+          <div className="bg-red-500/20 border border-red-500/50 text-white p-4 rounded-lg mb-4">
+            {error.message}
+          </div>
+        )}
+
         {/* Header */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* Stats Cards */}
@@ -214,13 +240,7 @@ const TodoApp = () => {
                 <LineChart data={dailyProgress}>
                   <XAxis dataKey="date" stroke="#94a3b8" fontSize={12} />
                   <YAxis stroke="#94a3b8" fontSize={12} />
-                  <Tooltip
-                    contentStyle={{
-                      background: "rgba(0, 0, 0, 0.8)",
-                      border: "1px solid rgba(255, 255, 255, 0.2)",
-                      borderRadius: "8px",
-                    }}
-                  />
+                  <Tooltip content={<CustomTooltip />} />
                   <Line
                     type="monotone"
                     dataKey="total"
@@ -255,8 +275,7 @@ const TodoApp = () => {
                       <Cell key={`cell-${index}`} fill={entry.color} />
                     ))}
                   </Pie>
-                  <Tooltip content={<CustomTooltip />} />{" "}
-                  {/* Use custom tooltip */}
+                  <Tooltip content={<CustomTooltip />} />
                 </RePieChart>
               </ResponsiveContainer>
             </div>
@@ -278,9 +297,11 @@ const TodoApp = () => {
               />
               <button
                 onClick={handleAddTask}
-                className="bg-purple-600/80 hover:bg-purple-700/80 text-white px-6 rounded-lg flex items-center gap-2 transition-all duration-300 hover:scale-105"
+                disabled={addTaskMutation.isPending}
+                className="bg-purple-600/80 hover:bg-purple-700/80 text-white px-6 rounded-lg flex items-center gap-2 transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                <Plus size={18} /> Add
+                <Plus size={18} />{" "}
+                {addTaskMutation.isPending ? "Adding..." : "Add"}
               </button>
             </div>
           </div>
@@ -306,10 +327,8 @@ const TodoApp = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {filteredTasks.map((task, index) => (
               <div
-                key={task.id}
-                className={`group transform transition-all duration-300 hover:scale-102 ${
-                  animate ? "animate-slide-in" : ""
-                }`}
+                key={task._id}
+                className="group transform transition-all duration-300 hover:scale-105"
               >
                 <div
                   className={`backdrop-blur-xl rounded-lg border-t-4 shadow-lg 
@@ -322,7 +341,8 @@ const TodoApp = () => {
                   <div className="p-4">
                     <div className="flex items-start gap-4 mb-3">
                       <button
-                        onClick={() => toggleTaskCompletion(task.id)}
+                        onClick={() => toggleTaskCompletion(task._id)}
+                        disabled={toggleTaskMutation.isPending}
                         className={`mt-1 w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all duration-300 ${
                           task.completed
                             ? "bg-green-500/80 border-green-400"
@@ -340,7 +360,7 @@ const TodoApp = () => {
                             value={editTaskText}
                             onChange={(e) => setEditTaskText(e.target.value)}
                             onKeyPress={(e) =>
-                              e.key === "Enter" && saveEditTask(task.id)
+                              e.key === "Enter" && saveEditTask(task._id)
                             }
                           />
                         ) : (
@@ -368,8 +388,9 @@ const TodoApp = () => {
                     <div className="flex justify-end gap-2 pt-2 border-t border-white/10">
                       {editIndex === index ? (
                         <button
-                          onClick={() => saveEditTask(task.id)}
-                          className="p-2 text-blue-400 hover:text-blue-300 transition-all duration-300 hover:scale-110"
+                          onClick={() => saveEditTask(task._id)}
+                          disabled={editTaskMutation.isPending}
+                          className="p-2 text-blue-400 hover:text-blue-300 transition-all duration-300 hover:scale-110 disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                           <Save size={16} />
                         </button>
@@ -382,8 +403,9 @@ const TodoApp = () => {
                         </button>
                       )}
                       <button
-                        onClick={() => deleteTask(task.id)}
-                        className="p-2 text-gray-400 hover:text-red-400 transition-all duration-300 hover:scale-110"
+                        onClick={() => deleteTask(task._id)}
+                        disabled={deleteTaskMutation.isPending}
+                        className="p-2 text-gray-400 hover:text-red-400 transition-all duration-300 hover:scale-110 disabled:opacity-50 disabled:cursor-not-allowed"
                       >
                         <Trash2 size={16} />
                       </button>
@@ -399,25 +421,14 @@ const TodoApp = () => {
             <div className="text-center py-12">
               <p className="text-white">No tasks found</p>
               <p className="text-gray-400 text-sm mt-1">
-                Start by adding a new task above
+                {activeTab === "all"
+                  ? "Start by adding a new task above"
+                  : `No ${activeTab} tasks found`}
               </p>
             </div>
           )}
         </div>
       </div>
-
-      <style jsx>{`
-        @keyframes slideIn {
-          from {
-            opacity: 0;
-            transform: translateY(20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-      `}</style>
     </div>
   );
 };
