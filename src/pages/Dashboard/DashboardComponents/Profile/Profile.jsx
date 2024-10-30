@@ -109,7 +109,7 @@ const Profile = () => {
                       <input
                         type="text"
                         name="userName"
-                        defaultValue={user?.displayName}
+                        defaultValue={formData.userName || user?.displayName}
                         onChange={handleChange}
                         className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-purple-500/40 focus:border-transparent transition-all duration-300"
                       />
