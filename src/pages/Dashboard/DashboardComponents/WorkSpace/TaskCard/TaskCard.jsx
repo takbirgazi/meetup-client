@@ -14,6 +14,7 @@ const TaskCard = ({ tasksData, onDelete, onEdit, onComplete }) => {
                     <div className={`${hoverEffect ? "hidden" : ""} flex flex-col justify-around gap-3 px-3  w-full h-full`}>
                         <div className="flex flex-col gap-5">
                             <h2 className="text-xl font-bold text-gray-100 capitalize">{(taskTitle?.length > 50 ? taskTitle?.slice(0, 50) + "..." : taskTitle)} <br /><span className="text-sm">with : {inviteEmail?.length} Person at {taskDate}</span></h2>
+
                             <p>{(taskDescription?.length > 100 ? taskDescription?.slice(0, 100) + "..." : taskDescription)}</p>
                         </div>
                     </div>
