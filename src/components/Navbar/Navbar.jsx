@@ -30,62 +30,64 @@ const Navbar = () => {
   };
 
   return (
-    <div className="navbar bg-transparent h-[65px] py-2 shadow-lg shadow-[#0d0427] mx-auto z-50">
-      <div className="navbar-start">
-        <Link to="/" className="navbar-item font-bold text-white text-xl">
-          <img src={logo} className="h-10 w-auto" alt="MeetUp Logo" />
-        </Link>
-      </div>
-
-      <div className="navbar-end flex items-center">
-        {/* Current Time */}
-        <div className="text-white font-semibold hidden md:block text-[18px] mr-2">
-          {moment().format("h:mm A - ")}
-          {moment().format("ll")}
+    <div className="w-full shadow-lg shadow-[#0d0427]">
+      <div className="navbar bg-transparent h-[65px] py-2 container mx-auto z-50">
+        <div className="navbar-start">
+          <Link to="/" className="navbar-item font-bold text-white text-xl">
+            <img src={logo} className="h-10 w-auto" alt="MeetUp Logo" />
+          </Link>
         </div>
 
-        {user ? (
-          <div className="relative">
-            {/* Avatar */}
-            <div
-              className="avatar cursor-pointer"
-              onClick={toggleDropdown} // Toggle dropdown on click
-            >
-              <img
-                src={user?.photoURL || avatar} // Fallback to default avatar
-                alt="avatar"
-                className="h-10 w-10 rounded-full"
-              />
-            </div>
-
-            {/* Dropdown Menu */}
-            {dropdownOpen && (
-              <div className="absolute right-0 mt-2 py-2 w-40 bg-white shadow-xl rounded-lg z-20">
-              <Link to={"/dashboard"}>
-                <p className="dropdown-item text-sm flex-row items-center gap-2">
-                  {" "}
-                  {/* <IoMdPerson /> {user?.displayName} */}{" "}
-                  <MdDashboard /> Dashboard
-                </p>
-              </Link>
-              <div
-                onClick={handleLogout}
-                tabIndex="-1"
-                className="dropdown-item text-sm flex-row items-center gap-2"
-              >
-                <MdLogout /> Logout
-              </div>
-            </div>
-            )}
+        <div className="navbar-end flex items-center">
+          {/* Current Time */}
+          <div className="text-white font-semibold hidden md:block text-[18px] mr-2">
+            {moment().format("h:mm A - ")}
+            {moment().format("ll")}
           </div>
-        ) : (
-          <Link
-            to={"/logIn"}
-            className="text-black bg-white rounded-xl px-4 py-2 font-bold"
-          >
-            Login
-          </Link>
-        )}
+
+          {user ? (
+            <div className="relative">
+              {/* Avatar */}
+              <div
+                className="avatar cursor-pointer"
+                onClick={toggleDropdown} // Toggle dropdown on click
+              >
+                <img
+                  src={user?.photoURL || avatar} // Fallback to default avatar
+                  alt="avatar"
+                  className="h-10 w-10 rounded-full"
+                />
+              </div>
+
+              {/* Dropdown Menu */}
+              {dropdownOpen && (
+                <div className="absolute right-0 mt-2 py-2 w-40 bg-white shadow-xl rounded-lg z-20">
+                  <Link to={"/dashboard"}>
+                    <p className="dropdown-item text-sm flex-row items-center gap-2">
+                      {" "}
+                      {/* <IoMdPerson /> {user?.displayName} */}{" "}
+                      <MdDashboard /> Dashboard
+                    </p>
+                  </Link>
+                  <div
+                    onClick={handleLogout}
+                    tabIndex="-1"
+                    className="dropdown-item text-sm flex-row items-center gap-2"
+                  >
+                    <MdLogout /> Logout
+                  </div>
+                </div>
+              )}
+            </div>
+          ) : (
+            <Link
+              to={"/logIn"}
+              className="text-black bg-white rounded-xl px-4 py-2 font-bold"
+            >
+              Login
+            </Link>
+          )}
+        </div>
       </div>
     </div>
   );

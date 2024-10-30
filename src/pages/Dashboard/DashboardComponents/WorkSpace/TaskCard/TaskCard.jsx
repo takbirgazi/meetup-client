@@ -11,7 +11,7 @@ const TaskCard = ({ tasksData, onDelete, onEdit, onComplete }) => {
         <>
             <div onMouseEnter={() => setHoverEffect(true)} onMouseLeave={() => setHoverEffect(false)} className="md:h-56 w-full flex items-center justify-start flex-col rounded-lg bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 transition duration-500 ease-in-out overflow-hidden">
                 <div className={`w-full h-full p-3 transition duration-500 ease-in-out hover:bg-black/75`}>
-                    <div className={`${hoverEffect ? "hidden" : ""} flex flex-col justify-around gap-3 px-3  w-full h-full`}>
+                    <div className={`${hoverEffect ? "hidden" : ""} flex flex-col justify-around gap-3 px-3  w-full h-full overflow-hidden`}>
                         <div className="flex flex-col gap-5">
                             <h2 className="text-xl font-bold text-gray-100 capitalize">{(taskTitle?.length > 50 ? taskTitle?.slice(0, 50) + "..." : taskTitle)} <br /><span className="text-sm">with : {/*inviteEmail */} Person at {taskDate}</span></h2>
                             <p>{(taskDescription?.length > 100 ? taskDescription?.slice(0, 100) + "..." : taskDescription)}</p>

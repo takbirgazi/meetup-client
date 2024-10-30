@@ -319,7 +319,7 @@ const Home = () => {
       }}
     >
       <Helmet>
-        <title>Home - MeetUp</title>
+        <title>Room - MeetUp</title>
       </Helmet>
 
       {/* Black overlay with opacity */}
