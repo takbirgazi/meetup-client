@@ -153,12 +153,12 @@ const Meetings = () => {
                     </div>
                   </span>
                 </div>
-                <div className="flex items-center avatar-group">
+                <div className="flex items-center avatar-group lg:overflow-visible overflow-x-auto p-2">
                   {meeting.participants
                     .filter(
                       (participant) => participant.email !== meeting.hostEmail
                     ) // Exclude host
-                    .slice(0, 5)
+                    .slice(0, 4)
                     .map((participant, index) => (
                       <span
                         key={index}
@@ -178,17 +178,18 @@ const Meetings = () => {
                     ))}
                   {meeting.participants.filter(
                     (participant) => participant.email !== meeting.hostEmail
-                  ).length > 5 && (
-                    <div className="avatar">
-                      <div className="w-6 h-6 bg-gray-600 rounded-full text-white flex items-center justify-center">
-                        +
-                        {meeting.participants.filter(
-                          (participant) =>
-                            participant.email !== meeting.hostEmail
-                        ).length - 5}
+                  ).length > 4 && (
+                      <div className="avatar flex items-center justify-center h-6 w-6 px-2">
+                        <div className="bg-transparent rounded-full text-black w-full h-full text-center flex items-center justify-center ">
+                          <h2 className="font-bold text-center">+
+                            {meeting.participants.filter(
+                              (participant) =>
+                                participant.email !== meeting.hostEmail
+                            ).length - 4}
+                          </h2>
+                        </div>
                       </div>
-                    </div>
-                  )}
+                    )}
                 </div>
               </div>
             ))
@@ -208,11 +209,10 @@ const Meetings = () => {
                 <button
                   key={tab}
                   onClick={() => setActiveTab(tab)}
-                  className={`px-6 py-2.5 rounded-lg transition-all duration-300 backdrop-blur-md ${
-                    activeTab === tab
-                      ? "bg-gradient-to-r from-pink-500 to-blue-500 text-white shadow-lg shadow-blue-500/20"
-                      : "bg-black/40 text-white/90 hover:bg-white/10 border border-white/10"
-                  }`}
+                  className={`px-6 py-2.5 rounded-lg transition-all duration-300 backdrop-blur-md ${activeTab === tab
+                    ? "bg-gradient-to-r from-pink-500 to-blue-500 text-white shadow-lg shadow-blue-500/20"
+                    : "bg-black/40 text-white/90 hover:bg-white/10 border border-white/10"
+                    }`}
                 >
                   <span className="whitespace-nowrap text-sm font-medium">
                     {tab.charAt(0).toUpperCase() + tab.slice(1)} Meetings

@@ -74,68 +74,70 @@ const NavBar = () => {
 
   return (
     <div className="">
-      <div className={`navbar px-4 ${scrolled ? "bg-[#0d0428]" : "bg-transparent"} shadow-lg shadow-[#0d0427] navbar-sticky m-0 mx-auto backdrop-blur-2xl flex items-center`}>
-        <div className="navbar-start">
-          <a href="#">
-            <img className="w-auto h-10" src={logo} alt="" />
-          </a>
-        </div>
-        <div className="navbar-center hidden md:flex">{navLinks}</div>
-        <div className="navbar-end">
+      <div className={`navbar px-4 ${scrolled ? "bg-[#0d0428]" : "bg-transparent"} shadow-lg shadow-[#0d0427] navbar-sticky mx-auto backdrop-blur-2xl flex items-center justify-center`}>
+        <div className="container mx-auto flex items-center">
+          <div className="navbar-start">
+            <a href="#">
+              <img className="w-auto h-10" src={logo} alt="" />
+            </a>
+          </div>
+          <div className="navbar-center hidden md:flex">{navLinks}</div>
+          <div className="navbar-end">
 
-          {/* Dropdown*/}
-          <div className=" md:flex">
-            {user ? (
-              <>
-                <div className="relative">
-                  <div
-                    className="avatar cursor-pointer"
-                    onClick={toggleDropdown}
-                  >
-                    <img src={user?.photoURL} alt="avatar" />
-                  </div>
-                  {isDropdownOpen && (
-                    <div className="absolute right-0 mt-2 py-2 w-40 bg-white shadow-xl rounded-lg z-20 ">
-                      <Link to={"/room"}>
-                        <p className="dropdown-item text-sm flex-row items-center gap-2">
-                          <IoHome /> Explore Meeting
-                        </p>
-                      </Link>
-                      <Link to={"/dashboard"}>
-                        <p className="dropdown-item text-sm flex-row items-center gap-2">
-                          {" "}
-                          {/* <IoMdPerson /> {user?.displayName} */}{" "}
-                          <MdDashboard /> Dashboard
-                        </p>
-                      </Link>
-                      <div
-                        onClick={handleLogout}
-                        tabIndex="-1"
-                        className="dropdown-item text-sm flex-row items-center gap-2"
-                      >
-                        <MdLogout /> Logout
-                      </div>
+            {/* Dropdown*/}
+            <div className=" md:flex">
+              {user ? (
+                <>
+                  <div className="relative">
+                    <div
+                      className="avatar cursor-pointer"
+                      onClick={toggleDropdown}
+                    >
+                      <img src={user?.photoURL} alt="avatar" />
                     </div>
-                  )}
-                </div>
-              </>
-            ) : (
-              <div className="navbar-end flex items-center mt-2 -mx-2 sm:mt-0 space-x-3">
-                <Link
-                  to="/login"
-                  className="btn btn-solid-primary bg-gradient-to-r from-pink-500 to-blue-500 text-white font-semibold w-28"
-                >
-                  Log In
-                </Link>
+                    {isDropdownOpen && (
+                      <div className="absolute right-0 mt-2 py-2 w-40 bg-white shadow-xl rounded-lg z-20 ">
+                        <Link to={"/room"}>
+                          <p className="dropdown-item text-sm flex-row items-center gap-2">
+                            <IoHome /> Explore Meeting
+                          </p>
+                        </Link>
+                        <Link to={"/dashboard"}>
+                          <p className="dropdown-item text-sm flex-row items-center gap-2">
+                            {" "}
+                            {/* <IoMdPerson /> {user?.displayName} */}{" "}
+                            <MdDashboard /> Dashboard
+                          </p>
+                        </Link>
+                        <div
+                          onClick={handleLogout}
+                          tabIndex="-1"
+                          className="dropdown-item text-sm flex-row items-center gap-2"
+                        >
+                          <MdLogout /> Logout
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </>
+              ) : (
+                <div className="navbar-end flex items-center mt-2 -mx-2 sm:mt-0 space-x-3">
+                  <Link
+                    to="/login"
+                    className="btn btn-solid-primary bg-gradient-to-r from-pink-500 to-blue-500 text-white font-semibold w-28"
+                  >
+                    Log In
+                  </Link>
 
-                <Link
-                  to="/signup"
-                  className="btn btn-outline border hover:bg-gradient-to-r from-pink-500 to-blue-500 text-white font-semibold w-28"
-                >
-                  Sign Up
-                </Link>
-              </div>
-            )}
+                  <Link
+                    to="/signup"
+                    className="btn btn-outline border hover:bg-gradient-to-r from-pink-500 to-blue-500 text-white font-semibold w-28"
+                  >
+                    Sign Up
+                  </Link>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
