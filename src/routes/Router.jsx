@@ -15,7 +15,7 @@ import "./../App.css";
 import Root from "./../layout/Root";
 import ErrorPage from "./../pages/ErrorPage/ErrorPage";
 import Room from "./../pages/Room/Room";
-import WorkSpace from "../pages/Dashboard/DashboardComponents/WorkSpace/WorkSpace";
+import Overview from "../pages/Dashboard/DashboardComponents/Overview/Overview";
 
 const router = createBrowserRouter([
   {
@@ -63,21 +63,17 @@ const router = createBrowserRouter([
           </PrivateRoute>
         ),
         children: [
-          // {
-          //   path: "",
-          //   element: <General />,
-          // },
           {
             path: "",
+            element: <Overview />,
+          },
+          {
+            path: "meetings",
             element: <Meetings />,
           },
           {
             path: "todo",
             element: <ToDoApp />,
-          },
-          {
-            path: "workspace",
-            element: <WorkSpace />
           },
           {
             path: "support",

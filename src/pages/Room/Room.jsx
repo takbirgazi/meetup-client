@@ -1,6 +1,4 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { initParticlesEngine } from "@tsparticles/react";
-import { loadSlim } from "@tsparticles/slim";
 import moment from "moment";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
@@ -13,7 +11,6 @@ import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import MiniScheduleTable from "../../components/MiniScheduleTable/MiniScheduleTable";
 import Navbar from "../../components/Navbar/Navbar";
-// import options from "../../components/ParticleOptions/ParticleOptions";
 import background from "../../assets/background5.jpg";
 import useAuth from "../../hooks/useAuth";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
