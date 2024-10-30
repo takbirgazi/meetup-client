@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { Calendar, Clock, Users } from "lucide-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import cat from "../../../../assets/cat.png";
 import useAuth from "../../../../hooks/useAuth";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
@@ -9,6 +9,7 @@ const Meetings = () => {
   const [activeTab, setActiveTab] = useState("all");
   const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
+  const [showAvatar, setShowAvatar] = useState(7)
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -74,6 +75,19 @@ const Meetings = () => {
         return 0;
     }
   };
+
+  // Avatar Counting 
+  useEffect(() => {
+    if (window.innerWidth <= 500) {
+      setShowAvatar(1)
+    } else if (window.innerWidth <= 800) {
+      setShowAvatar(3)
+    } else if (window.innerWidth <= 1050) {
+      setShowAvatar(5)
+    } else {
+      setShowAvatar(7)
+    }
+  }, []);
 
   const renderTable = (meetings) => (
     <div className="w-full backdrop-blur-xl bg-black/40 border border-white/10 shadow-xl rounded-xl overflow-hidden">
@@ -153,12 +167,12 @@ const Meetings = () => {
                     </div>
                   </span>
                 </div>
-                <div className="flex items-center avatar-group lg:overflow-visible overflow-x-auto p-2">
+                <div className="flex items-center avatar-group p-2">
                   {meeting.participants
                     .filter(
                       (participant) => participant.email !== meeting.hostEmail
                     ) // Exclude host
-                    .slice(0, 4)
+                    .slice(0, showAvatar)
                     .map((participant, index) => (
                       <span
                         key={index}
@@ -178,14 +192,14 @@ const Meetings = () => {
                     ))}
                   {meeting.participants.filter(
                     (participant) => participant.email !== meeting.hostEmail
-                  ).length > 4 && (
+                  ).length > showAvatar && (
                       <div className="avatar flex items-center justify-center h-6 w-6 px-2">
                         <div className="bg-transparent rounded-full text-black w-full h-full text-center flex items-center justify-center ">
                           <h2 className="font-bold text-center">+
                             {meeting.participants.filter(
                               (participant) =>
                                 participant.email !== meeting.hostEmail
-                            ).length - 4}
+                            ).length - showAvatar}
                           </h2>
                         </div>
                       </div>
