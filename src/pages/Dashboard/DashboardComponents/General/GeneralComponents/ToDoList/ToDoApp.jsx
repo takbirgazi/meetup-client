@@ -22,7 +22,7 @@ import {
   YAxis,
 } from "recharts";
 import useAuth from "../../../../../../hooks/useAuth";
-import useAxiosCommon from "../../../../../../hooks/useAxiosCommon";
+import useAxiosSecure from "../../../../../../hooks/useAxiosSecure";
 
 const TodoApp = () => {
   const [newTask, setNewTask] = useState("");
@@ -30,7 +30,7 @@ const TodoApp = () => {
   const [editTaskText, setEditTaskText] = useState("");
   const [activeTab, setActiveTab] = useState("all");
 
-  const axiosCommon = useAxiosCommon();
+  const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
   const queryClient = useQueryClient();
 
@@ -42,8 +42,11 @@ const TodoApp = () => {
   } = useQuery({
     queryKey: ["tasks"],
     queryFn: async () => {
-      const response = await axiosCommon.get("/tasks");
-      return response.data;
+      const response = await axiosSecure.get("/tasks");
+      // filter tasks by user email if user is logged in. only the user who created the task can see it
+      return user
+        ? response.data.filter((task) => task.email === user.email)
+        : response.data;
     },
     refetchInterval: 30000, // Refetch every 30 seconds for real-time updates
   });
@@ -51,7 +54,7 @@ const TodoApp = () => {
   // Mutations
   const addTaskMutation = useMutation({
     mutationFn: async (newTaskText) => {
-      const response = await axiosCommon.post("/create-task", {
+      const response = await axiosSecure.post("/create-task", {
         text: newTaskText,
         completed: false,
         email: user?.email,
@@ -66,7 +69,7 @@ const TodoApp = () => {
 
   const toggleTaskMutation = useMutation({
     mutationFn: async ({ taskId, task }) => {
-      const response = await axiosCommon.patch(`/tasks/${taskId}`, {
+      const response = await axiosSecure.patch(`/tasks/${taskId}`, {
         text: task.text,
         completed: !task.completed,
       });
@@ -79,7 +82,7 @@ const TodoApp = () => {
 
   const deleteTaskMutation = useMutation({
     mutationFn: async (taskId) => {
-      await axiosCommon.delete(`/tasks/${taskId}`);
+      await axiosSecure.delete(`/tasks/${taskId}`);
     },
     onSuccess: () => {
       queryClient.invalidateQueries(["tasks"]);
@@ -88,7 +91,7 @@ const TodoApp = () => {
 
   const editTaskMutation = useMutation({
     mutationFn: async ({ taskId, task, newText }) => {
-      const response = await axiosCommon.patch(`/tasks/${taskId}`, {
+      const response = await axiosSecure.patch(`/tasks/${taskId}`, {
         text: newText,
         completed: task.completed,
       });
@@ -298,29 +301,12 @@ const TodoApp = () => {
               <button
                 onClick={handleAddTask}
                 disabled={addTaskMutation.isPending}
-                className="bg-purple-600/80 hover:bg-purple-700/80 text-white px-6 rounded-lg flex items-center gap-2 transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="bg-gradient-to-r from-pink-500 to-blue-600 text-white px-6 rounded-lg flex items-center gap-2 transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <Plus size={18} />{" "}
                 {addTaskMutation.isPending ? "Adding..." : "Add"}
               </button>
             </div>
-          </div>
-
-          {/* Tabs */}
-          <div className="flex gap-2 mb-6">
-            {["all", "pending", "completed"].map((tab) => (
-              <button
-                key={tab}
-                onClick={() => setActiveTab(tab)}
-                className={`px-4 py-2 rounded-lg transition-all duration-300 ${
-                  activeTab === tab
-                    ? "bg-purple-600/80 text-white"
-                    : "bg-white/5 text-gray-300 hover:bg-white/10"
-                }`}
-              >
-                {tab.charAt(0).toUpperCase() + tab.slice(1)}
-              </button>
-            ))}
           </div>
 
           {/* Tasks Grid */}
@@ -376,9 +362,7 @@ const TodoApp = () => {
                             </p>
                             <div className="flex items-center gap-1 mt-2 text-xs text-gray-400">
                               <Calendar size={12} />
-                              <span>
-                                {new Date(task.createdAt).toLocaleDateString()}
-                              </span>
+                              <span>{task.createdAt}</span>
                             </div>
                           </div>
                         )}
