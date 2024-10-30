@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { Calendar, Clock, Users } from "lucide-react";
 import React, { useState } from "react";
+import cat from "../../../../assets/cat.png";
 import useAuth from "../../../../hooks/useAuth";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 
@@ -28,11 +29,16 @@ const Meetings = () => {
       const response = await axiosSecure("/meetings");
       if (response.status === 200 && Array.isArray(response.data)) {
         // Filter meetings for the current user as either host or participant
-        const userMeetings = response.data.filter((meeting) => 
-          meeting.hostEmail === user.email || 
-          meeting.participants.some(participant => participant.email === user.email)
-        ).sort((a, b) => new Date(b.date) - new Date(a.date));
-  
+        const userMeetings = response.data
+          .filter(
+            (meeting) =>
+              meeting.hostEmail === user.email ||
+              meeting.participants.some(
+                (participant) => participant.email === user.email
+              )
+          )
+          .sort((a, b) => new Date(b.date) - new Date(a.date));
+
         // Extract participants from each meeting
         return userMeetings.map((meeting) => ({
           ...meeting,
@@ -45,7 +51,6 @@ const Meetings = () => {
     refetchOnWindowFocus: true,
     staleTime: 10000,
   });
-  
 
   console.log(meetingsData);
 
@@ -143,7 +148,7 @@ const Meetings = () => {
                       <img
                         src={meeting.participants[0]?.photoURL} // Use host photoURL
                         alt={meeting.hostName}
-                        className="rounded-full w-6 h-6 object-cover" // Smaller, rounded avatar
+                        className="rounded-full w-6 h-6 object-cover"
                       />
                     </div>
                   </span>
@@ -162,9 +167,11 @@ const Meetings = () => {
                       >
                         <div className="avatar avatar-sm avatar-ring">
                           <img
-                            src={participant.photoURL}
+                            src={
+                              participant.photoURL ? participant.photoURL : cat
+                            } // Use participant photoURL
                             alt={participant.name}
-                            className="rounded-full w-6 h-6 object-cover" // Smaller, rounded avatar
+                            className="rounded-full w-6 h-6 object-cover " // Smaller, rounded avatar
                           />
                         </div>
                       </span>
@@ -193,10 +200,10 @@ const Meetings = () => {
 
   return (
     <div className="p-6 lg:p-8 min-h-screen">
-      <div className="w-full mb-8 backdrop-blur-md bg-black/40 border border-white/10 shadow-xl rounded-xl">
-        <div className="p-4">
+      <div className="w-full mb-8 backdrop-blur-md bg-black/40 border border-white/10 shadow-xl rounded-xl md:mt-0 mt-4">
+        <div className="p-4 ">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-2 ">
               {["all", "current", "scheduled"].map((tab) => (
                 <button
                   key={tab}

@@ -1,7 +1,8 @@
-import { ZegoUIKitPrebuilt } from "@zegocloud/zego-uikit-prebuilt"; // Make sure to import the necessary constants
-import { useEffect, useState } from "react";
+import { ZegoUIKitPrebuilt } from "@zegocloud/zego-uikit-prebuilt";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { ZegoSuperBoardManager } from "zego-superboard-web";
+import cat from "../../assets/cat.png";
 import useAuth from "../../hooks/useAuth";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 
@@ -11,15 +12,19 @@ const Room = () => {
   const { user: participantName } = useAuth();
   const meetingId = params.id;
   const [isHost, setIsHost] = useState(false);
+  const [participants, setParticipants] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
+  const zpRef = useRef(null);
+  const lastUserListRef = useRef(null);
+  const updateTimeoutRef = useRef(null);
 
   useEffect(() => {
     const fetchMeetingDetails = async () => {
       try {
         const response = await axiosSecure(`/meeting/${meetingId}`);
         const meetingData = response.data;
-
+        setParticipants(meetingData.participants || []);
         setIsHost(meetingData.hostEmail === participantName?.email);
         setIsLoading(false);
       } catch (error) {
@@ -31,28 +36,76 @@ const Room = () => {
     if (meetingId && participantName?.email) {
       fetchMeetingDetails();
     }
-  }, [meetingId, participantName?.email]);
+  }, [meetingId, participantName?.email, axiosSecure]);
 
-  // Request camera and microphone permissions
-  async function requestPermissions() {
+  const requestPermissions = async () => {
     try {
       await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
     } catch (error) {
       console.error("Permissions denied:", error);
     }
-  }
+  };
 
   useEffect(() => {
     requestPermissions();
   }, []);
 
-  // Hiding the button during loading
   useEffect(() => {
     const chatButton = document.getElementById("tidio-chat");
     if (chatButton) {
       chatButton.style.display = "none";
     }
   }, [isLoading]);
+
+  // Enhanced function to update user avatars with retry mechanism
+  const updateUserAvatars = async (userList, currentParticipants) => {
+    if (!userList || !currentParticipants) return;
+
+    const updatePromises = userList.map(async (user) => {
+      const participant = currentParticipants.find(
+        (p) => p.name === user.userName
+      );
+
+      if (participant) {
+        try {
+          await user.setUserAvatar(participant.photoURL || cat);
+        } catch (error) {
+          console.error(`Error setting avatar for ${user.userName}:`, error);
+        }
+      } else if (user.userName === participantName?.displayName) {
+        try {
+          await user.setUserAvatar(participantName?.photoURL || cat);
+        } catch (error) {
+          console.error("Error setting current user avatar:", error);
+        }
+      }
+    });
+
+    await Promise.all(updatePromises);
+  };
+
+  // Function to fetch and update participants
+  const refreshParticipants = async () => {
+    try {
+      const response = await axiosSecure.get(`/meeting/${meetingId}`);
+      const updatedParticipants = response.data.participants || [];
+      setParticipants(updatedParticipants);
+
+      if (lastUserListRef.current) {
+        await updateUserAvatars(lastUserListRef.current, updatedParticipants);
+      }
+    } catch (error) {
+      console.error("Error refreshing participants:", error);
+    }
+  };
+
+  // Debounced refresh function to prevent too frequent updates
+  const debouncedRefresh = () => {
+    if (updateTimeoutRef.current) {
+      clearTimeout(updateTimeoutRef.current);
+    }
+    updateTimeoutRef.current = setTimeout(refreshParticipants, 1000);
+  };
 
   const myMeeting = async (element) => {
     const appID = 576861095;
@@ -66,9 +119,14 @@ const Room = () => {
     );
 
     const zp = ZegoUIKitPrebuilt.create(kitToken);
+    zpRef.current = zp;
 
     const meetingConfig = {
       container: element,
+      onUserAvatarSetter: async (userList) => {
+        lastUserListRef.current = userList;
+        await updateUserAvatars(userList, participants);
+      },
       sharedLinks: [
         {
           name: participantName?.displayName,
@@ -80,26 +138,34 @@ const Room = () => {
         },
       ],
       scenario: {
-        mode: ZegoUIKitPrebuilt.VideoConference, // Use the constant for scenario mode
+        mode: ZegoUIKitPrebuilt.VideoConference,
       },
       onLeaveRoom: () => {
         navigate("/room");
       },
       onJoinRoom: async () => {
-        const user = participantName;
         try {
-          const response = await axiosSecure.get(`/meeting/${meetingId}`);
-          if (response.status === 200 && response.data) {
-            await axiosSecure.patch(`/meeting/${meetingId}`, {
-              name: user?.displayName,
-              email: user?.email,
-              photoURL: user?.photoURL,
-              role: "participant",
-            });
-          }
+          // Update participant info
+          await axiosSecure.patch(`/meeting/${meetingId}`, {
+            name: participantName?.displayName,
+            email: participantName?.email,
+            photoURL: participantName?.photoURL || cat,
+            role: "participant",
+          });
+
+          // Trigger refresh after joining
+          await refreshParticipants();
         } catch (error) {
           console.error("Error joining room:", error);
         }
+      },
+      onUserJoin: async () => {
+        // Trigger debounced refresh when a user joins
+        debouncedRefresh();
+      },
+      onUserLeave: async () => {
+        // Trigger debounced refresh when a user leaves
+        debouncedRefresh();
       },
       showPreJoinView: true,
       showLeavingView: true,
@@ -126,7 +192,7 @@ const Room = () => {
           }
         : {},
       screenSharingConfig: {
-        resolution: ZegoUIKitPrebuilt.ScreenSharingResolution_Auto, // Set the resolution you want
+        resolution: ZegoUIKitPrebuilt.ScreenSharingResolution_Auto,
       },
       videoResolutionList: [
         ZegoUIKitPrebuilt.VideoResolution_360P,
@@ -140,12 +206,15 @@ const Room = () => {
           console.log("Disconnected, trying to reconnect...");
         }
       },
-      onUserListUpdate: (userList) => {
+      onUserListUpdate: async (userList) => {
+        lastUserListRef.current = userList;
         if (userList.length > 2) {
-          zp.setLayoutMode(ZegoUIKitPrebuilt.LayoutMode.Tiled);
+          zpRef.current?.setLayoutMode(ZegoUIKitPrebuilt.LayoutMode.Tiled);
         } else {
-          zp.setLayoutMode(ZegoUIKitPrebuilt.LayoutMode.Spotlight);
+          zpRef.current?.setLayoutMode(ZegoUIKitPrebuilt.LayoutMode.Spotlight);
         }
+        // Update avatars whenever user list changes
+        await refreshParticipants();
       },
       onCameraStateUpdate: (cameraState) => {
         if (!cameraState.isOpen) {
@@ -159,6 +228,22 @@ const Room = () => {
     zp.joinRoom(meetingConfig);
     zp.addPlugins({ ZegoSuperBoardManager });
   };
+
+  // Cleanup function for the update timeout
+  useEffect(() => {
+    return () => {
+      if (updateTimeoutRef.current) {
+        clearTimeout(updateTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  // Effect to update avatars when participants list changes
+  useEffect(() => {
+    if (lastUserListRef.current && participants.length > 0) {
+      updateUserAvatars(lastUserListRef.current, participants);
+    }
+  }, [participants]);
 
   if (isLoading) {
     return (
