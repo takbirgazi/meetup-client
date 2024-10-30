@@ -38,26 +38,26 @@ const Dashboard = () => {
 
   const mainMenuItems = (
     <>
+
       <NavLink to={`/dashboard`} end onClick={closeSidebar} className={({ isActive }) => `rounded-lg ${isActive ? menuActive : ""}`}>
+        <li className="menu-item text-white/90 hover:bg-white/10 transition-all duration-300 rounded-lg">
+          <AiOutlineSchedule className="text-xl" />
+          <span>Overview</span>
+        </li>
+      </NavLink>
+
+      <NavLink to={`/dashboard/meetings`} onClick={closeSidebar} className={({ isActive }) => `rounded-lg ${isActive ? menuActive : ""}`}>
         <li className="menu-item text-white/90 hover:bg-white/10 transition-all duration-300 rounded-lg ">
           <IoHome className="text-xl" />
           <span>Meetings</span>
         </li>
       </NavLink>
 
-    
+
       <NavLink to={`/dashboard/todo`} onClick={closeSidebar} className={({ isActive }) => `rounded-lg ${isActive ? menuActive : ""}`}>
         <li className="menu-item text-white/90 hover:bg-white/10 transition-all duration-300 rounded-lg">
           <MdTask className="text-xl" />
           <span>Todo</span>
-        </li>
-      </NavLink>
-   
-
-      <NavLink to={`/dashboard/workspace`} onClick={closeSidebar} className={({ isActive }) => `rounded-lg ${isActive ? menuActive : ""}`}>
-        <li className="menu-item text-white/90 hover:bg-white/10 transition-all duration-300 rounded-lg">
-          <AiOutlineSchedule className="text-xl" />
-          <span>Work Space</span>
         </li>
       </NavLink>
 
