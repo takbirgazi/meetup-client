@@ -8,6 +8,7 @@ import toast from "react-hot-toast";
 import useAuth from "../../../../hooks/useAuth";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
+import TaskProgress from "./TaskProgress/TaskProgress";
 
 Modal.setAppElement("#root");
 
@@ -27,7 +28,7 @@ const WorkSpace = () => {
         setIsEditMode(false);
         setEditingTask(null);
     };
-    console.log(editingTask)
+
     const createSpaceHandler = async (event) => {
         event.preventDefault();
         const uuid = uuidv4();
@@ -47,6 +48,7 @@ const WorkSpace = () => {
             taskDate,
             taskDescription,
             taskHost: user?.email,
+            status: "ongoing"
         };
 
         try {
@@ -61,6 +63,7 @@ const WorkSpace = () => {
             }
             closeModal();
             refetch();
+            setGeneratedLink(""); // Clear the generated link
         } catch (error) {
             console.error("Error creating or updating workspace:", error);
         }
@@ -96,7 +99,7 @@ const WorkSpace = () => {
     // Mark task as complete (add additional logic if needed)
     const completeTask = async (taskId) => {
         try {
-            await axiosSecure.patch(`/workspaces/${taskId}`, { status: "completed" });
+            await axiosSecure.put(`/workspaces/${taskId}`, { status: "done" });
             toast.success("Task marked as completed");
             refetch();
         } catch (error) {
@@ -170,11 +173,8 @@ const WorkSpace = () => {
 
                     </div>
                 </div>
-                <div className="w-11/12 my-8 p-5 rounded-2xl flex flex-col gap-5 items-center backdrop-blur-lg bg-white/10 border border-white/20 shadow-lg">
-                    <h3 className="text-xl font-semibold text-center w-full">Task Progress</h3>
-                    <div className="border rounded-2xl p-3 w-full min-h-56">
-                        Card
-                    </div>
+                <div className="w-full my-8 p-5 rounded-2xl flex flex-col gap-5 items-center backdrop-blur-lg bg-white/10 border border-white/20 shadow-lg">
+                    <TaskProgress tasks={workSpaceList} />
                 </div>
 
                 <Modal
