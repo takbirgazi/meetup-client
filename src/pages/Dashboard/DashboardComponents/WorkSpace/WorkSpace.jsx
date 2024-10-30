@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import TaskCard from "./TaskCard/TaskCard"; 
+import TaskCard from "./TaskCard/TaskCard";
 import { AiOutlineClose } from "react-icons/ai";
 import Modal from "react-modal";
 import { v4 as uuidv4 } from "uuid";
@@ -86,11 +86,6 @@ const WorkSpace = () => {
                 <div className="w-11/12 sm:w-full my-8 p-4 rounded-2xl flex flex-col gap-5 items-center backdrop-blur-lg bg-white/10 border border-white/20 shadow-lg">
                     <h3 className="text-xl font-semibold text-center w-full">Tasks</h3>
                     <div className="flex flex-wrap gap-4 w-full">
-                        {workSpaceList.map((task) => (
-                            <div className="flex-grow md:w-[23%] w-full" key={task._id}>
-                                <TaskCard tasksData={task} />
-                            </div>
-                        ))}
                         {
                             isLoading ?
                                 (
@@ -102,7 +97,7 @@ const WorkSpace = () => {
                                 (
                                     <div
                                         onClick={openModal}
-                                        className={`flex-grow md:w-[25%] min-h-64 w-full flex items-center justify-center rounded-lg bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 p-6 transition-all duration-300`}
+                                        className={`flex-grow md:w-[23%] min-h-56 w-full flex items-center justify-center rounded-lg bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 p-6 transition-all duration-300`}
                                     >
                                         <button className="text-xl md:text-2xl lg:text-3xl text-center font-bold">
                                             + Create <br /> a space
@@ -110,6 +105,12 @@ const WorkSpace = () => {
                                     </div>
                                 )
                         }
+                        {workSpaceList.map((task) => (
+                            <div className="flex-grow md:w-[23%] w-full" key={task._id}>
+                                <TaskCard tasksData={task} />
+                            </div>
+                        ))}
+
                     </div>
                 </div>
                 <div className="w-11/12 my-8 p-5 rounded-2xl flex flex-col gap-5 items-center backdrop-blur-lg bg-white/10 border border-white/20 shadow-lg">
