@@ -53,7 +53,7 @@ const Meetings = () => {
     staleTime: 10000,
   });
 
-  console.log(meetingsData);
+  // console.log(meetingsData);
 
   const meetings = meetingsData || [];
   const currentMeetings = meetings.filter(
@@ -90,7 +90,7 @@ const Meetings = () => {
   }, []);
 
   const renderTable = (meetings) => (
-    <div className="w-full backdrop-blur-xl bg-black/40 border border-white/10 shadow-xl rounded-xl overflow-hidden">
+    <div className="w-full backdrop-blur-xl bg-black/40 border border-white/10 shadow-xl rounded-xl overflow-y-scroll min-h-32 max-h-[calc(100vh-220px)]">
       <div className="min-w-full divide-y divide-white/10">
         <div className="bg-black/50 backdrop-blur-lg border-b border-white/10">
           <div className="grid grid-cols-4 gap-2 px-6 py-4">
@@ -136,6 +136,11 @@ const Meetings = () => {
           ) : error ? (
             <div className="px-6 py-4 text-red-400">
               Error loading meetings. Please try again later.
+            </div>
+          ) : meetings.length === 0 ? (
+
+            <div className="px-6 py-4 text-white/90">
+              No meetings found.
             </div>
           ) : (
             meetings.map((meeting, index) => (
