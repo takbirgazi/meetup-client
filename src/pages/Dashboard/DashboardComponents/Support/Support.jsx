@@ -60,7 +60,7 @@ const Support = () => {
   }, []);
 
   return (
-    <div id="support" className="flex items-center justify-center min-h-screen p-6">
+    <div id="support" className="flex items-center justify-center min-h-screen p-6 mr-10">
       <style>{`
         @keyframes cardEntrance {
           0% {
@@ -98,7 +98,7 @@ const Support = () => {
 
       <div className="px-6">
         <div className="text-center">
-          <h2 className="text-3xl font-extrabold text-white sm:text-4xl mt-[8%]">
+          <h2 className="text-3xl font-extrabold text-white sm:text-4xl">
             Need Help? We're Here to Support You
           </h2>
           <p className="pt-4 text-md text-gray-200">
