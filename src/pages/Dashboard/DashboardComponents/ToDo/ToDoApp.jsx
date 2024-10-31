@@ -21,10 +21,12 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import useAuth from "../../../../../../hooks/useAuth";
-import useAxiosSecure from "../../../../../../hooks/useAxiosSecure";
 
-const TodoApp = () => {
+
+import useAuth from '../../../../hooks/useAuth';
+import useAxiosSecure from '../../../../hooks/useAxiosSecure';
+
+const ToDoApp = () => {
   const [newTask, setNewTask] = useState("");
   const [editIndex, setEditIndex] = useState(null);
   const [editTaskText, setEditTaskText] = useState("");
@@ -417,4 +419,4 @@ const TodoApp = () => {
   );
 };
 
-export default TodoApp;
+export default ToDoApp;
