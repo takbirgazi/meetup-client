@@ -23,7 +23,6 @@ const Home = () => {
   const navigate = useNavigate();
   const [meetingInput, setMeetingInput] = useState("");
   const axiosSecure = useAxiosSecure();
-  const [init, setInit] = useState(false);
   const queryClient = useQueryClient();
   const lastFetchTime = useRef(Date.now());
 
@@ -90,32 +89,6 @@ const Home = () => {
     }));
   }, [meetings]);
 
-  // Optimized particle initialization
-  useEffect(() => {
-    let mounted = true;
-    if (!init) {
-      const initializeParticles = async () => {
-        try {
-          await initParticlesEngine(async (engine) => {
-            await loadSlim(engine);
-          });
-          if (mounted) {
-            setInit(true);
-          }
-        } catch (error) {
-          console.error("Failed to initialize particles:", error);
-        }
-      };
-      initializeParticles();
-    }
-    return () => {
-      mounted = false;
-    };
-  }, []);
-
-  const particlesLoaded = useCallback((container) => {
-    console.log(container);
-  }, []);
 
   const {
     register,
@@ -224,7 +197,7 @@ const Home = () => {
       date: moment().format("DD MMM YYYY, hh:mm A"),
       meetingLink,
       meetingId,
-      status: "current",
+      status: "instant",
       participants: [
         {
           name: user?.displayName,

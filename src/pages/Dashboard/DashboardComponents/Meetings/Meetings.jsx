@@ -29,7 +29,7 @@ const Meetings = () => {
     queryFn: async () => {
       const response = await axiosSecure("/meetings");
       if (response.status === 200 && Array.isArray(response.data)) {
-        // Filter meetings for the current user as either host or participant
+        // Filter meetings for the instant user as either host or participant
         const userMeetings = response.data
           .filter(
             (meeting) =>
@@ -56,8 +56,8 @@ const Meetings = () => {
   // console.log(meetingsData);
 
   const meetings = meetingsData || [];
-  const currentMeetings = meetings.filter(
-    (meeting) => meeting.status === "current"
+  const instantMeetings = meetings.filter(
+    (meeting) => meeting.status === "instant"
   );
   const scheduledMeetings = meetings.filter(
     (meeting) => meeting.status === "scheduled"
@@ -67,8 +67,8 @@ const Meetings = () => {
     switch (activeTab) {
       case "all":
         return meetings.length;
-      case "current":
-        return currentMeetings.length;
+      case "instant":
+        return instantMeetings.length;
       case "scheduled":
         return scheduledMeetings.length;
       default:
@@ -124,7 +124,7 @@ const Meetings = () => {
           {isLoading ? (
             [...Array(3)].map((_, index) => (
               <div
-                key={index}
+                key={`loading-${index}`}
                 className="grid grid-cols-4 gap-2 px-6 py-4 animate-pulse"
               >
                 <div className="h-4 bg-white/10 rounded" />
@@ -145,7 +145,7 @@ const Meetings = () => {
           ) : (
             meetings.map((meeting, index) => (
               <div
-                key={meeting.id}
+                key={meeting._id}
                 className="table-row-hover grid grid-cols-4 gap-2 px-6 py-4 transition-colors hover:bg-white/5"
                 style={{
                   animation: `rowEntrance 0.5s ease-out forwards`,
@@ -180,7 +180,7 @@ const Meetings = () => {
                     .slice(0, showAvatar)
                     .map((participant, index) => (
                       <span
-                        key={index}
+                        key={participant.email || index}
                         className="tooltip tooltip-top tooltip-primary"
                         data-tooltip={participant.name}
                       >
@@ -224,7 +224,7 @@ const Meetings = () => {
         <div className="p-4 ">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <div className="flex flex-wrap gap-2 ">
-              {["all", "Instant", "scheduled"].map((tab) => (
+              {["all", "instant", "scheduled"].map((tab) => (
                 <button
                   key={tab}
                   onClick={() => setActiveTab(tab)}
@@ -247,12 +247,12 @@ const Meetings = () => {
       </div>
 
       <p className="text-white/90 text-sm mb-2 ml-2 ">
-        <span class="dot dot-warning mr-2 animate-pulse"></span>
+        <span className="dot dot-warning mr-2 animate-pulse"></span>
         You can view all your meetings history here.{" "}
       </p>
 
       {activeTab === "all" && renderTable(meetings)}
-      {activeTab === "current" && renderTable(currentMeetings)}
+      {activeTab === "instant" && renderTable(instantMeetings)}
       {activeTab === "scheduled" && renderTable(scheduledMeetings)}
     </div>
   );
