@@ -175,8 +175,8 @@ const ToDoApp = () => {
   }
 
   return (
-    <div className="min-h-screen bg-transparent text-white">
-      <div className="max-w-7xl mx-auto p-6 space-y-6">
+    <div className="min-h-screen bg-transparent text-white lg:-mt-6">
+      <div className="max-w-7xl mx-auto p-6 space-y-6 lg:pt-16">
         {error && (
           <div className="bg-red-500/20 border border-red-500/50 text-white p-4 rounded-lg mb-4">
             {error.message}
@@ -224,7 +224,7 @@ const ToDoApp = () => {
         </div>
 
         {/* Task Management Section */}
-        <div className="backdrop-blur-xl bg-white/10 rounded-xl border border-white/20 p-6 max-h-[calc(100vh-300px)] overflow-y-auto">
+        <div className="backdrop-blur-xl bg-white/10 rounded-xl border border-white/20 p-6 h-[calc(100vh-300px)] overflow-y-auto">
           {/* Add Task Input */}
           <div className="mb-6">
             <div className="flex gap-3 flex-col md:flex-row">
