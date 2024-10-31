@@ -224,7 +224,7 @@ const Meetings = () => {
         <div className="p-4 ">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <div className="flex flex-wrap gap-2 ">
-              {["all", "current", "scheduled"].map((tab) => (
+              {["all", "Instant", "scheduled"].map((tab) => (
                 <button
                   key={tab}
                   onClick={() => setActiveTab(tab)}

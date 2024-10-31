@@ -10,18 +10,6 @@ import {
   Trash2,
 } from "lucide-react";
 import React, { useState } from "react";
-import {
-  Cell,
-  Line,
-  LineChart,
-  Pie,
-  PieChart as RePieChart,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from "recharts";
-
 
 import useAuth from '../../../../hooks/useAuth';
 import useAxiosSecure from '../../../../hooks/useAxiosSecure';
@@ -235,63 +223,11 @@ const ToDoApp = () => {
           </div>
         </div>
 
-        {/* Charts Section */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Line Chart */}
-          <div className="backdrop-blur-xl bg-white/10 rounded-xl border border-white/20 p-4">
-            <h3 className="text-lg font-semibold mb-4">Weekly Progress</h3>
-            <div className="h-48">
-              <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={dailyProgress}>
-                  <XAxis dataKey="date" stroke="#94a3b8" fontSize={12} />
-                  <YAxis stroke="#94a3b8" fontSize={12} />
-                  <Tooltip content={<CustomTooltip />} />
-                  <Line
-                    type="monotone"
-                    dataKey="total"
-                    stroke="#8b5cf6"
-                    strokeWidth={2}
-                  />
-                  <Line
-                    type="monotone"
-                    dataKey="completed"
-                    stroke="#6366f1"
-                    strokeWidth={2}
-                  />
-                </LineChart>
-              </ResponsiveContainer>
-            </div>
-          </div>
-
-          {/* Pie Chart */}
-          <div className="backdrop-blur-xl bg-white/10 rounded-xl border border-white/20 p-4">
-            <h3 className="text-lg font-semibold mb-4">Task Distribution</h3>
-            <div className="h-48">
-              <ResponsiveContainer width="100%" height="100%">
-                <RePieChart>
-                  <Pie
-                    data={pieData}
-                    innerRadius={40}
-                    outerRadius={70}
-                    paddingAngle={5}
-                    dataKey="value"
-                  >
-                    {pieData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={entry.color} />
-                    ))}
-                  </Pie>
-                  <Tooltip content={<CustomTooltip />} />
-                </RePieChart>
-              </ResponsiveContainer>
-            </div>
-          </div>
-        </div>
-
         {/* Task Management Section */}
-        <div className="backdrop-blur-xl bg-white/10 rounded-xl border border-white/20 p-6">
+        <div className="backdrop-blur-xl bg-white/10 rounded-xl border border-white/20 p-6 max-h-[calc(100vh-300px)] overflow-y-auto">
           {/* Add Task Input */}
           <div className="mb-6">
-            <div className="flex gap-3">
+            <div className="flex gap-3 flex-col md:flex-row">
               <input
                 type="text"
                 className="flex-1 bg-black/20 text-white placeholder-gray-400 rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-purple-500/50 transition-all border border-white/10"
@@ -303,7 +239,7 @@ const ToDoApp = () => {
               <button
                 onClick={handleAddTask}
                 disabled={addTaskMutation.isPending}
-                className="bg-gradient-to-r from-pink-500 to-blue-600 text-white px-6 rounded-lg flex items-center gap-2 transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="py-3 bg-gradient-to-r from-pink-500 to-blue-600 text-white px-6 rounded-lg flex items-center justify-center gap-2 transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <Plus size={18} />{" "}
                 {addTaskMutation.isPending ? "Adding..." : "Add"}
@@ -320,27 +256,25 @@ const ToDoApp = () => {
               >
                 <div
                   className={`backdrop-blur-xl rounded-lg border-t-4 shadow-lg 
-                  ${
-                    task.completed
+                  ${task.completed
                       ? "bg-green-500/10 border-green-500/50"
                       : "bg-white/10 border-purple-500/50"
-                  }`}
+                    }`}
                 >
                   <div className="p-4">
                     <div className="flex items-start gap-4 mb-3">
                       <button
                         onClick={() => toggleTaskCompletion(task._id)}
                         disabled={toggleTaskMutation.isPending}
-                        className={`mt-1 w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all duration-300 ${
-                          task.completed
-                            ? "bg-green-500/80 border-green-400"
-                            : "border-white/30 hover:border-purple-400"
-                        }`}
+                        className={`mt-1 w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all duration-300 ${task.completed
+                          ? "bg-green-500/80 border-green-400"
+                          : "border-white/30 hover:border-purple-400"
+                          }`}
                       >
                         {task.completed && <Check size={12} />}
                       </button>
 
-                      <div className="flex-1 min-w-0">
+                      <div className="flex-1 min-w-0 overflow-hidden">
                         {editIndex === index ? (
                           <input
                             type="text"
@@ -354,11 +288,10 @@ const ToDoApp = () => {
                         ) : (
                           <div>
                             <p
-                              className={`text-sm ${
-                                task.completed
-                                  ? "line-through text-gray-400"
-                                  : "text-white"
-                              }`}
+                              className={`text-sm ${task.completed
+                                ? "line-through text-gray-400"
+                                : "text-white"
+                                }`}
                             >
                               {task.text}
                             </p>
