@@ -175,7 +175,7 @@ const ToDoApp = () => {
   }
 
   return (
-    <div className="min-h-screen bg-transparent text-white lg:-mt-6">
+    <div className="min-h-screen bg-transparent text-white lg:-mt-6 mr-12">
       <div className="max-w-7xl mx-auto p-6 space-y-6 lg:pt-16">
         {error && (
           <div className="bg-red-500/20 border border-red-500/50 text-white p-4 rounded-lg mb-4">
