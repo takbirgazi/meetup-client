@@ -12,7 +12,7 @@ import background from "./../../assets/background5.jpg";
 import { Helmet } from "react-helmet-async";
 
 const Dashboard = () => {
-  const { logOut } = useAuth();
+  const { logOut,loading } = useAuth();
 
   useEffect(() => {
     const chatButton = document.getElementById("tidio-chat");
@@ -35,6 +35,13 @@ const Dashboard = () => {
   const closeSidebar = () => {
     document.getElementById("sidebar-mobile-fixed").checked = false;
   };
+
+  useEffect(() => {
+    const chatButton = document.getElementById("tidio-chat");
+    if (chatButton) {
+      chatButton.style.display = "none";
+    }
+  }, [loading]);
 
   const mainMenuItems = (
     <>
