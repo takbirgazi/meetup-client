@@ -144,18 +144,18 @@ const Login = () => {
             </NavLink>
           </div>
           <div className="space-y-4">
-            <p className="text-gray-300 text-sm">Sign in with</p>
+            <p className="text-white text-sm">Sign in with</p>
             <div className="grid grid-cols-2 gap-4">
               <button
                 onClick={handleGoogleSignIn}
-                className="social-button flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg border border-white/10 text-white"
+                className="social-button flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg border  text-white"
               >
                 <FaGoogle className="text-xl" />
                 <span>Google</span>
               </button>
               <button
                 onClick={handleGithubSignIn}
-                className="social-button flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg border border-white/10 text-white"
+                className="social-button flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg border  text-white"
               >
                 <svg
                   width="20"

@@ -224,10 +224,10 @@ const ToDoApp = () => {
         </div>
 
         {/* Task Management Section */}
-        <div className="backdrop-blur-xl bg-white/10 rounded-xl border border-white/20 p-6 h-[calc(100vh-300px)] overflow-y-auto">
+        <div className="backdrop-blur-xl bg-white/10 rounded-xl border border-white/20 p-6 h-[calc(100vh-250px)] overflow-y-auto">
           {/* Add Task Input */}
           <div className="mb-6">
-            <div className="flex gap-3 flex-col md:flex-row">
+            <div className="flex gap-3 flex-col md:flex-row ">
               <input
                 type="text"
                 className="flex-1 bg-black/20 text-white placeholder-gray-400 rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-purple-500/50 transition-all border border-white/10"

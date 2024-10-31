@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { IoIosLogOut } from "react-icons/io";
 import { IoHome } from "react-icons/io5";
+import { BsClockHistory } from "react-icons/bs";
 import { MdTask } from "react-icons/md";
 import { TfiStatsUp } from "react-icons/tfi";
 import { FaUserCircle } from "react-icons/fa";
@@ -55,7 +56,7 @@ const Dashboard = () => {
 
       <NavLink to={`/dashboard/meetings`} onClick={closeSidebar} className={({ isActive }) => `rounded-lg ${isActive ? menuActive : ""}`}>
         <li className="menu-item text-white/90 hover:bg-white/10 transition-all duration-300 rounded-lg ">
-          <IoHome className="text-xl" />
+        <BsClockHistory className="text-xl" />
           <span>Meetings</span>
         </li>
       </NavLink>
@@ -128,7 +129,7 @@ const Dashboard = () => {
         <label htmlFor="sidebar-mobile-fixed" className="sidebar-overlay"></label>
         <aside className="backdrop-blur-xl bg-black/40 sidebar sidebar-fixed-left sidebar-mobile h-full justify-start max-sm:fixed max-sm:-translate-x-full border border-white/10 shadow-2xl shadow-black/40">
           <Link to={"/"} className="hover:opacity-80 transition-opacity">
-            <div className="sidebar-title p-4 flex items-center justify-center">
+            <div className="sidebar-title p-4 ">
               <img src={logo} className="h-10 w-auto mr-2" alt="Logo" />
               <p className="text-white text-2xl font-semibold">MeetUp</p>
             </div>
