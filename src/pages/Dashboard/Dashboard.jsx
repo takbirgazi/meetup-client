@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { IoIosLogOut } from "react-icons/io";
 import { IoHome } from "react-icons/io5";
 import { MdTask } from "react-icons/md";
-import { AiOutlineSchedule } from "react-icons/ai";
+import { TfiStatsUp } from "react-icons/tfi";
 import { FaUserCircle } from "react-icons/fa";
 import { BiSupport } from "react-icons/bi";
 import { Link, NavLink, Outlet } from "react-router-dom";
@@ -41,7 +41,7 @@ const Dashboard = () => {
 
       <NavLink to={`/dashboard`} end onClick={closeSidebar} className={({ isActive }) => `rounded-lg ${isActive ? menuActive : ""}`}>
         <li className="menu-item text-white/90 hover:bg-white/10 transition-all duration-300 rounded-lg">
-          <AiOutlineSchedule className="text-xl" />
+          <TfiStatsUp className="text-xl" />
           <span>Overview</span>
         </li>
       </NavLink>
