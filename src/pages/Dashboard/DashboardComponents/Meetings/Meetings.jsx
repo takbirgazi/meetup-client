@@ -219,7 +219,7 @@ const Meetings = () => {
   );
 
   return (
-    <div className="p-6 lg:p-8 min-h-screen">
+    <div className="p-6 lg:pl-8 lg:pr-16 min-h-screen ">
       <div className="w-full mb-8 backdrop-blur-md bg-black/40 border border-white/10 shadow-xl rounded-xl md:mt-0 mt-4">
         <div className="p-4 ">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
