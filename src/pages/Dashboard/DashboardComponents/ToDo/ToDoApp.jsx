@@ -248,7 +248,7 @@ const ToDoApp = () => {
           </div>
 
           {/* Tasks Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 overflow-y-auto h-[calc(100vh-350px)]">
+          <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 ${totalTasks < 9 ? 'lg:grid-rows-3' : 'md:grid-rows-none'} ${totalTasks < 6 && 'md:grid-rows-3'} gap-4 overflow-y-auto h-[calc(100vh-350px)]`}>
             {filteredTasks.map((task, index) => (
               <div
                 key={task._id}
