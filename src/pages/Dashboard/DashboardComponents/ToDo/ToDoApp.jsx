@@ -224,7 +224,7 @@ const ToDoApp = () => {
         </div>
 
         {/* Task Management Section */}
-        <div className="backdrop-blur-xl bg-white/10 rounded-xl border border-white/20 p-6 h-[calc(100vh-250px)] overflow-y-auto">
+        <div className="backdrop-blur-xl bg-white/10 rounded-xl border border-white/20 p-6">
           {/* Add Task Input */}
           <div className="mb-6">
             <div className="flex gap-3 flex-col md:flex-row ">
@@ -248,7 +248,7 @@ const ToDoApp = () => {
           </div>
 
           {/* Tasks Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 overflow-y-auto h-[calc(100vh-350px)]">
             {filteredTasks.map((task, index) => (
               <div
                 key={task._id}
