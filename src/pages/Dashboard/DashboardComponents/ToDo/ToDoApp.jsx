@@ -248,11 +248,11 @@ const ToDoApp = () => {
           </div>
 
           {/* Tasks Grid */}
-          <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 ${totalTasks < 9 ? 'lg:grid-rows-3' : 'md:grid-rows-none'} ${totalTasks < 6 && 'md:grid-rows-3'} gap-4 overflow-y-auto h-[calc(100vh-350px)]`}>
+          <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 overflow-y-auto h-[calc(100vh-350px)]`}>
             {filteredTasks.map((task, index) => (
               <div
                 key={task._id}
-                className="group transform transition-all duration-300 hover:scale-105"
+                className="group transform transition-all duration-300 "
               >
                 <div
                   className={`backdrop-blur-xl rounded-lg border-t-4 shadow-lg 
