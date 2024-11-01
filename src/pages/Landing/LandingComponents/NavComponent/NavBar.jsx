@@ -93,7 +93,7 @@ const NavBar = () => {
                       className="avatar cursor-pointer"
                       onClick={toggleDropdown}
                     >
-                      <img src={user?.photoURL} alt="avatar" />
+                      <img src={user?.photoURL} alt="avatar" className="hover:p-0.5" />
                     </div>
                     {isDropdownOpen && (
                       <div className="absolute right-0 mt-2 py-2 w-40 bg-white shadow-xl rounded-lg z-20 ">

@@ -55,7 +55,7 @@ const Navbar = () => {
                 <img
                   src={user?.photoURL || avatar} // Fallback to default avatar
                   alt="avatar"
-                  className="h-10 w-10 rounded-full"
+                  className="h-10 w-10 rounded-full hover:p-0.5"
                 />
               </div>
 
