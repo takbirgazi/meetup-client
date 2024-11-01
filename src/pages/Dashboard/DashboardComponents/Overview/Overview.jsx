@@ -115,9 +115,9 @@ const Overview = () => {
 
                 {/* Chart Components */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {/* Weekly Progress Line Chart */}
+                    {/* Weekly Tasks Progress Line Chart */}
                     <div className="backdrop-blur-xl bg-white/10 rounded-xl border border-white/20 p-4">
-                        <h3 className="text-lg font-semibold mb-4">Weekly Progress</h3>
+                        <h3 className="text-lg font-semibold mb-4">Weekly Tasks Progress</h3>
                         <div className="h-48">
                             <ResponsiveContainer width="100%" height="100%">
                                 <LineChart data={dailyProgress}>
