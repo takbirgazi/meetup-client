@@ -37,12 +37,6 @@ const Dashboard = () => {
     document.getElementById("sidebar-mobile-fixed").checked = false;
   };
 
-  useEffect(() => {
-    const chatButton = document.getElementById("tidio-chat");
-    if (chatButton) {
-      chatButton.style.display = "none";
-    }
-  }, [loading]);
 
   const mainMenuItems = (
     <>
