@@ -1,7 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import Dashboard from "../pages/Dashboard/Dashboard";
 import ChangePassword from "../pages/Dashboard/DashboardComponents/ChangePassword/ChangePassword";
-import ToDoApp from "../pages/Dashboard/DashboardComponents/General/GeneralComponents/ToDoList/ToDoApp";
+import ToDoApp from "../pages/Dashboard/DashboardComponents/ToDo/ToDoApp";
 import Meetings from "../pages/Dashboard/DashboardComponents/Meetings/Meetings";
 import Profile from "../pages/Dashboard/DashboardComponents/Profile/Profile";
 import Support from "../pages/Dashboard/DashboardComponents/Support/Support";
@@ -15,7 +15,8 @@ import "./../App.css";
 import Root from "./../layout/Root";
 import ErrorPage from "./../pages/ErrorPage/ErrorPage";
 import Room from "./../pages/Room/Room";
-import WorkSpace from "../pages/Dashboard/DashboardComponents/WorkSpace/WorkSpace";
+import Overview from "../pages/Dashboard/DashboardComponents/Overview/Overview";
+
 
 const router = createBrowserRouter([
   {
@@ -63,21 +64,17 @@ const router = createBrowserRouter([
           </PrivateRoute>
         ),
         children: [
-          // {
-          //   path: "",
-          //   element: <General />,
-          // },
           {
             path: "",
+            element: <Overview />,
+          },
+          {
+            path: "meetings",
             element: <Meetings />,
           },
           {
             path: "todo",
             element: <ToDoApp />,
-          },
-          {
-            path: "workspace",
-            element: <WorkSpace />
           },
           {
             path: "support",
@@ -90,10 +87,6 @@ const router = createBrowserRouter([
           {
             path: "change-password",
             element: <ChangePassword />,
-          },
-          {
-            path: "ToDoApp",
-            element: <ToDoApp></ToDoApp>,
           },
         ],
       },

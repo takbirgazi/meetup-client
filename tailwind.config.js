@@ -26,6 +26,7 @@ export default {
       animation: {
         cardEntrance:
           "cardEntrance 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards",
+        'spin-slow': 'spin 3s linear infinite', // 3s spin duration for slower spin
       },
     },
   },

@@ -16,21 +16,15 @@ const Landing = () => {
       chatButton.style.display = "block";
     }
   }, []);
-  // console.log(user);
   return (
     <div className="bg-gradient-to-r from-gray-50 to-gray-200">
-      {/* <div className="lg:h-screen w-full flex items-center justify-center">
-        <div className="container mx-auto">
-          <NavBar />
-          <Banner />
-        </div>
-      </div> */}
+      
        <div
       className="lg:h-screen w-full flex items-center justify-center relative"
       style={{
-        backgroundImage: `url(${background})`, // Use the imported background image
-        backgroundSize: 'cover', // Ensure the background covers the entire div
-        backgroundPosition: 'center', // Center the background image
+        backgroundImage: `url(${background})`, 
+        backgroundSize: 'cover', 
+        backgroundPosition: 'center', 
       }}
     >
       {/* Black overlay with opacity */}
