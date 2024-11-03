@@ -43,7 +43,7 @@ MeetUp is a feature-rich video-calling application designed to enhance virtual c
 
 5. **Run the application:**
     ```bash
-    npm start
+    npm run dev
     ```
 
 ## Backend Information
