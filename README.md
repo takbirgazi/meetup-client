@@ -16,22 +16,28 @@ MeetUp is a feature-rich video-calling application designed to enhance virtual c
 
 * Clone the repository:
     ```bash
-        git clone https://github.com/takbirgazi/meetup-client.git
+    git clone https://github.com/takbirgazi/meetup-client.git
     ```
 * Go To Project Folder:
-    ``` cd meetup-client ```
+    ```bash
+     cd meetup-client 
+    ```
 * Install All Packages:
-    ``` npm install ```
+    ```bash
+    npm install 
+    ```
 
 ## Create .env.local file and insert the variables and values
-    * VITE_apiKey
-    * VITE_authDomain
-    * VITE_projectId
-    * VITE_storageBucket
-    * VITE_messagingSenderId
-    * VITE_appId
-    * VITE_API_URL
-    * VITE_GEMENI_API_KEY
+    ```bash
+    VITE_apiKey
+    VITE_authDomain
+    VITE_projectId
+    VITE_storageBucket
+    VITE_messagingSenderId
+    VITE_appId
+    VITE_API_URL
+    VITE_GEMENI_API_KEY
+    ```
 
 **Framework has been used**
 
@@ -40,23 +46,23 @@ MeetUp is a feature-rich video-calling application designed to enhance virtual c
 
 **NPM as been used**
 
-- react-helmet-async
-- prop-types
-- react-icons
-- rippleui
-- moment --save
-- sweetalert2
-- uuid
-- react-hook-form
-- axios
-- react-hot-toast
-- swiper
-- keen-slider
-- @zegocloud/zego-uikit-prebuilt
-- Tidio
-- Emailjs
-- lucide-react
-- react-query
+- **react-helmet-async** - For managing document head
+- **prop-types** - Typechecking for props
+- **react-icons** - Icon components
+- **rippleui** - Ripple UI for styling
+- **moment** - Date manipulation library
+- **sweetalert2** - For beautiful alerts and notifications
+- **uuid** - Unique ID generation
+- **react-hook-form** - Easy form validation and handling
+- **axios** - HTTP client for making API requests
+- **react-hot-toast** - Notifications
+- **swiper** - Smooth slider for carousels
+- **keen-slider** - Lightweight touch slider
+- **@zegocloud/zego-uikit-prebuilt** - Zegocloud UI kit for video calling
+- **Tidio** - Customer service chat integration
+- **Emailjs** - For sending emails from the client
+- **lucide-react** - Icon library
+- **react-query** - For data fetching and caching
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
