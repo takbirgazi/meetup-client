@@ -1,11 +1,29 @@
-# MeetUP - Video Calling Web Application
+# MeetUp - Video Calling Web Application
 
-[Explore With MeetUP](https://meetup-d48c4.web.app)
+MeetUp is a feature-rich video-calling application designed to enhance virtual collaboration across sectors like education, healthcare, corporate businesses, and community organizations. Built with high-definition video and interactive tools, MeetUp aims to make online meetings productive and seamless.
 
-**Installation Guide**
+[Explore MeetUp](https://meetup-d48c4.web.app)
 
-* npm install
-* Create .env.local file and insert the variables and values
+## Features
+- **HD Video & Audio Streaming**
+- **Screen Sharing & Real-Time Chat**
+- **Interactive Whiteboard** for collaborative visuals
+- **Role-Based Access Control** for secure meeting management
+- **To-Do Lists** and **Meeting History** for improved meeting follow-ups
+- **Real-Time Support** for smooth meeting experiences
+
+## Installation Guide
+
+* Clone the repository:
+    ```bash
+        git clone https://github.com/takbirgazi/meetup-client.git
+    ```
+* Go To Project Folder:
+    ``` cd meetup-client ```
+* Install All Packages:
+    ``` npm install ```
+
+## Create .env.local file and insert the variables and values
     * VITE_apiKey
     * VITE_authDomain
     * VITE_projectId
@@ -39,3 +57,6 @@
 - Emailjs
 - lucide-react
 - react-query
+
+## Contributing
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
