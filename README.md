@@ -14,37 +14,46 @@ MeetUp is a feature-rich video-calling application designed to enhance virtual c
 
 ## Installation Guide
 
-* Clone the repository:
+1. **Clone the repository:**
     ```bash
     git clone https://github.com/takbirgazi/meetup-client.git
     ```
-* Go To Project Folder:
+
+2. **Go to the project folder:**
     ```bash
-     cd meetup-client 
+    cd meetup-client 
     ```
-* Install All Packages:
+
+3. **Install all packages:**
     ```bash
     npm install 
     ```
 
-## Create .env.local file and insert the variables and values
-    ```bash
-    VITE_apiKey
-    VITE_authDomain
-    VITE_projectId
-    VITE_storageBucket
-    VITE_messagingSenderId
-    VITE_appId
-    VITE_API_URL
-    VITE_GEMENI_API_KEY
+4. **Create a `.env.local` file** in the root directory and add the following environment variables:
+    ```plaintext
+    VITE_apiKey=your_api_key
+    VITE_authDomain=your_auth_domain
+    VITE_projectId=your_project_id
+    VITE_storageBucket=your_storage_bucket
+    VITE_messagingSenderId=your_messaging_sender_id
+    VITE_appId=your_app_id
+    VITE_API_URL=your_backend_api_url
+    VITE_GEMENI_API_KEY=your_gemini_api_key
     ```
 
-**Framework has been used**
+5. **Run the application:**
+    ```bash
+    npm start
+    ```
 
-- Tailwind CSS
+## Backend Information
+- **Backend GitHub Repository:** [MeetUp Server](https://github.com/takbirgazi/meetup-server)
+- **Server API Base URL:** [MeetUp Server API](https://meetup-server-nine.vercel.app/)
 
+## Frameworks and Tools Used
+- **Tailwind CSS** - For styling and responsive design
 
-**NPM as been used**
+## NPM Packages Used
 
 - **react-helmet-async** - For managing document head
 - **prop-types** - Typechecking for props
